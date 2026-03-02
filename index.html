@@ -1,0 +1,3425 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Faidhoi Youssouf — Digital Business Expert</title>
+    <link rel="icon" href="./images/logo.HEIC" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600;700&family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Empêcher tout débordement horizontal */
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+            position: relative;
+            width: 100%;
+        }
+
+        * {
+            max-width: 100%;
+        }
+
+        :root {
+            --gold: #C9A84C;
+            --gold-light: #E8C97A;
+            --dark: #1A0A2E;
+            --dark-2: #220D3A;
+            --dark-3: #2D1149;
+            --purple: #4A1570;
+            --white: #FAFAF8;
+            --white-muted: rgba(250, 250, 248, 0.65);
+            --font-display: 'Cormorant Garamond', serif;
+            --font-body: 'Outfit', sans-serif;
+            --font-script: 'Dancing Script', cursive;
+            --font-bellmt: 'Playfair Display', 'Times New Roman', Georgia, serif;
+            --font-times: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+            --t: cubic-bezier(0.4, 0, 0.2, 1);
+            --bg: var(--dark);
+            --bg2: var(--dark-2);
+            --bg3: var(--dark-3);
+            --text: var(--white);
+            --text-muted: var(--white-muted);
+        }
+
+        body.light {
+            --bg: #F8F5EF;
+            --bg2: #EFEBE3;
+            --bg3: #E6E0D4;
+            --text: #1A1410;
+            --text-muted: rgba(26, 20, 16, 0.6);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            font-weight: 300;
+            overflow-x: hidden;
+            cursor: none;
+            transition: background .4s, color .4s;
+        }
+
+        .cursor {
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-follower {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform .25s, opacity .2s;
+            transform: translate(-50%, -50%);
+            opacity: .5;
+        }
+
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1001;
+            width: 52px;
+            height: 28px;
+            background: var(--bg3);
+            border: 1px solid rgba(201, 168, 76, .3);
+            border-radius: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 3px;
+            transition: all .3s;
+        }
+
+        .theme-toggle-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--gold);
+            transition: transform .3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        body.light .theme-toggle-thumb {
+            transform: translateX(24px);
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.5rem 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all .4s;
+        }
+
+        nav.scrolled {
+            background: rgba(26, 10, 46, .94);
+            backdrop-filter: blur(20px);
+            padding: 1rem 4rem;
+            border-bottom: 1px solid rgba(201, 168, 76, .15);
+        }
+
+        body.light nav.scrolled {
+            background: rgba(248, 245, 239, .96);
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-style: italic;
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: .82rem;
+            font-weight: 400;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            transition: color .3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width .3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            border: 1px solid var(--gold);
+            color: var(--gold) !important;
+            padding: .5rem 1.4rem !important;
+            border-radius: 2px;
+        }
+
+        .nav-cta:hover {
+            background: var(--gold) !important;
+            color: var(--dark) !important;
+        }
+
+        .nav-cta::after {
+            display: none !important;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        /* ============ HERO ============ */
+        #accueil {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 0 4rem;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 60% 70% at 15% 50%, rgba(74, 21, 112, .7) 0%, transparent 60%), radial-gradient(ellipse 80% 60% at 70% 50%, rgba(201, 168, 76, .07) 0%, transparent 70%), linear-gradient(180deg, #1A0A2E 0%, #220D3A 100%);
+        }
+
+        .stars-canvas {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        /* Left stats badge */
+        .hero-stat-left {
+            position: absolute;
+            left: 30rem;
+            bottom: 6rem;
+            z-index: 3;
+            background: rgba(63, 12, 125, 0.85);
+            border: 1px solid rgba(201, 168, 76, .35);
+            padding: 1.2rem 1.8rem;
+            border-radius: 12px;
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            animation: fadeUp .8s 1.1s forwards;
+        }
+
+        .hero-stat-left .stat-big {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 300;
+            color: var(--gold);
+            line-height: 1;
+            display: block;
+        }
+
+        .hero-stat-left .stat-lbl {
+            font-size: .7rem;
+            font-weight: 400;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--white-muted);
+            margin-top: .3rem;
+        }
+
+        /* Right revenue card */
+        .hero-stat-right {
+            position: absolute;
+            right: 4rem;
+            bottom: 6rem;
+            z-index: 3;
+            background: linear-gradient(135deg, rgba(74, 21, 112, .85), rgba(201, 168, 76, .15));
+            border: 1px solid rgba(201, 168, 76, .5);
+            padding: 1.2rem 1.8rem;
+            border-radius: 12px;
+            backdrop-filter: blur(16px);
+            text-align: right;
+            opacity: 0;
+            animation: fadeUp .8s 1.3s forwards;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, .4), 0 0 30px rgba(201, 168, 76, .08);
+        }
+
+        .hero-stat-right .stat-big {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 300;
+            color: var(--gold);
+            line-height: 1;
+            display: block;
+        }
+
+        .hero-stat-right .stat-lbl {
+            font-size: .7rem;
+            font-weight: 400;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--white-muted);
+            margin-top: .3rem;
+        }
+
+        /* Mobile stats row - shown only on mobile below photo */
+        .hero-stats-mobile-row {
+            display: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-welcome {
+            font-family: var(--font-bellmt);
+            font-style: italic;
+            font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+            color: var(--gold);
+            opacity: 0;
+            animation: fadeUp .8s .2s forwards;
+            display: block;
+            margin-bottom: .1rem;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: .02em;
+        }
+
+        .hero-name {
+            font-family: var(--font-times);
+            font-size: clamp(3.8rem, 7vw, 6.8rem);
+            font-weight: 400;
+            line-height: 1;
+            color: var(--gold);
+            opacity: 0;
+            animation: fadeUp .8s .4s forwards;
+            letter-spacing: .04em;
+        }
+
+        .hero-surname {
+            font-family: var(--font-bellmt);
+            font-style: italic;
+            font-size: clamp(1.3rem, 2.8vw, 2rem);
+            font-weight: 700;
+            letter-spacing: .1em;
+            color: var(--gold-light);
+            opacity: 0;
+            animation: fadeUp .8s .6s forwards;
+            display: block;
+            margin-top: 0;
+            line-height: 1;
+        }
+
+        .hero-sub {
+            font-size: .95rem;
+            color: var(--white-muted);
+            line-height: 1.7;
+            max-width: 440px;
+            margin: 1.5rem 0 2.5rem;
+            opacity: 0;
+            animation: fadeUp .8s .8s forwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp .8s 1s forwards;
+        }
+
+        /* RIGHT PHOTO - same as first version: square frame with gold border offset */
+        .hero-right {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 1.2s .5s forwards;
+        }
+
+        .hero-image-frame {
+            position: relative;
+            width: 380px;
+            height: 480px;
+        }
+
+        .hero-image-frame::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--gold);
+            opacity: .4;
+            border-radius: 4px;
+        }
+
+        .hero-image-frame::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: -15px;
+            width: 60%;
+            height: 60%;
+            border: 1px solid rgba(201, 168, 76, .2);
+            border-radius: 4px;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+            filter: contrast(1.05);
+        }
+
+        .hero-gold-ring {
+            position: absolute;
+            top: -50px;
+            left: -60px;
+            width: 100px;
+            height: 90px;
+            opacity: .45;
+            pointer-events: none;
+        }
+
+        .hero-gold-ring::before {
+            content: '♥';
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(201, 168, 76, .55);
+            animation: heartPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes heartPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: .45;
+            }
+
+            50% {
+                transform: scale(1.08);
+                opacity: .65;
+            }
+        }
+
+        /* BTNS */
+        .btn-primary {
+            background: var(--gold);
+            color: var(--dark);
+            border: none;
+            padding: .9rem 2.2rem;
+            font-family: var(--font-body);
+            font-size: .82rem;
+            font-weight: 600;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all .3s;
+            border-radius: 2px;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gold-light);
+            transform: translateX(-100%);
+            transition: transform .4s var(--t);
+        }
+
+        .btn-primary:hover::before {
+            transform: translateX(0);
+        }
+
+        .btn-primary span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(201, 168, 76, .4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid rgba(201, 168, 76, .35);
+            padding: .9rem 2.2rem;
+            font-family: var(--font-body);
+            font-size: .82rem;
+            font-weight: 400;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            transition: all .3s;
+            border-radius: 2px;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        /* STATS STRIP */
+        .stats-strip {
+            background: var(--bg2);
+            border-top: 1px solid rgba(201, 168, 76, .12);
+            border-bottom: 1px solid rgba(201, 168, 76, .12);
+            padding: 3rem 4rem;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0;
+            position: relative;
+            z-index: 2;
+            transition: background .4s;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem 1.5rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all .6s;
+        }
+
+        .stat-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-item+.stat-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 50%;
+            width: 1px;
+            background: rgba(201, 168, 76, .2);
+        }
+
+        .stat-num {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 300;
+            color: var(--gold);
+            display: block;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: .72rem;
+            color: var(--text-muted);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            margin-top: .4rem;
+        }
+
+        /* SECTIONS */
+        section {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header .section-title {
+            display: inline-block;
+        }
+
+        /* Section line under centered headers */
+        .section-line {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 1rem auto 0;
+            opacity: .8;
+            border-radius: 2px;
+        }
+
+        .section-tag {
+            font-size: .72rem;
+            font-weight: 500;
+            letter-spacing: .25em;
+            text-transform: uppercase;
+            color: var(--gold);
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: var(--font-bellmt);
+            font-style: italic;
+            font-size: clamp(2.5rem, 4.5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--text);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 55%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold), rgba(201, 168, 76, .2), transparent);
+            margin-top: .4rem;
+            border-radius: 2px;
+        }
+
+        .section-title em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .section-line {
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+            margin: 1.5rem auto 0;
+            opacity: .6;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: all .7s var(--t);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ABOUT */
+        #apropos {
+            padding: 8rem 4rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .about-img-frame {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: var(--bg3);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            transition: background .4s;
+        }
+
+        .about-img-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .about-corner {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            width: 120px;
+            height: 120px;
+            background: var(--bg2);
+            border: 1px solid rgba(201, 168, 76, .3);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: background .4s;
+        }
+
+        .about-corner span:first-child {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            color: var(--gold);
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        .about-corner span:last-child {
+            font-size: .65rem;
+            color: var(--text-muted);
+            letter-spacing: .08em;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .about-content p {
+            color: var(--text-muted);
+            line-height: 1.85;
+            margin-bottom: 1.2rem;
+            font-size: .95rem;
+        }
+
+        .about-content p strong {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .about-quote {
+            border-left: 2px solid var(--gold);
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            background: rgba(201, 168, 76, .04);
+            border-radius: 0 4px 4px 0;
+        }
+
+        .about-quote p {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--text);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .about-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+            margin-top: 2rem;
+        }
+
+        .about-tag {
+            font-size: .72rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            padding: .4rem 1rem;
+            border: 1px solid rgba(201, 168, 76, .3);
+            color: var(--gold-light);
+            border-radius: 2px;
+        }
+
+        /* ============ SERVICES ============ */
+        #services {
+            padding: 8rem 4rem;
+            background: var(--bg2);
+            transition: background .4s;
+            width: 100%;
+        }
+
+        .services-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+            width: 100%;
+        }
+
+        /* ====== PRIX CÔTE À CÔTE ====== */
+        .price-duo {
+            display: flex;
+            gap: .7rem;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .price-box {
+            flex: 1;
+            min-width: 110px;
+            border-radius: 10px;
+            padding: .65rem .9rem;
+            display: flex;
+            flex-direction: column;
+            gap: .15rem;
+        }
+
+        .price-box-monde {
+            background: rgba(201, 168, 76, .08);
+            border: 1.5px solid rgba(201, 168, 76, .35);
+        }
+
+        .price-box-afrique {
+            background: rgba(74, 222, 128, .07);
+            border: 1.5px solid rgba(74, 222, 128, .35);
+        }
+
+        .price-box-label {
+            font-size: .58rem;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            margin-bottom: .2rem;
+        }
+
+        .price-box-monde .price-box-label {
+            color: var(--gold);
+        }
+
+        .price-box-afrique .price-box-label {
+            color: #4ade80;
+        }
+
+        .price-box-old {
+            font-size: .85rem;
+            text-decoration: line-through;
+            text-decoration-thickness: 1.5px;
+            line-height: 1;
+        }
+
+        .price-box-monde .price-box-old {
+            color: rgba(201, 168, 76, .45);
+        }
+
+        .price-box-afrique .price-box-old {
+            color: rgba(74, 222, 128, .4);
+        }
+
+        .price-box-now {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        .price-box-monde .price-box-now {
+            color: var(--gold);
+        }
+
+        .price-box-afrique .price-box-now {
+            color: #4ade80;
+        }
+
+        /* Horizontal card for Bien-être */
+        .service-card-wrap-full {
+            grid-column: span 2;
+        }
+
+        .service-card-horizontal {
+            display: flex;
+            flex-direction: row;
+            background: linear-gradient(145deg, var(--bg3), rgba(74, 21, 112, .35));
+            border: 1px solid rgba(201, 168, 76, .25);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all .4s var(--t);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, .4), inset 0 1px 0 rgba(255, 255, 255, .04);
+        }
+
+        .service-card-horizontal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-card-horizontal:hover {
+            border-color: rgba(201, 168, 76, .45);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .5), 0 0 30px rgba(201, 168, 76, .1);
+            transform: translateY(-6px);
+        }
+
+        .service-card-horizontal .card-header-band {
+            min-width: 280px;
+            width: 280px;
+            border-right: 1px solid rgba(201, 168, 76, .08);
+            border-bottom: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .service-card-horizontal .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .service-card-horizontal .card-body-left {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .service-card-horizontal .card-body-right {
+            min-width: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* 3D card */
+        .service-card {
+            background: linear-gradient(145deg, var(--bg3), rgba(74, 21, 112, .35));
+            border: 1px solid rgba(201, 168, 76, .15);
+            padding: 0 0 2rem;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all .4s var(--t);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px) rotateY(-4deg);
+            transform-style: preserve-3d;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, .4), inset 0 1px 0 rgba(255, 255, 255, .04);
+        }
+
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0) rotateY(0);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(201, 168, 76, .07) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity .4s;
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-card:hover {
+            border-color: rgba(201, 168, 76, .45);
+            transform: translateY(-10px) rotateY(2deg) rotateX(2deg);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .5), 0 0 30px rgba(201, 168, 76, .1), -10px 20px 40px rgba(0, 0, 0, .3);
+        }
+
+        /* Top shine sweep */
+        .service-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -120%;
+            width: 80%;
+            height: 100%;
+            background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, .04) 50%, transparent 60%);
+            transition: left .6s;
+        }
+
+        .service-card:hover::after {
+            left: 140%;
+        }
+
+        /* card featured */
+        .service-card.featured {
+            background: linear-gradient(145deg, rgba(201, 168, 76, .18), rgba(74, 21, 112, .55));
+            border-color: rgba(201, 168, 76, .4);
+        }
+
+        /* Card header band */
+        .card-header-band {
+            background: linear-gradient(135deg, rgba(201, 168, 76, .12), rgba(74, 21, 112, .3));
+            padding: 2rem 2rem 1.5rem;
+            border-bottom: 1px solid rgba(201, 168, 76, .08);
+            position: relative;
+        }
+
+        .promo-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--dark);
+            font-size: .6rem;
+            font-weight: 800;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            padding: .35rem 1rem .35rem .8rem;
+            border-radius: 0 18px 0 12px;
+            display: flex;
+            align-items: center;
+            gap: .3rem;
+        }
+
+        .service-icon-wrap {
+            width: 56px;
+            height: 56px;
+            background: rgba(201, 168, 76, .12);
+            border: 1px solid rgba(201, 168, 76, .2);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-name {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 400;
+            color: var(--text);
+            margin-bottom: .3rem;
+        }
+
+        .service-subtitle {
+            font-size: .75rem;
+            font-weight: 500;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: .7;
+        }
+
+        /* Card body */
+        .card-body {
+            padding: 1.5rem 2rem;
+        }
+
+        .service-desc-main {
+            font-size: .9rem;
+            color: var(--text-muted);
+            line-height: 1.75;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .service-desc-detail {
+            font-size: .85rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-price-wrap {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: baseline;
+            gap: .6rem;
+            flex-wrap: wrap;
+        }
+
+        .service-price-old {
+            font-size: 1.1rem;
+            color: rgba(201, 168, 76, .35);
+            text-decoration: line-through;
+            text-decoration-thickness: 2px;
+        }
+
+        .service-price {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 300;
+            color: var(--gold);
+        }
+
+        .service-price-note {
+            font-size: .72rem;
+            color: var(--text-muted);
+            display: block;
+            margin-top: .3rem;
+        }
+
+        /* savings highlight */
+        .savings-badge {
+            display: inline-block;
+            background: rgba(201, 168, 76, .12);
+            border: 1px solid rgba(201, 168, 76, .25);
+            color: var(--gold-light);
+            font-size: .72rem;
+            font-weight: 600;
+            letter-spacing: .08em;
+            padding: .25rem .8rem;
+            border-radius: 20px;
+            margin-bottom: 1.2rem;
+        }
+
+        /* Download btn */
+        .btn-download {
+            width: 100%;
+            background: rgba(201, 168, 76, .1);
+            border: 1px solid rgba(201, 168, 76, .3);
+            color: var(--gold);
+            padding: .8rem;
+            font-family: var(--font-body);
+            font-size: .78rem;
+            font-weight: 500;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all .3s;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+            margin-bottom: .8rem;
+            text-decoration: none;
+        }
+
+        .btn-download::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(201, 168, 76, .15);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .3s;
+        }
+
+        .btn-download:hover::before {
+            transform: scaleX(1);
+        }
+
+        .btn-download span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-service {
+            width: 100%;
+            background: var(--gold);
+            border: none;
+            color: var(--dark);
+            padding: .9rem;
+            font-family: var(--font-body);
+            font-size: .8rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all .3s;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-service::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gold-light);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .3s;
+        }
+
+        .btn-service span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-service:hover::before {
+            transform: scaleX(1);
+        }
+
+        .btn-service:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(201, 168, 76, .35);
+        }
+
+        /* COMBO card - full 3 cols */
+        .combo-card-wrap {
+            grid-column: span 2;
+        }
+
+        .combo-card {
+            background: linear-gradient(135deg, rgba(201, 168, 76, .18), rgba(74, 21, 112, .65));
+            border: 1px solid rgba(201, 168, 76, .45);
+            padding: 3rem;
+            border-radius: 20px;
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 3rem;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(30px) rotateX(-3deg);
+            transition: all .4s .3s;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, .5), 0 0 60px rgba(201, 168, 76, .07);
+            transform-style: preserve-3d;
+        }
+
+        .combo-card.visible {
+            opacity: 1;
+            transform: translateY(0) rotateX(0);
+        }
+
+        .combo-card:hover {
+            transform: translateY(-6px) rotateX(1deg);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, .5), 0 0 80px rgba(201, 168, 76, .1);
+        }
+
+        .combo-best {
+            font-size: .65rem;
+            font-weight: 800;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--dark);
+            background: var(--gold);
+            padding: .3rem .9rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .combo-name {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--text);
+            margin-bottom: .5rem;
+        }
+
+        .combo-desc {
+            font-size: .9rem;
+            color: var(--text-muted);
+            line-height: 1.75;
+        }
+
+        .combo-desc strong {
+            color: var(--gold-light);
+            font-weight: 500;
+        }
+
+        .combo-right {
+            text-align: center;
+        }
+
+        .combo-savings {
+            font-size: .8rem;
+            color: var(--gold);
+            font-weight: 600;
+            letter-spacing: .05em;
+            margin-bottom: .5rem;
+            display: block;
+        }
+
+        .combo-price-old {
+            font-size: 1rem;
+            color: rgba(201, 168, 76, .4);
+            text-decoration: line-through;
+            display: block;
+            margin-bottom: .3rem;
+        }
+
+        .combo-price {
+            font-family: var(--font-display);
+            font-size: 4.5rem;
+            font-weight: 300;
+            color: var(--gold);
+            line-height: 1;
+            display: block;
+            margin-bottom: .2rem;
+        }
+
+        .combo-price-note {
+            font-size: .72rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .btn-combo {
+            background: var(--gold);
+            color: var(--dark);
+            border: none;
+            padding: 1rem 2rem;
+            font-family: var(--font-body);
+            font-size: .82rem;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all .3s;
+            border-radius: 10px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-combo::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gold-light);
+            transform: translateX(-100%);
+            transition: transform .4s;
+        }
+
+        .btn-combo span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-combo:hover::before {
+            transform: translateX(0);
+        }
+
+        .btn-combo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(201, 168, 76, .4);
+        }
+
+        /* ============ HOW IT WORKS ============ */
+        #comment-ca-marche {
+            padding: 8rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+            position: relative;
+            width: 100%;
+        }
+
+        .steps-grid::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(201, 168, 76, .3), rgba(201, 168, 76, .3), transparent);
+        }
+
+        .step-item {
+            text-align: center;
+            padding: 2rem 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all .5s;
+        }
+
+        .step-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .step-num {
+            width: 70px;
+            height: 70px;
+            border: 1px solid rgba(201, 168, 76, .4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: var(--gold);
+            background: var(--bg2);
+            transition: all .3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-item:hover .step-num {
+            background: var(--gold);
+            color: var(--dark);
+            transform: scale(1.1);
+        }
+
+        .step-title {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            margin-bottom: .6rem;
+            color: var(--text);
+        }
+
+        .step-desc {
+            font-size: .83rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        /* WHY CHOOSE US */
+        #pourquoi {
+            padding: 6rem 4rem;
+            background: var(--bg2);
+            transition: background .4s;
+            width: 100%;
+        }
+
+        .pourquoi-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .pourquoi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 4rem;
+            width: 100%;
+        }
+
+        .pourquoi-card {
+            background: var(--bg3);
+            border: 1px solid rgba(201, 168, 76, .1);
+            padding: 2rem;
+            border-radius: 14px;
+            transition: all .3s;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .pourquoi-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .pourquoi-card:hover {
+            border-color: rgba(201, 168, 76, .35);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, .3);
+        }
+
+        .pourquoi-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .pourquoi-title {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--text);
+            margin-bottom: .6rem;
+        }
+
+        .pourquoi-desc {
+            font-size: .85rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* ============ TESTIMONIALS CAROUSEL ============ */
+        #temoignages {
+            padding: 8rem 4rem;
+            transition: background .4s;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .temoignages-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .carousel-wrap {
+            overflow: hidden;
+            margin-top: 4rem;
+            position: relative;
+            width: 100%;
+        }
+
+        .carousel-wrap::before,
+        .carousel-wrap::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 150px;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .carousel-wrap::before {
+            left: 0;
+            background: linear-gradient(90deg, var(--bg), transparent);
+        }
+
+        .carousel-wrap::after {
+            right: 0;
+            background: linear-gradient(270deg, var(--bg), transparent);
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 1.5rem;
+            animation: scrollLoop 35s linear infinite;
+            width: max-content;
+        }
+
+        .carousel-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scrollLoop {
+            0% {
+                transform: translateX(0)
+            }
+
+            100% {
+                transform: translateX(-50%)
+            }
+        }
+
+        .temo-card {
+            flex-shrink: 0;
+            width: 320px;
+            background: var(--bg2);
+            border: 1px solid rgba(201, 168, 76, .12);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all .3s;
+            cursor: pointer;
+        }
+
+        .temo-card:hover {
+            border-color: rgba(201, 168, 76, .45);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .45);
+        }
+
+        /* Screenshot area */
+        .temo-screenshot {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(145deg, rgba(74, 21, 112, .5), rgba(26, 10, 46, .8));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: .6rem;
+            border-bottom: 1px solid rgba(201, 168, 76, .08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .temo-screenshot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .temo-screenshot-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: .6rem;
+            width: 100%;
+            height: 100%;
+        }
+
+        .temo-screenshot-placeholder svg {
+            opacity: .2;
+        }
+
+        .temo-screenshot-placeholder p {
+            font-size: .72rem;
+            color: rgba(201, 168, 76, .65);
+            letter-spacing: .08em;
+            text-align: center;
+            padding: 0 1.2rem;
+            line-height: 1.6;
+        }
+
+        /* Masque le placeholder quand une vraie image est chargée */
+        .temo-screenshot img:not([src=""]):not([src*="placeholder"])+.temo-screenshot-placeholder {
+            display: none;
+        }
+
+        .temo-quote-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(10, 5, 20, .9));
+            padding: 1.5rem 1.2rem .8rem;
+        }
+
+        .temo-quote-text {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--white);
+            line-height: 1.4;
+        }
+
+        /* Card footer */
+        .temo-footer {
+            padding: 1rem 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .temo-stars {
+            color: var(--gold);
+            font-size: .8rem;
+            letter-spacing: .05em;
+        }
+
+        .temo-name {
+            font-size: .78rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        /* Temoignages dots navigation */
+        .temo-progress-bar {
+            width: 200px;
+            height: 2px;
+            background: rgba(201, 168, 76, .15);
+            border-radius: 2px;
+            margin: 1.5rem auto 0.8rem;
+            overflow: hidden;
+        }
+
+        .temo-progress-fill {
+            height: 100%;
+            background: var(--gold);
+            border-radius: 2px;
+            animation: progressLoop 35s linear infinite;
+        }
+
+        @keyframes progressLoop {
+            0% {
+                width: 0%;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        .temo-dots {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+
+        .temo-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(201, 168, 76, .25);
+            transition: all .3s;
+            cursor: pointer;
+        }
+
+        .temo-dot.active {
+            background: var(--gold);
+            width: 20px;
+            border-radius: 3px;
+        }
+
+        /* ============ CONTACT ============ */
+        #contact {
+            padding: 8rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: start;
+            width: 100%;
+        }
+
+        .contact-socials {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: .88rem;
+            padding: .8rem 1rem;
+            border: 1px solid rgba(201, 168, 76, .12);
+            border-radius: 8px;
+            transition: all .3s;
+        }
+
+        .social-link:hover {
+            border-color: rgba(201, 168, 76, .4);
+            color: var(--gold);
+            transform: translateX(4px);
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: .72rem;
+            font-weight: 500;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: .5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            background: var(--bg3);
+            border: 1px solid rgba(201, 168, 76, .12);
+            color: var(--text);
+            padding: .85rem 1rem;
+            font-family: var(--font-body);
+            font-size: .9rem;
+            font-weight: 300;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color .3s;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-muted);
+            opacity: .5;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: rgba(201, 168, 76, .5);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-insta {
+            width: 100%;
+            background: linear-gradient(135deg, #C13584, #E1306C, #F56040, #FFDC80);
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-family: var(--font-body);
+            font-size: .85rem;
+            font-weight: 600;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all .3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .7rem;
+        }
+
+        .btn-insta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(193, 53, 132, .4);
+        }
+
+        footer {
+            background: var(--bg2);
+            border-top: 1px solid rgba(201, 168, 76, .1);
+            padding: 2.5rem 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+            transition: background .4s;
+            width: 100%;
+        }
+
+        .footer-logo {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .footer-copy {
+            font-size: .75rem;
+            color: var(--text-muted);
+            letter-spacing: .05em;
+        }
+
+
+
+        .price-box-monde .price-box-label {
+            color: var(--gold);
+        }
+
+        .price-box-afrique .price-box-label {
+            color: #4ade80;
+        }
+
+        .price-box-old {
+            font-size: .85rem;
+            text-decoration: line-through;
+            text-decoration-thickness: 1.5px;
+            line-height: 1;
+        }
+
+        .price-box-monde .price-box-old {
+            color: rgba(201, 168, 76, .45);
+        }
+
+        .price-box-afrique .price-box-old {
+            color: rgba(74, 222, 128, .4);
+        }
+
+        .price-box-now {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        .price-box-monde .price-box-now {
+            color: var(--gold);
+        }
+
+        .price-box-afrique .price-box-now {
+            color: #4ade80;
+        }
+
+        /* Finance pills (Trading / Bourse / Crypto) */
+        .btn-finance-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            padding: .5rem 1.1rem;
+            border-radius: 20px;
+            font-family: var(--font-body);
+            font-size: .78rem;
+            font-weight: 600;
+            letter-spacing: .06em;
+            text-decoration: none;
+            transition: all .25s;
+            cursor: pointer;
+        }
+
+        .btn-finance-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .3);
+            filter: brightness(1.15);
+        }
+
+        /* Horizontal card for Bien-être */
+        .service-card-wrap-full {
+            grid-column: span 2;
+        }
+
+        .service-card-horizontal {
+            display: flex;
+            flex-direction: row;
+            background: linear-gradient(145deg, var(--bg3), rgba(74, 21, 112, .35));
+            border: 1px solid rgba(201, 168, 76, .25);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all .4s var(--t);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, .4), inset 0 1px 0 rgba(255, 255, 255, .04);
+        }
+
+        .service-card-horizontal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-card-horizontal:hover {
+            border-color: rgba(201, 168, 76, .45);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .5), 0 0 30px rgba(201, 168, 76, .1);
+            transform: translateY(-6px);
+        }
+
+        .service-card-horizontal .card-header-band {
+            min-width: 280px;
+            width: 280px;
+            border-right: 1px solid rgba(201, 168, 76, .08);
+            border-bottom: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .service-card-horizontal .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .service-card-horizontal .card-body-left {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .service-card-horizontal .card-body-right {
+            min-width: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* 3D card */
+        .service-card {
+            background: linear-gradient(145deg, var(--bg3), rgba(74, 21, 112, .35));
+            border: 1px solid rgba(201, 168, 76, .15);
+            padding: 0 0 2rem;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all .4s var(--t);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px) rotateY(-4deg);
+            transform-style: preserve-3d;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, .4), inset 0 1px 0 rgba(255, 255, 255, .04);
+        }
+
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0) rotateY(0);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(201, 168, 76, .07) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity .4s;
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-card:hover {
+            border-color: rgba(201, 168, 76, .45);
+            transform: translateY(-10px) rotateY(2deg) rotateX(2deg);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .5), 0 0 30px rgba(201, 168, 76, .1), -10px 20px 40px rgba(0, 0, 0, .3);
+        }
+
+        /* Top shine sweep */
+        .service-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -120%;
+            width: 80%;
+            height: 100%;
+            background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, .04) 50%, transparent 60%);
+            transition: left .6s;
+        }
+
+        .service-card:hover::after {
+            left: 140%;
+        }
+
+        /* card featured */
+        .service-card.featured {
+            background: linear-gradient(145deg, rgba(201, 168, 76, .18), rgba(74, 21, 112, .55));
+            border-color: rgba(201, 168, 76, .4);
+        }
+
+        /* Card header band */
+        .card-header-band {
+            background: linear-gradient(135deg, rgba(201, 168, 76, .12), rgba(74, 21, 112, .3));
+            padding: 2rem 2rem 1.5rem;
+            border-bottom: 1px solid rgba(201, 168, 76, .08);
+            position: relative;
+        }
+
+        /* Effet de survol pour les icônes sociales */
+        footer a:hover {
+            color: var(--gold) !important;
+            transform: translateY(-2px);
+        }
+
+        footer a {
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        /* Style pour les liens sociaux du footer */
+        .social-footer-link:hover {
+            color: var(--gold) !important;
+            transform: translateY(-3px);
+        }
+
+        .social-footer-link {
+            transition: all 0.3s ease;
+        }
+
+        .social-footer-link svg {
+            transition: transform 0.3s ease;
+        }
+
+        .social-footer-link:hover svg {
+            transform: scale(1.1);
+        }
+
+        /* mobile menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(26, 10, 46, .97);
+            backdrop-filter: blur(20px);
+            z-index: 999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .mobile-menu.open {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--text);
+            text-decoration: none;
+            transition: color .3s;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--gold);
+        }
+
+        .mobile-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: var(--font-display);
+        }
+
+        /* ============ MEDIA QUERIES - FULL RESPONSIVE ============ */
+
+        /* Tablettes et mobiles */
+        @media(max-width:1024px) {
+
+            body {
+                overflow-x: hidden;
+                width: 100%;
+                position: relative;
+            }
+
+            #accueil {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 6rem 1rem 3rem;
+                gap: 0;
+                position: relative;
+                min-height: auto;
+                width: 100%;
+                overflow-x: hidden;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            /* Cacher les badges absolus sur mobile */
+            .hero-stat-left,
+            .hero-stat-right {
+                display: none;
+            }
+
+            /* Row de stats sous la photo - visible sur mobile */
+            .hero-stats-mobile-row {
+                display: flex;
+                gap: 1rem;
+                justify-content: center;
+                align-items: stretch;
+                width: 100%;
+                max-width: 360px;
+                margin: 1rem auto 0;
+                order: 1;
+            }
+
+            .hero-stats-mobile-row .stat-badge {
+                flex: 1;
+                background: rgba(26, 10, 46, .9);
+                border: 1px solid rgba(201, 168, 76, .4);
+                border-radius: 12px;
+                padding: 0.9rem 0.8rem;
+                backdrop-filter: blur(12px);
+                text-align: center;
+            }
+
+            .hero-stats-mobile-row .stat-badge .stat-big {
+                font-family: var(--font-display);
+                font-size: 2rem;
+                font-weight: 300;
+                color: var(--gold);
+                line-height: 1;
+                display: block;
+            }
+
+            .hero-stats-mobile-row .stat-badge .stat-lbl {
+                font-size: 0.58rem;
+                font-weight: 400;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                color: var(--white-muted);
+                margin-top: 0.25rem;
+                display: block;
+            }
+
+            /* Conteneur photo centré - PREMIER */
+            .hero-right {
+                order: 0;
+                margin: 0 auto;
+                position: relative;
+                z-index: 5;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+
+            .hero-image-frame {
+                width: 220px;
+                height: 280px;
+                margin: 0 auto;
+            }
+
+            /* Contenu centré - APRÈS la photo et les stats */
+            .hero-content {
+                order: 2;
+                position: relative;
+                z-index: 1;
+                margin-top: 1.2rem;
+                padding: 0 0.5rem;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .hero-welcome {
+                font-size: clamp(1.9rem, 7vw, 2.8rem);
+            }
+
+            .hero-name {
+                font-size: clamp(2.8rem, 10vw, 4rem);
+            }
+
+            .hero-surname {
+                font-size: clamp(1.1rem, 4vw, 1.6rem);
+            }
+
+            .hero-sub {
+                font-size: 0.85rem;
+                max-width: 100%;
+                margin: 0.8rem auto 1.2rem;
+                padding: 0 0.5rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+                gap: 0.6rem;
+                flex-wrap: wrap;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.7rem;
+            }
+
+            /* Stats strip */
+            .stats-strip {
+                grid-template-columns: repeat(3, 1fr);
+                padding: 1.5rem 0.5rem;
+                gap: 0.3rem;
+                width: 100%;
+            }
+
+            .stat-item {
+                padding: 0.5rem;
+            }
+
+            .stat-num {
+                font-size: 1.8rem;
+            }
+
+            .stat-label {
+                font-size: 0.6rem;
+            }
+
+            /* Sections */
+            #apropos {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 4rem 1rem;
+                width: 100%;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 0 0.5rem;
+            }
+
+            /* Pack Bien-être horizontal → vertical sur mobile */
+            .service-card-horizontal {
+                flex-direction: column !important;
+            }
+
+            .service-card-horizontal .card-header-band {
+                width: 100% !important;
+                min-width: unset !important;
+                border-right: none !important;
+                border-bottom: 1px solid rgba(201, 168, 76, .08) !important;
+            }
+
+            .combo-card-wrap {
+                grid-column: span 1;
+            }
+
+            .combo-card {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+            }
+
+            .steps-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .steps-grid::before {
+                display: none;
+            }
+
+            .step-item {
+                padding: 1rem 0.5rem;
+            }
+
+            .step-num {
+                width: 50px;
+                height: 50px;
+                font-size: 1.4rem;
+            }
+
+            .pourquoi-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            /* Contact - formulaire complet sur mobile */
+            #contact {
+                grid-template-columns: 1fr !important;
+                padding: 4rem 1rem !important;
+                gap: 2rem !important;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            #contact>div {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .form-group {
+                width: 100%;
+            }
+
+            .form-group input,
+            .form-group textarea {
+                width: 100% !important;
+                box-sizing: border-box !important;
+                max-width: 100% !important;
+            }
+
+            .btn-insta {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            /* Navigation */
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            #services,
+            #comment-ca-marche,
+            #temoignages,
+            #pourquoi {
+                padding: 4rem 1rem;
+                width: 100%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            nav.scrolled {
+                padding: 0.8rem 1.5rem;
+            }
+
+            /* Footer */
+            footer {
+                padding: 1.5rem;
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+                width: 100%;
+            }
+
+            footer>div {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            /* Carousel témoignages */
+            .carousel-wrap {
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .carousel-track {
+                gap: 1rem;
+            }
+
+            .temo-card {
+                width: 260px;
+            }
+
+            .temo-screenshot {
+                height: 250px;
+            }
+
+            /* Contact form */
+            .contact-socials {
+                align-items: center;
+            }
+
+            .form-group input,
+            .form-group textarea {
+                font-size: 16px;
+                /* Évite le zoom automatique sur iOS */
+            }
+        }
+
+        /* Pour les très petits écrans (moins de 480px) */
+        @media(max-width:480px) {
+
+            .hero-image-frame {
+                width: 200px;
+                height: 250px;
+            }
+
+            .hero-stats-mobile-row .stat-badge .stat-big {
+                font-size: 1.6rem;
+            }
+
+            .hero-stats-mobile-row {
+                max-width: 300px;
+            }
+
+            .hero-name {
+                font-size: 2.5rem;
+            }
+
+            .stats-strip {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-price {
+                font-size: 2.5rem;
+            }
+
+            .footer-logo {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* CONTACT FORM */
+        #contact .form-group {
+            margin-bottom: 1.2rem;
+            width: 100%;
+        }
+
+        #contact .form-group label {
+            display: block;
+            font-size: .78rem;
+            font-weight: 500;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: .5rem;
+        }
+
+        #contact .form-group input,
+        #contact .form-group textarea {
+            width: 100%;
+            box-sizing: border-box;
+            background: var(--bg3);
+            border: 1px solid rgba(201, 168, 76, .2);
+            padding: .9rem 1.2rem;
+            font-family: var(--font-body);
+            font-size: .9rem;
+            color: var(--text);
+            border-radius: 8px;
+            outline: none;
+            transition: border-color .3s;
+        }
+
+        #contact .form-group input:focus,
+        #contact .form-group textarea:focus {
+            border-color: rgba(201, 168, 76, .5);
+        }
+
+        #contact .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Pour les très grands écrans (optionnel) */
+        @media(min-width:1400px) {
+
+            #apropos,
+            .services-inner,
+            #comment-ca-marche,
+            .pourquoi-inner,
+            .temoignages-inner,
+            #contact {
+                max-width: 1300px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="particles-canvas"></canvas>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursor-follower"></div>
+
+    <button class="theme-toggle" id="theme-toggle" title="Changer le thème">
+        <div class="theme-toggle-thumb" id="toggle-thumb">🌙</div>
+    </button>
+
+    <div class="mobile-menu" id="mobile-menu">
+        <button class="mobile-close" id="mobile-close">✕</button>
+        <a href="#accueil" onclick="closeMobile()">Accueil</a>
+        <a href="#apropos" onclick="closeMobile()">À propos</a>
+        <a href="#services" onclick="closeMobile()">Services</a>
+        <a href="#comment-ca-marche" onclick="closeMobile()">Méthode</a>
+        <a href="#temoignages" onclick="closeMobile()">Témoignages</a>
+        <a href="#contact" onclick="closeMobile()">Contact</a>
+    </div>
+
+    <nav id="navbar">
+        <a href="#accueil" class="nav-logo">Faidhoi Youssouf</a>
+        <ul class="nav-links">
+            <li><a href="#accueil">Accueil</a></li>
+            <li><a href="#apropos">À propos</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#comment-ca-marche">Méthode</a></li>
+            <li><a href="#temoignages">Témoignages</a></li>
+            <li><a href="#contact" class="nav-cta">Démarrer</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </nav>
+
+    <!-- ============ HERO ============ -->
+    <section id="accueil">
+        <div class="hero-bg"></div>
+        <canvas class="stars-canvas" id="stars-canvas"></canvas>
+
+        <!-- stat LEFT: people trained -->
+        <div class="hero-stat-left">
+            <span class="stat-big" data-target="700" data-suffix="+">0</span>
+            <span class="stat-lbl">Personnes formées</span>
+        </div>
+
+        <!-- stat RIGHT: revenue -->
+        <div class="hero-stat-right">
+            <span class="stat-big">150K €</span>
+            <span class="stat-lbl">Revenu / mois possible</span>
+        </div>
+
+        <div class="hero-content">
+            <span class="hero-welcome">Bienvenue chez</span>
+            <h1 class="hero-name">Faidhoi</h1>
+            <span class="hero-surname">Youssouf</span>
+            <p class="hero-sub">Expert Digital Business · Je t'accompagne de A à Z pour lancer ton activité en ligne,
+                même si tu pars de zéro.</p>
+            <div class="hero-buttons">
+                <a href="#services" class="btn-primary"><span>🚀 Démarrer maintenant</span></a>
+                <a href="#comment-ca-marche" class="btn-secondary">Comment ça marche →</a>
+            </div>
+        </div>
+
+        <!-- Photo - same rectangular gold frame as version 1 -->
+        <div class="hero-right">
+            <div class="hero-image-frame">
+                <div class="hero-gold-ring"></div>
+                <!-- IMAGE HERO: Remplace "faidhoi-hero.jpg" par le nom de ton fichier -->
+                <img class="hero-img" src="./images/cover2.jpeg" alt="Faidhoi Youssouf">
+            </div>
+        </div>
+
+        <!-- Stats badges mobiles - sous la photo, au-dessus du texte -->
+        <div class="hero-stats-mobile-row" id="hero-stats-mobile">
+            <div class="stat-badge">
+                <span class="stat-big" data-target="500" data-suffix="+">500+</span>
+                <span class="stat-lbl">Personnes formées</span>
+            </div>
+            <div class="stat-badge"
+                style="background:linear-gradient(135deg,rgba(74,21,112,.9),rgba(201,168,76,.2));border-color:rgba(201,168,76,.5)">
+                <span class="stat-big">150K €</span>
+                <span class="stat-lbl">Max commissions</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-strip">
+        <div class="stat-item"><span class="stat-num" data-target="700" data-suffix="+">0</span><span
+                class="stat-label">Personnes formées</span></div>
+        <div class="stat-item"><span class="stat-num" data-target="700" data-suffix="€+">0</span><span
+                class="stat-label">Revenu / mois</span></div>
+        <div class="stat-item"><span class="stat-num" data-target="5" data-suffix="+">0 </span><span
+                class="stat-label">Formations disponible</span>
+        </div>
+        <div class="stat-item"><span class="stat-num" data-target="100000" data-suffix="€">0</span><span
+                class="stat-label">Max commissions</span></div>
+        <div class="stat-item"><span class="stat-num" data-target="100" data-suffix="%">0</span><span
+                class="stat-label">Accès à vie</span></div>
+    </div>
+
+    <!-- ABOUT -->
+    <section id="apropos">
+        <div class="about-image-wrap reveal" style="position:relative">
+            <div class="about-img-frame">
+                <!-- IMAGE ABOUT: Remplace "faidhoi-about.jpg" par le nom de ton fichier -->
+                <img src="./images/cover2.jpeg" alt="Faidhoi Youssouf">
+            </div>
+            <div class="about-corner"><span>3+</span><span>Ans d'expérience</span></div>
+        </div>
+        <div class="about-content reveal" style="transition-delay:.2s">
+            <span class="section-tag">À propos de moi</span>
+            <h2 class="section-title" style="text-align:left;margin-bottom:1.5rem">Mon histoire,<br><em>ma force</em>
+            </h2>
+            <p>Je m'appelle <strong>Faidhoi Youssouf</strong>, Etudiante en <strong>Master 1 en Réseaux
+                    Informatiques</strong>, je suis comorienne de cœur et je réside à <strong>Dakar, Sénégal</strong>.
+            </p>
+            <p>Mon parcours académique m'a donné une rigueur analytique que j'ai transposée dans le digital business.
+                J'ai compris très vite que l'entrepreneuriat en ligne offrait <strong>une liberté sans
+                    frontières</strong> — et c'est cette liberté que je veux te transmettre.</p>
+            <div class="about-quote">
+                <p>"Si d'autres y arrivent, pourquoi pas toi ?"</p>
+            </div>
+            <p>En <strong>2024</strong>, j'ai découvre <strong>Mybiz</strong> — une
+                société révolutionnaire qui permet de <strong>générer des revenus depuis chez soi, simplement avec un
+                    téléphone</strong>. Ce qui m'a profondément séduit dans cette entreprise, c'est la <em
+                    style="color:var(--gold)">valeur humaine</em> qu'elle place au cœur de son fonctionnement.</p>
+            <p>Aujourd'hui j'accompagne des centaines de personnes à bâtir leur activité digitale. <strong>Pas besoin
+                    d'expérience. Pas besoin de capital. Juste la volonté de changer ta vie.</strong></p>
+            <p
+                style="margin-top:1rem;font-style:italic;color:var(--gold-light);font-family:var(--font-display);font-size:1.1rem">
+                Rejoins une communauté qui croit en toi, qui t'élève, et qui ne te laisse jamais seul(e). <strong
+                    style="color:var(--gold)">Ton succès commence ici.</strong></p>
+            <div class="about-tags">
+                <span class="about-tag">E-Commerce</span>
+                <span class="about-tag">Marketing Digital</span>
+                <span class="about-tag">Liberté Financière</span>
+                <span class="about-tag">Mybiz</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ SERVICES ============ -->
+    <section id="services">
+        <div class="services-inner">
+            <div class="section-header reveal">
+                <span class="section-tag">Mes Formations</span>
+                <h2 class="section-title">Choisis ton <em>pack</em></h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="services-grid">
+
+                <!-- E-COMMERCE -->
+                <div class="service-card reveal">
+                    <div class="card-header-band">
+                        <div class="promo-badge">★ PROMO</div>
+                        <div class="service-icon-wrap">🛍️</div>
+                        <h3 class="service-name">E-Commerce</h3>
+                        <span class="service-subtitle">Formation complète A → Z</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="service-desc-main">Nos experts te forment à l'e-commerce, même en partant de zéro,
+                            sans compétences ni connaissances préalables.</p>
+                        <p class="service-desc-detail">Tu apprends à créer et gérer ta propre boutique en ligne, à
+                            trouver les bons produits et à les vendre. Un accompagnement continu grâce à des <strong
+                                style="color:var(--gold-light)">lives hebdomadaires</strong> pour avancer sereinement et
+                            poser toutes tes questions.</p>
+                        <div class="price-duo">
+                            <div class="price-box price-box-monde">
+                                <span class="price-box-label">🌍 Europe</span>
+                                <span class="price-box-old">650€</span>
+                                <span class="price-box-now">390€</span>
+                            </div>
+                            <div class="price-box price-box-afrique">
+                                <span class="price-box-label">🌍 Afrique / Asie</span>
+                                <span class="price-box-old">325€</span>
+                                <span class="price-box-now">195€</span>
+                            </div>
+                        </div>
+                        <span class="service-price-note">Accès à vie · Sans abonnement</span>
+                        <br><br>
+                        <a href="./pdf/LearnEcom - Fiche.pdf" download class="btn-download"><span>📥 Télécharger la
+                                Fiche Ecom</span></a>
+                        <button class="btn-service"
+                            onclick="window.open('https://app.futureslearn.com/register/ecom/ecom/information?duration=1&sponsor=231436','_blank')"><span>Je
+                                démarre E-Commerce →</span></button>
+                    </div>
+                </div>
+
+                <!-- MARKETING DIGITAL -->
+                <div class="service-card reveal" style="transition-delay:.15s">
+                    <div class="card-header-band">
+                        <div class="promo-badge">★ PROMO</div>
+                        <div class="service-icon-wrap">📱</div>
+                        <h3 class="service-name">Marketing Digital</h3>
+                        <span class="service-subtitle">Revenus 200 → 5 000 €/mois</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="service-desc-main">Nos experts te forment au marketing et à la communication digitale,
+                            même en partant de zéro, sans compétences ni connaissances préalables.</p>
+                        <p class="service-desc-detail">Tu apprends à construire ta marque, développer ta visibilité en
+                            ligne et mettre en place une <strong style="color:var(--gold-light)">stratégie de
+                                monétisation</strong> solide. Des lives hebdomadaires pour t'accompagner et répondre à
+                            toutes tes questions.</p>
+                        <div class="price-duo">
+                            <div class="price-box price-box-monde">
+                                <span class="price-box-label">🌍 Europ</span>
+                                <span class="price-box-old">487€</span>
+                                <span class="price-box-now">299€</span>
+                            </div>
+                            <div class="price-box price-box-afrique">
+                                <span class="price-box-label">🌍 Afrique / Asie</span>
+                                <span class="price-box-old">487€</span>
+                                <span class="price-box-now">299€</span>
+                            </div>
+                        </div>
+                        <span class="service-price-note">Accès à vie · Sans abonnement</span>
+                        <br><br>
+                        <a href="./pdf/LearnDigital - Fiche.pdf" download class="btn-download"><span>📥 Télécharger la
+                                Fiche
+                                Digital</span></a>
+                        <button class="btn-service"
+                            onclick="window.open('https://app.futureslearn.com/register/digital/digital/information?duration=1&sponsor=231436','_blank')"><span>Je
+                                démarre Marketing →</span></button>
+                    </div>
+                </div>
+
+                <!-- COMBO - best offer -->
+                <div class="service-card featured reveal" style="transition-delay:.3s">
+                    <div class="card-header-band"
+                        style="background:linear-gradient(135deg,rgba(201,168,76,.2),rgba(74,21,112,.4))">
+                        <div class="promo-badge"
+                            style="background:linear-gradient(135deg,#fff,var(--gold-light));font-size:.62rem">🏆
+                            MEILLEURE OFFRE</div>
+                        <div class="service-icon-wrap" style="background:rgba(201,168,76,.2)">⭐</div>
+                        <h3 class="service-name">E-com + Digital</h3>
+                        <span class="service-subtitle">Pack complet · Maîtrise totale</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="service-desc-main" style="font-weight:400;color:var(--text)"><strong>Pack complet
+                                combinant les deux formations pour une maîtrise totale du digital.</strong></p>
+                        <p class="service-desc-detail">Profite d'une remise importante en combinant les deux formations.
+                            L'offre idéale pour développer une activité digitale complète et diversifiée. <strong
+                                style="color:var(--gold-light)">Plus de services = plus de moyens de générer des
+                                revenus.</strong></p>
+                        <span class="savings-badge">💰 Économisez 650€ !</span>
+                        <div class="price-duo">
+                            <div class="price-box price-box-monde">
+                                <span class="price-box-label">🌍 Europe</span>
+                                <span class="price-box-old">1137€</span>
+                                <span class="price-box-now">487€</span>
+                            </div>
+                            <div class="price-box price-box-afrique">
+                                <span class="price-box-label">🌍 Afrique / Asie</span>
+                                <span class="price-box-old">568€</span>
+                                <span class="price-box-now">243€</span>
+                            </div>
+                        </div>
+                        <span class="service-price-note">Accès à vie · Sans abonnement</span>
+                        <br><br>
+                        <a href="./pdf/LearnDigital&Ecom_Referentiels_Prix.pdf" download class="btn-download"><span>📥
+                                Télécharger la Fiche
+                                e-com+digital</span></a>
+                        <button class="btn-service"
+                            onclick="window.open('https://app.futureslearn.com/register/finance?sponsor=231436','_blank')"><span>🚀
+                                Je démarre le combo gagnant</span></button>
+                    </div>
+                </div>
+
+                <!-- FRANCHISE BIZPARTNER -->
+                <div class="service-card reveal" style="transition-delay:.45s">
+                    <div class="card-header-band"
+                        style="background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(74,21,112,.35))">
+                        <div class="promo-badge"
+                            style="background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark)">
+                            🤝 FRANCHISE</div>
+                        <div class="service-icon-wrap" style="background:rgba(201,168,76,.15)">🏢</div>
+                        <h3 class="service-name">Franchise Bizpartner</h3>
+                        <span class="service-subtitle">200€ → 5 000€ / mois en commissions</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="service-desc-main">Deviens <strong style="color:var(--gold-light)">Bizpartner</strong>
+                            et rejoins une franchise digitale clé en main, accessible même en partant de zéro.</p>
+                        <p class="service-desc-detail">Tu intègres un système déjà structuré pour lancer ton activité
+                            digitale sans tout créer toi-même, avec un <strong
+                                style="color:var(--gold-light)">accompagnement personnalisé</strong>. Grâce à la revente
+                            des produits et services de la franchise, tu peux percevoir des commissions mensuelles
+                            allant de <strong style="color:var(--gold)">200€ à 5 000€</strong>, selon ton implication et
+                            tes résultats.</p>
+                        <div class="price-duo">
+                            <div class="price-box price-box-monde">
+                                <span class="price-box-label">🌍 Europe</span>
+                                <span class="price-box-old">100€</span>
+                                <span class="price-box-now">60€</span>
+                            </div>
+                            <div class="price-box price-box-afrique">
+                                <span class="price-box-label">🌍 Afrique / Asie</span>
+                                <span class="price-box-old">70</span>
+                                <span class="price-box-now">30€</span>
+                            </div>
+                        </div>
+                        <span class="service-price-note">Renouvellement par ans</span>
+                        <br><br>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ÉDUCATION FINANCIÈRE - carte horizontale pleine largeur -->
+            <div class="service-card-wrap-full" style="margin-top:2rem">
+                <div class="service-card-horizontal reveal" style="transition-delay:.6s">
+                    <div class="card-header-band"
+                        style="background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(74,21,112,.4))">
+                        <div class="promo-badge"
+                            style="background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark)">✨
+                            NOUVEAU</div>
+                        <div class="service-icon-wrap"
+                            style="background:rgba(201,168,76,.15);border-color:rgba(201,168,76,.3)">📊</div>
+                        <h3 class="service-name" style="color:var(--text)">Education Financière</h3>
+                        <span class="service-subtitle" style="color:var(--gold);opacity:1">Trading · Bourse ·
+                            Crypto</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-body-left">
+                            <p class="service-desc-main" style="font-weight:500;color:var(--text)">Avec l'<strong
+                                    style="color:var(--gold-light)">éducation financière</strong>, c'est très simple :
+                                <strong>pas
+                                    besoin d'être actif sur les réseaux.</strong> Tu n'as qu'à suivre les services de
+                                nos experts.
+                            </p>
+                            <p class="service-desc-detail">Pour cela, il faut prendre un pack qui te donnera accès à
+                                tous les services. Tu seras <strong style="color:var(--gold-light)">formé et
+                                    accompagné</strong>,
+                                et tu auras accès aux services via ta plateforme de formation.</p>
+                            <p class="service-desc-detail">Les experts t'enverront des <strong
+                                    style="color:var(--gold-light)">analyses de marchés financières</strong> sous forme
+                                de
+                                messages que tu copieras simplement sur une application dédiée ! Dès demain, tu
+                                commenceras à gagner de l'argent <strong style="color:var(--gold)">(10€, 20€, 50€,
+                                    100€…)</strong>, du lundi au vendredi.</p>
+                            <p class="service-desc-detail">L'argent que tu gagneras, tu pourras le <strong>retirer à
+                                    tout moment</strong> et faire des virements sur ton compte bancaire sans problème !
+                                L'avantage en te formant, c'est que des programmes sont mis en place pour aller sur des
+                                objectifs à <strong style="color:var(--gold)">2 000€/mois minimum</strong> grâce à
+                                l'investissement !</p>
+
+                            <!-- Tags -->
+                            <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem">
+                                <span
+                                    style="font-size:.7rem;padding:.3rem .8rem;border:1px solid rgba(201,168,76,.3);border-radius:20px;color:var(--gold-light)">📊
+                                    Éducation Financière</span>
+                                <span
+                                    style="font-size:.7rem;padding:.3rem .8rem;border:1px solid rgba(201,168,76,.25);border-radius:20px;color:var(--gold-light)">💸
+                                    Revenus Quotidiens</span>
+                                <span
+                                    style="font-size:.7rem;padding:.3rem .8rem;border:1px solid rgba(201,168,76,.3);border-radius:20px;color:var(--gold-light)">🎯
+                                    Objectif 2000€/mois</span>
+                                <span
+                                    style="font-size:.7rem;padding:.3rem .8rem;border:1px solid rgba(201,168,76,.25);border-radius:20px;color:var(--gold-light)">🏦
+                                    Retrait Libre</span>
+                            </div>
+
+                            <!-- Boutons Trading / Pack Premium / Crypto -->
+                            <div style="display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem">
+                                <a href="https://app.futureslearn.com/register/finance/gold_full/information?duration=1&sponsor=231436"
+                                    target="_blank" class="btn-finance-pill"
+                                    style="background:rgba(201,168,76,.1);border:1.5px solid rgba(201,168,76,.45);color:var(--gold)">
+                                    📈 Trading
+                                </a>
+                                <a href="https://app.futureslearn.com/register/finance/premium/information?duration=1&sponsor=231436"
+                                    target="_blank" class="btn-finance-pill"
+                                    style="background:rgba(201,168,76,.1);border:1.5px solid rgba(201,168,76,.45);color:var(--gold)">
+                                    🏛️ Pack Premium
+                                </a>
+                                <a href="https://app.futureslearn.com/register/finance/silver_full/information?duration=1&sponsor=231436"
+                                    target="_blank" class="btn-finance-pill"
+                                    style="background:rgba(201,168,76,.1);border:1.5px solid rgba(201,168,76,.45);color:var(--gold)">
+                                    ₿ Crypto
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body-right">
+                            <div class="price-duo" style="flex-direction:column">
+                                <div class="price-box price-box-monde">
+                                    <span class="price-box-label">🌍 Europe</span>
+                                    <span class="price-box-old">399€</span>
+                                    <span class="price-box-now">299€</span>
+                                </div>
+                                <div class="price-box price-box-afrique">
+                                    <span class="price-box-label">🌍 Afrique / Asie</span>
+                                    <span class="price-box-old">199€</span>
+                                    <span class="price-box-now">99€</span>
+                                </div>
+                            </div>
+                            <span class="service-price-note">Abonnement par mois · Sans engagement</span>
+                            <br>
+
+                            Je démarre Education Financière →</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section id="comment-ca-marche" style="padding:8rem 4rem;max-width:1200px;margin:0 auto">
+        <div class="section-header reveal">
+            <span class="section-tag">La Méthode</span>
+            <h2 class="section-title">Comment ça <em>marche</em> ?</h2>
+            <div class="section-line"></div>
+        </div>
+        <div class="steps-grid">
+            <div class="step-item reveal">
+                <div class="step-num">1</div>
+                <h4 class="step-title">Choisis ton pack</h4>
+                <p class="step-desc">Sélectionne la formation adaptée à ton projet et tes objectifs financiers.</p>
+            </div>
+            <div class="step-item reveal" style="transition-delay:.15s">
+                <div class="step-num">2</div>
+                <h4 class="step-title">Crée ton compte</h4>
+                <p class="step-desc">Inscris-toi avec ton email, mot de passe et date de naissance. (Pays = Maroc)</p>
+            </div>
+            <div class="step-item reveal" style="transition-delay:.3s">
+                <div class="step-num">3</div>
+                <h4 class="step-title">Confirme ton accès</h4>
+                <p class="step-desc">Envoie une capture d'écran en privé sur Instagram pour activer ton compte.</p>
+            </div>
+            <div class="step-item reveal" style="transition-delay:.45s">
+                <div class="step-num">4</div>
+                <h4 class="step-title">Je te guide !</h4>
+                <p class="step-desc">Lives hebdomadaires, coaching personnalisé et communauté bienveillante à tes côtés.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ POURQUOI NOUS CHOISIR ============ -->
+    <section id="pourquoi">
+        <div class="pourquoi-inner">
+            <div class="section-header reveal">
+                <span class="section-tag">Nos Avantages</span>
+                <h2 class="section-title">Pourquoi me <em>faire confiance</em> ?</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="pourquoi-grid">
+                <div class="pourquoi-card reveal">
+                    <span class="pourquoi-icon">🎯</span>
+                    <h3 class="pourquoi-title">Résultats prouvés</h3>
+                    <p class="pourquoi-desc">Plus de 500 personnes formées avec des résultats concrets et vérifiables.
+                        Nos élèves génèrent des revenus réels dès les premières semaines.</p>
+                </div>
+                <div class="pourquoi-card reveal" style="transition-delay:.12s">
+                    <span class="pourquoi-icon">🛡️</span>
+                    <h3 class="pourquoi-title">Accompagnement total</h3>
+                    <p class="pourquoi-desc">Tu n'es jamais seul(e). Des lives hebdomadaires, une communauté active et
+                        un suivi personnalisé pour te guider à chaque étape.</p>
+                </div>
+                <div class="pourquoi-card reveal" style="transition-delay:.24s">
+                    <span class="pourquoi-icon">🌐</span>
+                    <h3 class="pourquoi-title">Accessible depuis partout</h3>
+                    <p class="pourquoi-desc">Travaille depuis chez toi, à ton rythme, avec ton téléphone. Pas besoin de
+                        te montrer sur les réseaux ni d'avoir une communauté.</p>
+                </div>
+                <div class="pourquoi-card reveal" style="transition-delay:.36s">
+                    <span class="pourquoi-icon">💎</span>
+                    <h3 class="pourquoi-title">Accès illimité à vie</h3>
+                    <p class="pourquoi-desc">Tu paies une seule fois et tu accèdes à tout pour toujours. Mises à jour
+                        incluses gratuitement, sans aucun abonnement caché.</p>
+                </div>
+                <div class="pourquoi-card reveal" style="transition-delay:.48s">
+                    <span class="pourquoi-icon">🚀</span>
+                    <h3 class="pourquoi-title">Démarrage rapide</h3>
+                    <p class="pourquoi-desc">Notre méthode progressive te permet de générer tes premiers revenus
+                        rapidement, même sans expérience préalable en digital.</p>
+                </div>
+                <div class="pourquoi-card reveal" style="transition-delay:.6s">
+                    <span class="pourquoi-icon">🤝</span>
+                    <h3 class="pourquoi-title">Valeur humaine avant tout</h3>
+                    <p class="pourquoi-desc">Ce qui nous distingue, c'est la bienveillance et la solidarité. Ici, chaque
+                        membre de la communauté compte et réussit ensemble.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ TESTIMONIALS CAROUSEL ============ -->
+    <section id="temoignages">
+        <div class="temoignages-inner">
+            <div class="section-header reveal">
+                <span class="section-tag">Ils témoignent</span>
+                <h2 class="section-title">Ce qu'ils <em>disent</em></h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="carousel-wrap">
+                <div class="carousel-track">
+
+                    <!-- TEMO 1 - texte fourni par le client -->
+                    <div class="temo-card">
+                        <div class="temo-screenshot">
+                            <!-- ⬇️ POUR ACTIVER: supprime le div placeholder et décommente la ligne img -->
+                            <img src="./images/tem1.jpeg" alt="Témoignage WhatsApp">
+                            <div class="temo-screenshot-placeholder">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <circle cx="8.5" cy="8.5" r="1.5" />
+                                    <polyline points="21 15 16 10 5 21" />
+                                </svg>
+
+                            </div>
+                            <div class="temo-quote-overlay">
+
+                            </div>
+                        </div>
+                        <div class="temo-footer"><span class="temo-stars">★★★★★</span><span class="temo-name">
+                            </span></div>
+                    </div>
+
+                    <!-- TEMO 2 - capture WhatsApp -->
+                    <div class="temo-card">
+                        <div class="temo-screenshot">
+                            <!-- ⬇️ POUR ACTIVER: supprime le div placeholder et décommente la ligne img -->
+                            <img src="./images/tem2.jpeg" alt="Témoignage WhatsApp">
+                            <div class="temo-screenshot-placeholder">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <circle cx="8.5" cy="8.5" r="1.5" />
+                                    <polyline points="21 15 16 10 5 21" />
+                                </svg>
+
+                            </div>
+                            <div class="temo-quote-overlay">
+
+                            </div>
+                        </div>
+                        <div class="temo-footer"><span class="temo-stars">★★★★★</span><span class="temo-name">
+                            </span></div>
+                    </div>
+
+                    <!-- TEMO 3 - capture WhatsApp -->
+                    <div class="temo-card">
+                        <div class="temo-screenshot">
+                            <img src="./images/tem3.jpeg" alt="Témoignage WhatsApp">
+                            <div class="temo-screenshot-placeholder">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <circle cx="8.5" cy="8.5" r="1.5" />
+                                    <polyline points="21 15 16 10 5 21" />
+                                </svg>
+
+                            </div>
+                            <div class="temo-quote-overlay">
+                                <p class="temo-quote-text">"La meilleure décision de ma vie !"</p>
+                            </div>
+                        </div>
+                        <div class="temo-footer"><span class="temo-stars">★★★★★</span><span class="temo-name">—
+                                Larissa</span></div>
+                    </div>
+
+                    <!-- TEMO 4 -->
+                    <div class="temo-card">
+                        <div class="temo-screenshot">
+                            <img src="./images/tem5.jpeg" alt="Témoignage WhatsApp">
+                            <div class="temo-screenshot-placeholder">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <circle cx="8.5" cy="8.5" r="1.5" />
+                                    <polyline points="21 15 16 10 5 21" />
+                                </svg>
+                            </div>
+                            <div class="temo-quote-overlay">
+                                <p class="temo-quote-text">"Je génères mes premiers revenus !"</p>
+                            </div>
+                        </div>
+                        <div class="temo-footer"><span class="temo-stars">★★★★★</span><span class="temo-name">—
+                                Rasna</span></div>
+                    </div>
+
+                    <!-- TEMO 5 -->
+                    <div class="temo-card">
+                        <div class="temo-screenshot">
+                            <img src="./images/tem4.jpeg" alt="Témoignage WhatsApp">
+                            <div class="temo-screenshot-placeholder">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <circle cx="8.5" cy="8.5" r="1.5" />
+                                    <polyline points="21 15 16 10 5 21" />
+                                </svg>
+
+                            </div>
+                            <div class="temo-quote-overlay">
+
+                            </div>
+                        </div>
+                        <div class="temo-footer"><span class="temo-stars">★★★★★</span><span class="temo-name">
+                            </span></div>
+                    </div>
+
+                    <!-- DUPLICATES for seamless loop -->
+                    <div class="temo-card">
+                        <div class="temo-screenshot">
+                            <div class="temo-screenshot-placeholder"><svg width="40" height="40" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <circle cx="8.5" cy="8.5" r="1.5" />
+                                    <polyline points="21 15 16 10 5 21" />
+                                </svg>
+                                <img src="./images/tem1.jpeg" alt="Témoignage WhatsApp">
+                            </div>
+                            <div class="temo-quote-overlay">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="temo-card">
+                        <div class="temo-screenshot">
+                            <div class="temo-screenshot-placeholder"><svg width="40" height="40" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <circle cx="8.5" cy="8.5" r="1.5" />
+                                    <polyline points="21 15 16 10 5 21" />
+                                </svg>
+                                <img src="./images/tem2.jpeg" alt="Témoignage WhatsApp">
+                            </div>
+                            <div class="temo-quote-overlay">
+
+                            </div>
+                        </div>
+                        <div class="temo-footer"><span class="temo-stars">★★★★★</span><span class="temo-name">
+                            </span></div>
+                    </div>
+                    <div class="temo-card">
+                        <div class="temo-screenshot">
+                            <div class="temo-screenshot-placeholder"><svg width="40" height="40" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <circle cx="8.5" cy="8.5" r="1.5" />
+                                    <polyline points="21 15 16 10 5 21" />
+                                </svg>
+                                <img src="./images/tem3.jpeg" alt="faidhoi">
+                            </div>
+                            <div class="temo-quote-overlay">
+
+                            </div>
+                        </div>
+                        <div class="temo-footer"><span class="temo-stars">★★★★★</span><span class="temo-name">
+                            </span></div>
+                    </div>
+                    <div class="temo-card">
+                        <div class="temo-screenshot">
+                            <div class="temo-screenshot-placeholder"><svg width="40" height="40" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <circle cx="8.5" cy="8.5" r="1.5" />
+                                    <polyline points="21 15 16 10 5 21" />
+                                </svg>
+                                <img src="./images/tem4.jpeg" alt="Témoignage WhatsApp">
+                            </div>
+                            <div class="temo-quote-overlay">
+
+                            </div>
+                        </div>
+                        <div class="temo-footer"><span class="temo-stars">★★★★★</span><span class="temo-name">
+                            </span></div>
+                    </div>
+                    <div class="temo-card">
+                        <div class="temo-screenshot">
+                            <div class="temo-screenshot-placeholder"><svg width="40" height="40" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <circle cx="8.5" cy="8.5" r="1.5" />
+                                    <polyline points="21 15 16 10 5 21" />
+                                </svg>
+                                <img src="./images/tem5.jpeg" alt="faidhoi">
+                            </div>
+                            <div class="temo-quote-overlay">
+
+                            </div>
+                        </div>
+                        <div class="temo-footer"><span class="temo-stars">★★★★★</span><span class="temo-name">
+                            </span></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Barre de progression carousel -->
+            <div class="temo-progress-bar">
+                <div class="temo-progress-fill" id="temoProgress"></div>
+            </div>
+            <div class="temo-dots" id="temoDots">
+                <span class="temo-dot active"></span>
+                <span class="temo-dot"></span>
+                <span class="temo-dot"></span>
+                <span class="temo-dot"></span>
+                <span class="temo-dot"></span>
+            </div>
+
+        </div>
+    </section>
+    <section id="contact"
+        style="padding:8rem 4rem;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;width:100%;box-sizing:border-box">
+        <div>
+            <div class="reveal">
+                <span class="section-tag">Me contacter</span>
+                <h2 class="section-title" style="text-align:left;margin-bottom:1.5rem">Prêt(e) à<br><em>changer ta vie
+                        ?</em></h2>
+            </div>
+            <p class="reveal"
+                style="font-size:.95rem;color:var(--text-muted);line-height:1.8;margin-bottom:1.5rem;transition-delay:.1s">
+                Des questions ? Écris-moi directement, je réponds à chacun personnellement.</p>
+            <div class="contact-socials reveal" style="transition-delay:.2s">
+                <a href="https://www.instagram.com/naikakarim?igsh=MXU2OG1nYmppZDgxZA%3D%3D&utm_source=qr"
+                    target="_blank" class="social-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <rect x="2" y="2" width="20" height="20" rx="5" />
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                    </svg>
+                    Instagram — @faidhoi_youssouf
+                </a>
+
+            </div>
+            <div class="reveal"
+                style="transition-delay:.3s;margin-top:2rem;border-radius:12px;overflow:hidden;height:360px">
+                <!-- IMAGE CONTACT: Remplace "faidhoi-contact.jpg" par le nom de ton fichier -->
+                <img src="./images/contact.HEIC" alt="Faidhoi Youssouf"
+                    style="width:100%;height:100%;object-fit:cover;object-position:center top;border-radius:12px">
+            </div>
+        </div>
+        <div class="reveal" style="transition-delay:.15s">
+            <div class="form-group"><label>Prénom</label><input type="text" placeholder="Ton prénom"></div>
+            <div class="form-group"><label>Téléphone</label><input type="tel" placeholder="+221 77 000 00 00"></div>
+            <div class="form-group"><label>Message</label><textarea
+                    placeholder="Dis-moi où tu en es et ce que tu souhaites accomplir..."></textarea></div>
+            <button class="btn-insta"
+                onclick="window.open('https://www.instagram.com/naikakarim?igsh=MXU2OG1nYmppZDgxZA%3D%3D&utm_source=qr','_blank')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+                    <rect x="2" y="2" width="20" height="20" rx="5" />
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+                Envoyer via Instagram
+            </button>
+
+    </section>
+
+    <footer style="display: flex; align-items: center; justify-content: space-between; padding: 1rem 4rem;">
+        <span class="footer-logo">Faidhoi Youssouf</span>
+
+        <div style="display: flex; align-items: center; gap: 2rem;">
+            <span style="font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.05em;">Suivez-moi sur</span>
+
+            <div style="display: flex; align-items: center; gap: 1.2rem;">
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/naikakarim?igsh=MXU2OG1nYmppZDgxZA%3D%3D&utm_source=qr"
+                    target="_blank" style="color: var(--text-muted); transition: color 0.3s;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <rect x="2" y="2" width="20" height="20" rx="5" />
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                    </svg>
+                </a>
+
+                <!-- TikTok -->
+                <a href="https://www.tiktok.com/@faidhoi_?_r=1&_t=ZN-94JE1GftfHy" target="_blank"
+                    style="color: var(--text-muted); transition: color 0.3s;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <span class="footer-copy">copyright© 2026</span>
+    </footer>
+
+    <script>
+        // CURSOR
+        const cursor = document.getElementById("cursor"), follower = document.getElementById("cursor-follower");
+        let mx = 0, my = 0, fx = 0, fy = 0;
+        document.addEventListener("mousemove", e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx + "px"; cursor.style.top = my + "px" });
+        (function a() { fx += (mx - fx) * .12; fy += (my - fy) * .12; follower.style.left = fx + "px"; follower.style.top = fy + "px"; requestAnimationFrame(a) })();
+        document.querySelectorAll("a,button").forEach(el => {
+            el.addEventListener("mouseenter", () => { follower.style.transform = "translate(-50%,-50%) scale(2)"; follower.style.opacity = ".15" });
+            el.addEventListener("mouseleave", () => { follower.style.transform = "translate(-50%,-50%) scale(1)"; follower.style.opacity = ".5" });
+        });
+
+        // FLOATING ORB PARTICLES
+        const pc = document.getElementById("particles-canvas"), pctx = pc.getContext("2d");
+        function rPC() { pc.width = window.innerWidth; pc.height = window.innerHeight; } rPC(); window.addEventListener("resize", rPC);
+        const orbs = Array.from({ length: 30 }, () => ({ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, r: Math.random() * 4 + 1.5, vx: (Math.random() - .5) * .4, vy: (Math.random() - .5) * .4, alpha: Math.random() * .35 + .08, hue: Math.random() < .6 ? 45 : 270, pulse: Math.random() * Math.PI * 2 }));
+        function drawOrbs() {
+            pctx.clearRect(0, 0, pc.width, pc.height);
+            const t = Date.now() * .001;
+            orbs.forEach(o => {
+                o.x += o.vx; o.y += o.vy;
+                if (o.x < -20) o.x = pc.width + 20; if (o.x > pc.width + 20) o.x = -20;
+                if (o.y < -20) o.y = pc.height + 20; if (o.y > pc.height + 20) o.y = -20;
+                const p = Math.sin(t + o.pulse) * .3 + .7;
+                const g = pctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r * 4);
+                g.addColorStop(0, `hsla(${o.hue},80%,65%,${o.alpha * p})`);
+                g.addColorStop(1, `hsla(${o.hue},80%,65%,0)`);
+                pctx.beginPath(); pctx.arc(o.x, o.y, o.r * 4, 0, Math.PI * 2);
+                pctx.fillStyle = g; pctx.fill();
+            });
+            requestAnimationFrame(drawOrbs);
+        } drawOrbs();
+
+        // STARS (hero)
+        const sc = document.getElementById("stars-canvas"), sctx = sc.getContext("2d");
+        function rSC() { sc.width = sc.parentElement.offsetWidth; sc.height = sc.parentElement.offsetHeight; } rSC(); window.addEventListener("resize", rSC);
+        const stars = Array.from({ length: 120 }, () => ({ x: Math.random(), y: Math.random(), r: Math.random() * 1.2 + .2, speed: Math.random() * .3 + .05, phase: Math.random() * Math.PI * 2 }));
+        function drawStars() { sctx.clearRect(0, 0, sc.width, sc.height); const t = Date.now() * .001; stars.forEach(s => { const a = Math.sin(t * s.speed + s.phase) * .5 + .5; sctx.beginPath(); sctx.arc(s.x * sc.width, s.y * sc.height, s.r, 0, Math.PI * 2); sctx.fillStyle = `rgba(201,168,76,${a * .8})`; sctx.fill(); }); requestAnimationFrame(drawStars); } drawStars();
+
+        // HERO COUNTER (left badge)
+        function countEl(el) { const t = parseInt(el.dataset.target), s = el.dataset.suffix || "", dur = 2000, st = performance.now(); (function u(n) { const p = Math.min((n - st) / dur, 1), e = 1 - Math.pow(1 - p, 3); el.textContent = Math.round(e * t).toLocaleString("fr-FR") + s; if (p < 1) requestAnimationFrame(u); })(st); }
+        const hco = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { e.target.querySelectorAll("[data-target]").forEach(countEl); hco.unobserve(e.target); } }); }, { threshold: .2 });
+        document.querySelectorAll(".hero-stat-left,.hero-stat-right,.stats-strip,.hero-stats-mobile-row").forEach(el => hco.observe(el));
+
+        // THEME
+        const tb = document.getElementById("theme-toggle"), th = document.getElementById("toggle-thumb"); let light = false;
+        tb.addEventListener("click", () => { light = !light; document.body.classList.toggle("light", light); th.textContent = light ? "☀️" : "🌙"; });
+
+        // NAV
+        const nav = document.getElementById("navbar");
+        window.addEventListener("scroll", () => nav.classList.toggle("scrolled", scrollY > 60));
+
+        // MOBILE
+        document.getElementById("hamburger").addEventListener("click", () => document.getElementById("mobile-menu").classList.add("open"));
+        document.getElementById("mobile-close").addEventListener("click", () => document.getElementById("mobile-menu").classList.remove("open"));
+        function closeMobile() { document.getElementById("mobile-menu").classList.remove("open"); }
+
+        // REVEAL
+        const ro = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }), { threshold: .08 });
+        document.querySelectorAll(".reveal,.stat-item,.service-card,.service-card-horizontal,.step-item,.combo-card,.pourquoi-card").forEach(el => ro.observe(el));
+
+        // TEMO DOTS animation
+        (function () {
+            const dots = document.querySelectorAll('.temo-dot');
+            const total = dots.length;
+            let current = 0;
+            setInterval(() => {
+                dots[current].classList.remove('active');
+                current = (current + 1) % total;
+                dots[current].classList.add('active');
+            }, 35000 / total);
+        })();
+
+        // STATS COUNTER
+        const co = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { e.target.querySelectorAll("[data-target]").forEach(countEl); co.unobserve(e.target); } }); }, { threshold: .3 });
+        document.querySelectorAll(".stats-strip").forEach(el => co.observe(el));
+
+        // 3D TILT on service cards
+        document.querySelectorAll(".service-card").forEach(card => {
+            card.addEventListener("mousemove", e => { const r = card.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5; card.style.transform = `translateY(-10px) rotateY(${x * 12}deg) rotateX(${-y * 8}deg)`; });
+            card.addEventListener("mouseleave", () => { card.style.transform = ""; });
+        });
+    </script>
+</body>
+
+</html>
