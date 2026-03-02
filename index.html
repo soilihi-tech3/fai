@@ -147,6 +147,44 @@
             transform: translateX(24px);
         }
 
+        /* LANGUAGE TOGGLE */
+        .lang-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 5.5rem;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            background: var(--bg3);
+            border: 1px solid rgba(201, 168, 76, .3);
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .lang-btn {
+            padding: .35rem .75rem;
+            font-size: .72rem;
+            font-weight: 600;
+            letter-spacing: .08em;
+            color: var(--text-muted);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            transition: all .25s;
+            font-family: var(--font-body);
+        }
+
+        .lang-btn.active {
+            background: var(--gold);
+            color: var(--dark);
+            border-radius: 18px;
+        }
+
+        .lang-btn:hover:not(.active) {
+            color: var(--gold);
+        }
+
         /* NAV */
         nav {
             position: fixed;
@@ -2755,6 +2793,380 @@
                 margin: 0 auto;
             }
         }
+
+        /* ============================================================
+           CHATBOT WIDGET
+        ============================================================ */
+        #chatbot-bubble {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            z-index: 1100;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--purple), var(--gold));
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(201, 168, 76, .35), 0 0 0 0 rgba(201, 168, 76, .4);
+            animation: chatPulse 2.5s ease-in-out infinite;
+            transition: transform .25s;
+        }
+
+        #chatbot-bubble:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes chatPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 8px 32px rgba(201, 168, 76, .35), 0 0 0 0 rgba(201, 168, 76, .4);
+            }
+
+            50% {
+                box-shadow: 0 8px 32px rgba(201, 168, 76, .35), 0 0 0 10px rgba(201, 168, 76, .0);
+            }
+        }
+
+        #chatbot-bubble svg {
+            transition: transform .3s;
+        }
+
+        #chatbot-bubble.open svg {
+            transform: rotate(45deg);
+        }
+
+        /* Badge notification */
+        #chatbot-notif {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 18px;
+            height: 18px;
+            background: #e74c3c;
+            border-radius: 50%;
+            font-size: .65rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg);
+            animation: notifPop .4s cubic-bezier(.68, -.55, .27, 1.55);
+        }
+
+        @keyframes notifPop {
+            from {
+                transform: scale(0);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        /* Window */
+        #chatbot-window {
+            position: fixed;
+            bottom: 6rem;
+            left: 2rem;
+            z-index: 1099;
+            width: 360px;
+            max-height: 520px;
+            background: var(--bg2);
+            border: 1px solid rgba(201, 168, 76, .25);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, .55);
+            transform: scale(.85) translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all .3s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        #chatbot-window.open {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        @media(max-width:480px) {
+            #chatbot-window {
+                left: .5rem;
+                right: .5rem;
+                width: auto;
+                bottom: 5rem;
+            }
+        }
+
+        /* Header */
+        .cb-header {
+            background: linear-gradient(135deg, rgba(74, 21, 112, .9), rgba(201, 168, 76, .15));
+            padding: 1rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+            border-bottom: 1px solid rgba(201, 168, 76, .12);
+            flex-shrink: 0;
+        }
+
+        .cb-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .cb-header-info {
+            flex: 1;
+        }
+
+        .cb-header-name {
+            font-size: .88rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .cb-header-status {
+            font-size: .7rem;
+            color: #4ade80;
+            display: flex;
+            align-items: center;
+            gap: .3rem;
+        }
+
+        .cb-header-status::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #4ade80;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .cb-close-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: .2rem;
+            line-height: 1;
+        }
+
+        .cb-close-btn:hover {
+            color: var(--gold);
+        }
+
+        /* Messages area */
+        .cb-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: .7rem;
+            scroll-behavior: smooth;
+        }
+
+        .cb-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .cb-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .cb-messages::-webkit-scrollbar-thumb {
+            background: rgba(201, 168, 76, .25);
+            border-radius: 2px;
+        }
+
+        /* Bubbles */
+        .cb-msg {
+            display: flex;
+            gap: .5rem;
+            align-items: flex-end;
+            max-width: 88%;
+        }
+
+        .cb-msg.bot {
+            align-self: flex-start;
+        }
+
+        .cb-msg.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .cb-bubble {
+            padding: .65rem .9rem;
+            border-radius: 14px;
+            font-size: .84rem;
+            line-height: 1.55;
+            color: var(--text);
+        }
+
+        .cb-msg.bot .cb-bubble {
+            background: var(--bg3);
+            border: 1px solid rgba(201, 168, 76, .1);
+            border-bottom-left-radius: 4px;
+        }
+
+        .cb-msg.user .cb-bubble {
+            background: linear-gradient(135deg, var(--purple), rgba(201, 168, 76, .25));
+            border: 1px solid rgba(201, 168, 76, .3);
+            border-bottom-right-radius: 4px;
+            color: var(--white);
+        }
+
+        .cb-mini-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .65rem;
+            flex-shrink: 0;
+        }
+
+        /* Typing indicator */
+        .cb-typing .cb-bubble {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            padding: .7rem 1rem;
+        }
+
+        .cb-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--gold);
+            opacity: .5;
+            animation: cbDot .9s ease-in-out infinite;
+        }
+
+        .cb-dot:nth-child(2) {
+            animation-delay: .15s;
+        }
+
+        .cb-dot:nth-child(3) {
+            animation-delay: .3s;
+        }
+
+        @keyframes cbDot {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(.7);
+                opacity: .3;
+            }
+
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Quick questions */
+        .cb-quick-wrap {
+            padding: .6rem 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: .4rem;
+            border-top: 1px solid rgba(201, 168, 76, .08);
+            flex-shrink: 0;
+            background: var(--bg2);
+        }
+
+        .cb-quick {
+            font-size: .72rem;
+            padding: .35rem .75rem;
+            border: 1px solid rgba(201, 168, 76, .3);
+            border-radius: 20px;
+            color: var(--gold-light);
+            background: transparent;
+            cursor: pointer;
+            transition: all .2s;
+            font-family: var(--font-body);
+        }
+
+        .cb-quick:hover {
+            background: rgba(201, 168, 76, .12);
+            border-color: var(--gold);
+        }
+
+        /* Input area */
+        .cb-input-row {
+            display: flex;
+            gap: .5rem;
+            padding: .8rem 1rem;
+            border-top: 1px solid rgba(201, 168, 76, .1);
+            background: var(--bg2);
+            flex-shrink: 0;
+        }
+
+        .cb-input {
+            flex: 1;
+            background: var(--bg3);
+            border: 1px solid rgba(201, 168, 76, .15);
+            border-radius: 20px;
+            padding: .55rem 1rem;
+            font-family: var(--font-body);
+            font-size: .84rem;
+            color: var(--text);
+            outline: none;
+            transition: border-color .25s;
+        }
+
+        .cb-input:focus {
+            border-color: rgba(201, 168, 76, .45);
+        }
+
+        .cb-input::placeholder {
+            color: var(--text-muted);
+            opacity: .5;
+        }
+
+        .cb-send {
+            width: 36px;
+            height: 36px;
+            background: var(--gold);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .25s;
+            flex-shrink: 0;
+        }
+
+        .cb-send:hover {
+            background: var(--gold-light);
+            transform: scale(1.08);
+        }
+
+        .cb-send svg {
+            width: 15px;
+            height: 15px;
+            fill: var(--dark);
+        }
     </style>
 </head>
 
@@ -2768,25 +3180,30 @@
         <div class="theme-toggle-thumb" id="toggle-thumb">🌙</div>
     </button>
 
+    <div class="lang-toggle" id="lang-toggle">
+        <button class="lang-btn active" id="btn-fr" onclick="setLang('fr')">FR</button>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+
     <div class="mobile-menu" id="mobile-menu">
         <button class="mobile-close" id="mobile-close">✕</button>
-        <a href="#accueil" onclick="closeMobile()">Accueil</a>
-        <a href="#apropos" onclick="closeMobile()">À propos</a>
-        <a href="#services" onclick="closeMobile()">Services</a>
-        <a href="#comment-ca-marche" onclick="closeMobile()">Méthode</a>
-        <a href="#temoignages" onclick="closeMobile()">Témoignages</a>
-        <a href="#contact" onclick="closeMobile()">Contact</a>
+        <a href="#accueil" onclick="closeMobile()" id="nav-accueil-mobile">Accueil</a>
+        <a href="#apropos" onclick="closeMobile()" id="nav-apropos-mobile">À propos</a>
+        <a href="#services" onclick="closeMobile()" id="nav-services-mobile">Services</a>
+        <a href="#comment-ca-marche" onclick="closeMobile()" id="nav-methode-mobile">Méthode</a>
+        <a href="#temoignages" onclick="closeMobile()" id="nav-temoignages-mobile">Témoignages</a>
+        <a href="#contact" onclick="closeMobile()" id="nav-contact-mobile">Contact</a>
     </div>
 
     <nav id="navbar">
         <a href="#accueil" class="nav-logo">Faidhoi Youssouf</a>
         <ul class="nav-links">
-            <li><a href="#accueil">Accueil</a></li>
-            <li><a href="#apropos">À propos</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#comment-ca-marche">Méthode</a></li>
-            <li><a href="#temoignages">Témoignages</a></li>
-            <li><a href="#contact" class="nav-cta">Démarrer</a></li>
+            <li><a href="#accueil" id="nav-accueil">Accueil</a></li>
+            <li><a href="#apropos" id="nav-apropos">À propos</a></li>
+            <li><a href="#services" id="nav-services">Services</a></li>
+            <li><a href="#comment-ca-marche" id="nav-methode">Méthode</a></li>
+            <li><a href="#temoignages" id="nav-temoignages">Témoignages</a></li>
+            <li><a href="#contact" class="nav-cta" id="nav-contact">Démarrer</a></li>
         </ul>
         <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
     </nav>
@@ -2799,24 +3216,25 @@
         <!-- stat LEFT: people trained -->
         <div class="hero-stat-left">
             <span class="stat-big" data-target="700" data-suffix="+">0</span>
-            <span class="stat-lbl">Personnes formées</span>
+            <span class="stat-lbl" id="hero-stat-lbl-left">Personnes formées</span>
         </div>
 
         <!-- stat RIGHT: revenue -->
         <div class="hero-stat-right">
             <span class="stat-big">700€</span>
-            <span class="stat-lbl">Revenu / mois </span>
+            <span class="stat-lbl" id="hero-stat-lbl-right">Revenu / mois </span>
         </div>
 
         <div class="hero-content">
-            <span class="hero-welcome">Bienvenue chez</span>
+            <span class="hero-welcome" id="hero-welcome">Bienvenue chez</span>
             <h1 class="hero-name">Faidhoi</h1>
             <span class="hero-surname">Youssouf</span>
-            <p class="hero-sub">Expert Digital Business · Je t'accompagne de A à Z pour lancer ton activité en ligne,
+            <p class="hero-sub" id="hero-sub">Expert Digital Business · Je t'accompagne de A à Z pour lancer ton
+                activité en ligne,
                 même si tu pars de zéro.</p>
             <div class="hero-buttons">
-                <a href="#services" class="btn-primary"><span>🚀 Démarrer maintenant</span></a>
-                <a href="#comment-ca-marche" class="btn-secondary">Comment ça marche →</a>
+                <a href="#services" class="btn-primary"><span id="hero-btn-start">🚀 Démarrer maintenant</span></a>
+                <a href="#comment-ca-marche" class="btn-secondary" id="hero-btn-how">Comment ça marche →</a>
             </div>
         </div>
 
@@ -2833,29 +3251,29 @@
         <div class="hero-stats-mobile-row" id="hero-stats-mobile">
             <div class="stat-badge">
                 <span class="stat-big" data-target="700" data-suffix="+">500+</span>
-                <span class="stat-lbl">Personnes formées</span>
+                <span class="stat-lbl" id="hero-stat-lbl-mobile-left">Personnes formées</span>
             </div>
             <div class="stat-badge"
                 style="background:linear-gradient(135deg,rgba(74,21,112,.9),rgba(201,168,76,.2));border-color:rgba(201,168,76,.5)">
                 <span class="stat-big">700€</span>
-                <span class="stat-lbl">Revenu / mois</span>
+                <span class="stat-lbl" id="hero-stat-lbl-mobile-right">Revenu / mois</span>
             </div>
         </div>
     </section>
 
     <!-- STATS -->
     <div class="stats-strip">
-        <div class="stat-item"><span class="stat-num" data-target="700" data-suffix="+">0</span><span
-                class="stat-label">Personnes formées</span></div>
+        <div class="stat-item"><span class="stat-num" data-target="700" data-suffix="+">0</span><span class="stat-label"
+                id="stat-label-1">Personnes formées</span></div>
         <div class="stat-item"><span class="stat-num" data-target="700" data-suffix="€+">0</span><span
-                class="stat-label">Revenu / mois</span></div>
-        <div class="stat-item"><span class="stat-num" data-target="5" data-suffix="+">0 </span><span
-                class="stat-label">Formations disponible</span>
+                class="stat-label" id="stat-label-2">Revenu / mois</span></div>
+        <div class="stat-item"><span class="stat-num" data-target="5" data-suffix="+">0 </span><span class="stat-label"
+                id="stat-label-3">Formations disponible</span>
         </div>
         <div class="stat-item"><span class="stat-num" data-target="100000" data-suffix="€">0</span><span
-                class="stat-label">Max commissions</span></div>
-        <div class="stat-item"><span class="stat-num" data-target="100" data-suffix="%">0</span><span
-                class="stat-label">Accès à vie</span></div>
+                class="stat-label" id="stat-label-4">Max commissions</span></div>
+        <div class="stat-item"><span class="stat-num" data-target="100" data-suffix="%">0</span><span class="stat-label"
+                id="stat-label-5">Accès à vie</span></div>
     </div>
 
     <!-- ABOUT -->
@@ -2865,28 +3283,31 @@
                 <!-- IMAGE ABOUT: Remplace "faidhoi-about.jpg" par le nom de ton fichier -->
                 <img src="./images/cover2.jpeg" alt="Faidhoi Youssouf">
             </div>
-            <div class="about-corner"><span>1+</span><span>Ans d'expérience</span></div>
+            <div class="about-corner"><span>1+</span><span id="about-corner">Ans d'expérience</span></div>
         </div>
         <div class="about-content reveal" style="transition-delay:.2s">
-            <span class="section-tag">À propos de moi</span>
-            <h2 class="section-title" style="text-align:left;margin-bottom:1.5rem">Mon histoire,<br><em>ma force</em>
+            <span class="section-tag" id="about-tag">À propos de moi</span>
+            <h2 class="section-title" id="about-title" style="text-align:left;margin-bottom:1.5rem">Mon
+                histoire,<br><em>ma force</em>
             </h2>
-            <p>Je m'appelle <strong>Faidhoi Youssouf</strong>, Etudiante en <strong>Master 1 en Réseaux
+            <p id="about-p1">Je m'appelle <strong>Faidhoi Youssouf</strong>, Etudiante en <strong>Master 1 en Réseaux
                     Informatiques</strong>, je suis comorienne de cœur et je réside à <strong>Dakar, Sénégal</strong>.
             </p>
-            <p>Mon parcours académique m'a donné une rigueur analytique que j'ai transposée dans le digital business.
+            <p id="about-p2">Mon parcours académique m'a donné une rigueur analytique que j'ai transposée dans le
+                digital business.
                 J'ai compris très vite que l'entrepreneuriat en ligne offrait <strong>une liberté sans
                     frontières</strong> — et c'est cette liberté que je veux te transmettre.</p>
             <div class="about-quote">
-                <p>"Si d'autres y arrivent, pourquoi pas toi ?"</p>
+                <p id="about-quote">"Si d'autres y arrivent, pourquoi pas toi ?"</p>
             </div>
-            <p>En <strong>2024</strong>, j'ai découvre <strong>Mybiz</strong> — une
+            <p id="about-p3">En <strong>2024</strong>, j'ai découvre <strong>Mybiz</strong> — une
                 société révolutionnaire qui permet de <strong>générer des revenus depuis chez soi, simplement avec un
                     téléphone</strong>. Ce qui m'a profondément séduit dans cette entreprise, c'est la <em
                     style="color:var(--gold)">valeur humaine</em> qu'elle place au cœur de son fonctionnement.</p>
-            <p>Aujourd'hui j'accompagne des centaines de personnes à bâtir leur activité digitale. <strong>Pas besoin
+            <p id="about-p4">Aujourd'hui j'accompagne des centaines de personnes à bâtir leur activité digitale.
+                <strong>Pas besoin
                     d'expérience. Pas besoin de capital. Juste la volonté de changer ta vie.</strong></p>
-            <p
+            <p id="about-p5"
                 style="margin-top:1rem;font-style:italic;color:var(--gold-light);font-family:var(--font-display);font-size:1.1rem">
                 Rejoins une communauté qui croit en toi, qui t'élève, et qui ne te laisse jamais seul(e). <strong
                     style="color:var(--gold)">Ton succès commence ici.</strong></p>
@@ -2903,8 +3324,8 @@
     <section id="services">
         <div class="services-inner">
             <div class="section-header reveal">
-                <span class="section-tag">Mes Formations</span>
-                <h2 class="section-title">Choisis ton <em>pack</em></h2>
+                <span class="section-tag" id="services-tag">Mes Formations</span>
+                <h2 class="section-title" id="services-title">Choisis ton <em>pack</em></h2>
                 <div class="section-line"></div>
             </div>
             <div class="services-grid">
@@ -2912,15 +3333,17 @@
                 <!-- E-COMMERCE -->
                 <div class="service-card reveal">
                     <div class="card-header-band">
-                        <div class="promo-badge">★ PROMO</div>
+                        <div class="promo-badge" id="promo-badge-ecom">★ PROMO</div>
                         <div class="service-icon-wrap">🛍️</div>
-                        <h3 class="service-name">E-Commerce</h3>
-                        <span class="service-subtitle">Formation complète A → Z</span>
+                        <h3 class="service-name" id="service-name-ecom">E-Commerce</h3>
+                        <span class="service-subtitle" id="service-subtitle-ecom">Formation complète A → Z</span>
                     </div>
                     <div class="card-body">
-                        <p class="service-desc-main">Nos experts te forment à l'e-commerce, même en partant de zéro,
+                        <p class="service-desc-main" id="service-desc-main-ecom">Nos experts te forment à l'e-commerce,
+                            même en partant de zéro,
                             sans compétences ni connaissances préalables.</p>
-                        <p class="service-desc-detail">Tu apprends à créer et gérer ta propre boutique en ligne, à
+                        <p class="service-desc-detail" id="service-desc-detail-ecom">Tu apprends à créer et gérer ta
+                            propre boutique en ligne, à
                             trouver les bons produits et à les vendre. Un accompagnement continu grâce à des <strong
                                 style="color:var(--gold-light)">lives hebdomadaires</strong> pour avancer sereinement et
                             poser toutes tes questions.</p>
@@ -2936,12 +3359,15 @@
                                 <span class="price-box-now">195€</span>
                             </div>
                         </div>
-                        <span class="service-price-note">Accès à vie · Sans abonnement</span>
+                        <span class="service-price-note" id="service-price-note-ecom">Accès à vie · Sans
+                            abonnement</span>
                         <br><br>
-                        <a href="./pdf/LearnEcom - Fiche.pdf" download class="btn-download"><span>📥 Télécharger la
+                        <a href="./pdf/LearnEcom - Fiche.pdf" download class="btn-download"><span
+                                id="btn-download-ecom">📥 Télécharger la
                                 Fiche Ecom</span></a>
                         <button class="btn-service"
-                            onclick="window.open('https://app.futureslearn.com/register/ecom/ecom/information?duration=1&sponsor=231436','_blank')"><span>Je
+                            onclick="window.open('https://app.futureslearn.com/register/ecom/ecom/information?duration=1&sponsor=231436','_blank')"><span
+                                id="btn-service-ecom">Je
                                 démarre E-Commerce →</span></button>
                     </div>
                 </div>
@@ -2949,15 +3375,17 @@
                 <!-- MARKETING DIGITAL -->
                 <div class="service-card reveal" style="transition-delay:.15s">
                     <div class="card-header-band">
-                        <div class="promo-badge">★ PROMO</div>
+                        <div class="promo-badge" id="promo-badge-digital">★ PROMO</div>
                         <div class="service-icon-wrap">📱</div>
-                        <h3 class="service-name">Marketing Digital</h3>
-                        <span class="service-subtitle">Revenus 200 → 5 000 €/mois</span>
+                        <h3 class="service-name" id="service-name-digital">Marketing Digital</h3>
+                        <span class="service-subtitle" id="service-subtitle-digital">Revenus 200 → 5 000 €/mois</span>
                     </div>
                     <div class="card-body">
-                        <p class="service-desc-main">Nos experts te forment au marketing et à la communication digitale,
+                        <p class="service-desc-main" id="service-desc-main-digital">Nos experts te forment au marketing
+                            et à la communication digitale,
                             même en partant de zéro, sans compétences ni connaissances préalables.</p>
-                        <p class="service-desc-detail">Tu apprends à construire ta marque, développer ta visibilité en
+                        <p class="service-desc-detail" id="service-desc-detail-digital">Tu apprends à construire ta
+                            marque, développer ta visibilité en
                             ligne et mettre en place une <strong style="color:var(--gold-light)">stratégie de
                                 monétisation</strong> solide. Des lives hebdomadaires pour t'accompagner et répondre à
                             toutes tes questions.</p>
@@ -2973,13 +3401,16 @@
                                 <span class="price-box-now">299€</span>
                             </div>
                         </div>
-                        <span class="service-price-note">Accès à vie · Sans abonnement</span>
+                        <span class="service-price-note" id="service-price-note-digital">Accès à vie · Sans
+                            abonnement</span>
                         <br><br>
-                        <a href="./pdf/LearnDigital - Fiche.pdf" download class="btn-download"><span>📥 Télécharger la
+                        <a href="./pdf/LearnDigital - Fiche.pdf" download class="btn-download"><span
+                                id="btn-download-digital">📥 Télécharger la
                                 Fiche
                                 Digital</span></a>
                         <button class="btn-service"
-                            onclick="window.open('https://app.futureslearn.com/register/digital/digital/information?duration=1&sponsor=231436','_blank')"><span>Je
+                            onclick="window.open('https://app.futureslearn.com/register/digital/digital/information?duration=1&sponsor=231436','_blank')"><span
+                                id="btn-service-digital">Je
                                 démarre Marketing →</span></button>
                     </div>
                 </div>
@@ -2988,21 +3419,23 @@
                 <div class="service-card featured reveal" style="transition-delay:.3s">
                     <div class="card-header-band"
                         style="background:linear-gradient(135deg,rgba(201,168,76,.2),rgba(74,21,112,.4))">
-                        <div class="promo-badge"
+                        <div class="promo-badge" id="promo-badge-combo"
                             style="background:linear-gradient(135deg,#fff,var(--gold-light));font-size:.62rem">🏆
                             MEILLEURE OFFRE</div>
                         <div class="service-icon-wrap" style="background:rgba(201,168,76,.2)">⭐</div>
-                        <h3 class="service-name">E-com + Digital</h3>
-                        <span class="service-subtitle">Pack complet · Maîtrise totale</span>
+                        <h3 class="service-name" id="service-name-combo">E-com + Digital</h3>
+                        <span class="service-subtitle" id="service-subtitle-combo">Pack complet · Maîtrise totale</span>
                     </div>
                     <div class="card-body">
-                        <p class="service-desc-main" style="font-weight:400;color:var(--text)"><strong>Pack complet
+                        <p class="service-desc-main" id="service-desc-main-combo"
+                            style="font-weight:400;color:var(--text)"><strong>Pack complet
                                 combinant les deux formations pour une maîtrise totale du digital.</strong></p>
-                        <p class="service-desc-detail">Profite d'une remise importante en combinant les deux formations.
+                        <p class="service-desc-detail" id="service-desc-detail-combo">Profite d'une remise importante en
+                            combinant les deux formations.
                             L'offre idéale pour développer une activité digitale complète et diversifiée. <strong
                                 style="color:var(--gold-light)">Plus de services = plus de moyens de générer des
                                 revenus.</strong></p>
-                        <span class="savings-badge">💰 Économisez 650€ !</span>
+                        <span class="savings-badge" id="savings-badge-combo">💰 Économisez 650€ !</span>
                         <div class="price-duo">
                             <div class="price-box price-box-monde">
                                 <span class="price-box-label">🌍 Europe</span>
@@ -3015,11 +3448,12 @@
                                 <span class="price-box-now">243€</span>
                             </div>
                         </div>
-                        <span class="service-price-note">Accès à vie · Sans abonnement</span>
+                        <span class="service-price-note" id="service-price-note-combo">Accès à vie · Sans
+                            abonnement</span>
                         <br><br>
-
                         <button class="btn-service"
-                            onclick="window.open('https://app.futureslearn.com/register/package-digital-ecom/package-digital-ecom/information?duration=1&sponsor=231436','_blank')"><span>🚀
+                            onclick="window.open('https://app.futureslearn.com/register/package-digital-ecom/package-digital-ecom/information?duration=1&sponsor=231436','_blank')"><span
+                                id="btn-service-combo">🚀
                                 Je démarre le combo gagnant</span></button>
                     </div>
                 </div>
@@ -3028,17 +3462,20 @@
                 <div class="service-card reveal" style="transition-delay:.45s">
                     <div class="card-header-band"
                         style="background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(74,21,112,.35))">
-                        <div class="promo-badge"
+                        <div class="promo-badge" id="promo-badge-franchise"
                             style="background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark)">
                             🤝 FRANCHISE</div>
                         <div class="service-icon-wrap" style="background:rgba(201,168,76,.15)">🏢</div>
-                        <h3 class="service-name">Franchise Bizpartner</h3>
-                        <span class="service-subtitle">200€ → 5 000€ / mois en commissions</span>
+                        <h3 class="service-name" id="service-name-franchise">Franchise Bizpartner</h3>
+                        <span class="service-subtitle" id="service-subtitle-franchise">200€ → 5 000€ / mois en
+                            commissions</span>
                     </div>
                     <div class="card-body">
-                        <p class="service-desc-main">Deviens <strong style="color:var(--gold-light)">Bizpartner</strong>
+                        <p class="service-desc-main" id="service-desc-main-franchise">Deviens <strong
+                                style="color:var(--gold-light)">Bizpartner</strong>
                             et rejoins une franchise digitale clé en main, accessible même en partant de zéro.</p>
-                        <p class="service-desc-detail">Tu intègres un système déjà structuré pour lancer ton activité
+                        <p class="service-desc-detail" id="service-desc-detail-franchise">Tu intègres un système déjà
+                            structuré pour lancer ton activité
                             digitale sans tout créer toi-même, avec un <strong
                                 style="color:var(--gold-light)">accompagnement personnalisé</strong>. Grâce à la revente
                             des produits et services de la franchise, tu peux percevoir des commissions mensuelles
@@ -3056,7 +3493,7 @@
                                 <span class="price-box-now">30€</span>
                             </div>
                         </div>
-                        <span class="service-price-note">Renouvellement par ans</span>
+                        <span class="service-price-note" id="service-price-note-franchise">Renouvellement par ans</span>
                         <br><br>
 
                     </div>
@@ -3069,34 +3506,40 @@
                 <div class="service-card-horizontal reveal" style="transition-delay:.6s">
                     <div class="card-header-band"
                         style="background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(74,21,112,.4))">
-                        <div class="promo-badge"
+                        <div class="promo-badge" id="promo-badge-finance"
                             style="background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark)">✨
                             NOUVEAU</div>
                         <div class="service-icon-wrap"
                             style="background:rgba(201,168,76,.15);border-color:rgba(201,168,76,.3)">📊</div>
-                        <h3 class="service-name" style="color:var(--text)">Education Financière</h3>
-                        <span class="service-subtitle" style="color:var(--gold);opacity:1">Trading · Bourse ·
+                        <h3 class="service-name" id="service-name-finance" style="color:var(--text)">Education
+                            Financière</h3>
+                        <span class="service-subtitle" id="service-subtitle-finance"
+                            style="color:var(--gold);opacity:1">Trading · Bourse ·
                             Crypto</span>
                     </div>
                     <div class="card-body">
                         <div class="card-body-left">
-                            <p class="service-desc-main" style="font-weight:500;color:var(--text)">Avec l'<strong
+                            <p class="service-desc-main" id="service-desc-main-finance"
+                                style="font-weight:500;color:var(--text)">Avec l'<strong
                                     style="color:var(--gold-light)">éducation financière</strong>, c'est très simple :
                                 <strong>pas
                                     besoin d'être actif sur les réseaux.</strong> Tu n'as qu'à suivre les services de
                                 nos experts.
                             </p>
-                            <p class="service-desc-detail">Pour cela, il faut prendre un pack qui te donnera accès à
+                            <p class="service-desc-detail" id="service-desc-detail-finance-1">Pour cela, il faut prendre
+                                un pack qui te donnera accès à
                                 tous les services. Tu seras <strong style="color:var(--gold-light)">formé et
                                     accompagné</strong>,
                                 et tu auras accès aux services via ta plateforme de formation.</p>
-                            <p class="service-desc-detail">Les experts t'enverront des <strong
-                                    style="color:var(--gold-light)">analyses de marchés financières</strong> sous forme
+                            <p class="service-desc-detail" id="service-desc-detail-finance-2">Les experts t'enverront
+                                des <strong style="color:var(--gold-light)">analyses de marchés financières</strong>
+                                sous forme
                                 de
                                 messages que tu copieras simplement sur une application dédiée ! Dès demain, tu
                                 commenceras à gagner de l'argent <strong style="color:var(--gold)">(10€, 20€, 50€,
                                     100€…)</strong>, du lundi au vendredi.</p>
-                            <p class="service-desc-detail">L'argent que tu gagneras, tu pourras le <strong>retirer à
+                            <p class="service-desc-detail" id="service-desc-detail-finance-3">L'argent que tu gagneras,
+                                tu pourras le <strong>retirer à
                                     tout moment</strong> et faire des virements sur ton compte bancaire sans problème !
                                 L'avantage en te formant, c'est que des programmes sont mis en place pour aller sur des
                                 objectifs à <strong style="color:var(--gold)">2 000€/mois minimum</strong> grâce à
@@ -3150,10 +3593,11 @@
                                     <span class="price-box-now">99€</span>
                                 </div>
                             </div>
-                            <span class="service-price-note">Abonnement par mois · Sans engagement</span>
+                            <span class="service-price-note" id="service-price-note-finance">Abonnement par mois · Sans
+                                engagement</span>
                             <br>
 
-                            Je démarre Education Financière →</span></button>
+                            <span id="btn-service-finance">Je démarre Education Financière →</span></button>
                         </div>
                     </div>
                 </div>
@@ -3163,30 +3607,34 @@
     <!-- ============ HOW IT WORKS ============ -->
     <section id="comment-ca-marche" style="padding:8rem 4rem;max-width:1200px;margin:0 auto">
         <div class="section-header reveal">
-            <span class="section-tag">La Méthode</span>
-            <h2 class="section-title">Comment ça <em>marche</em> ?</h2>
+            <span class="section-tag" id="method-tag">La Méthode</span>
+            <h2 class="section-title" id="method-title">Comment ça <em>marche</em> ?</h2>
             <div class="section-line"></div>
         </div>
         <div class="steps-grid">
             <div class="step-item reveal">
                 <div class="step-num">1</div>
-                <h4 class="step-title">Choisis ton pack</h4>
-                <p class="step-desc">Sélectionne la formation adaptée à ton projet et tes objectifs financiers.</p>
+                <h4 class="step-title" id="step-title-1">Choisis ton pack</h4>
+                <p class="step-desc" id="step-desc-1">Sélectionne la formation adaptée à ton projet et tes objectifs
+                    financiers.</p>
             </div>
             <div class="step-item reveal" style="transition-delay:.15s">
                 <div class="step-num">2</div>
-                <h4 class="step-title">Crée ton compte</h4>
-                <p class="step-desc">Inscris-toi avec ton email, mot de passe et date de naissance. (Pays = Maroc)</p>
+                <h4 class="step-title" id="step-title-2">Crée ton compte</h4>
+                <p class="step-desc" id="step-desc-2">Inscris-toi avec ton email, mot de passe et date de naissance.
+                    (Pays = Maroc)</p>
             </div>
             <div class="step-item reveal" style="transition-delay:.3s">
                 <div class="step-num">3</div>
-                <h4 class="step-title">Confirme ton accès</h4>
-                <p class="step-desc">Envoie une capture d'écran en privé sur Instagram pour activer ton compte.</p>
+                <h4 class="step-title" id="step-title-3">Confirme ton accès</h4>
+                <p class="step-desc" id="step-desc-3">Envoie une capture d'écran en privé sur Instagram pour activer ton
+                    compte.</p>
             </div>
             <div class="step-item reveal" style="transition-delay:.45s">
                 <div class="step-num">4</div>
-                <h4 class="step-title">Je te guide !</h4>
-                <p class="step-desc">Lives hebdomadaires, coaching personnalisé et communauté bienveillante à tes côtés.
+                <h4 class="step-title" id="step-title-4">Je te guide !</h4>
+                <p class="step-desc" id="step-desc-4">Lives hebdomadaires, coaching personnalisé et communauté
+                    bienveillante à tes côtés.
                 </p>
             </div>
         </div>
@@ -3196,45 +3644,51 @@
     <section id="pourquoi">
         <div class="pourquoi-inner">
             <div class="section-header reveal">
-                <span class="section-tag">Nos Avantages</span>
-                <h2 class="section-title">Pourquoi me <em>faire confiance</em> ?</h2>
+                <span class="section-tag" id="why-tag">Nos Avantages</span>
+                <h2 class="section-title" id="why-title">Pourquoi me <em>faire confiance</em> ?</h2>
                 <div class="section-line"></div>
             </div>
             <div class="pourquoi-grid">
                 <div class="pourquoi-card reveal">
                     <span class="pourquoi-icon">🎯</span>
-                    <h3 class="pourquoi-title">Résultats prouvés</h3>
-                    <p class="pourquoi-desc">Plus de 500 personnes formées avec des résultats concrets et vérifiables.
+                    <h3 class="pourquoi-title" id="why-title-1">Résultats prouvés</h3>
+                    <p class="pourquoi-desc" id="why-desc-1">Plus de 500 personnes formées avec des résultats concrets
+                        et vérifiables.
                         Nos élèves génèrent des revenus réels dès les premières semaines.</p>
                 </div>
                 <div class="pourquoi-card reveal" style="transition-delay:.12s">
                     <span class="pourquoi-icon">🛡️</span>
-                    <h3 class="pourquoi-title">Accompagnement total</h3>
-                    <p class="pourquoi-desc">Tu n'es jamais seul(e). Des lives hebdomadaires, une communauté active et
+                    <h3 class="pourquoi-title" id="why-title-2">Accompagnement total</h3>
+                    <p class="pourquoi-desc" id="why-desc-2">Tu n'es jamais seul(e). Des lives hebdomadaires, une
+                        communauté active et
                         un suivi personnalisé pour te guider à chaque étape.</p>
                 </div>
                 <div class="pourquoi-card reveal" style="transition-delay:.24s">
                     <span class="pourquoi-icon">🌐</span>
-                    <h3 class="pourquoi-title">Accessible depuis partout</h3>
-                    <p class="pourquoi-desc">Travaille depuis chez toi, à ton rythme, avec ton téléphone. Pas besoin de
+                    <h3 class="pourquoi-title" id="why-title-3">Accessible depuis partout</h3>
+                    <p class="pourquoi-desc" id="why-desc-3">Travaille depuis chez toi, à ton rythme, avec ton
+                        téléphone. Pas besoin de
                         te montrer sur les réseaux ni d'avoir une communauté.</p>
                 </div>
                 <div class="pourquoi-card reveal" style="transition-delay:.36s">
                     <span class="pourquoi-icon">💎</span>
-                    <h3 class="pourquoi-title">Accès illimité à vie</h3>
-                    <p class="pourquoi-desc">Tu paies une seule fois et tu accèdes à tout pour toujours. Mises à jour
+                    <h3 class="pourquoi-title" id="why-title-4">Accès illimité à vie</h3>
+                    <p class="pourquoi-desc" id="why-desc-4">Tu paies une seule fois et tu accèdes à tout pour toujours.
+                        Mises à jour
                         incluses gratuitement, sans aucun abonnement caché.</p>
                 </div>
                 <div class="pourquoi-card reveal" style="transition-delay:.48s">
                     <span class="pourquoi-icon">🚀</span>
-                    <h3 class="pourquoi-title">Démarrage rapide</h3>
-                    <p class="pourquoi-desc">Notre méthode progressive te permet de générer tes premiers revenus
+                    <h3 class="pourquoi-title" id="why-title-5">Démarrage rapide</h3>
+                    <p class="pourquoi-desc" id="why-desc-5">Notre méthode progressive te permet de générer tes premiers
+                        revenus
                         rapidement, même sans expérience préalable en digital.</p>
                 </div>
                 <div class="pourquoi-card reveal" style="transition-delay:.6s">
                     <span class="pourquoi-icon">🤝</span>
-                    <h3 class="pourquoi-title">Valeur humaine avant tout</h3>
-                    <p class="pourquoi-desc">Ce qui nous distingue, c'est la bienveillance et la solidarité. Ici, chaque
+                    <h3 class="pourquoi-title" id="why-title-6">Valeur humaine avant tout</h3>
+                    <p class="pourquoi-desc" id="why-desc-6">Ce qui nous distingue, c'est la bienveillance et la
+                        solidarité. Ici, chaque
                         membre de la communauté compte et réussit ensemble.</p>
                 </div>
             </div>
@@ -3245,8 +3699,8 @@
     <section id="temoignages">
         <div class="temoignages-inner">
             <div class="section-header reveal">
-                <span class="section-tag">Ils témoignent</span>
-                <h2 class="section-title">Ce qu'ils <em>disent</em></h2>
+                <span class="section-tag" id="temo-tag">Ils témoignent</span>
+                <h2 class="section-title" id="temo-title">Ce qu'ils <em>disent</em></h2>
                 <div class="section-line"></div>
             </div>
             <div class="carousel-wrap">
@@ -3310,7 +3764,7 @@
 
                             </div>
                             <div class="temo-quote-overlay">
-                                <p class="temo-quote-text">"La meilleure décision de ma vie !"</p>
+                                <p class="temo-quote-text" id="temo-quote-3">"La meilleure décision de ma vie !"</p>
                             </div>
                         </div>
                         <div class="temo-footer"><span class="temo-stars">★★★★★</span><span class="temo-name">—
@@ -3330,7 +3784,7 @@
                                 </svg>
                             </div>
                             <div class="temo-quote-overlay">
-                                <p class="temo-quote-text">"Je génères mes premiers revenus !"</p>
+                                <p class="temo-quote-text" id="temo-quote-4">"Je génères mes premiers revenus !"</p>
                             </div>
                         </div>
                         <div class="temo-footer"><span class="temo-stars">★★★★★</span><span class="temo-name">—
@@ -3475,11 +3929,12 @@
         style="padding:8rem 4rem;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;width:100%;box-sizing:border-box">
         <div>
             <div class="reveal">
-                <span class="section-tag">Me contacter</span>
-                <h2 class="section-title" style="text-align:left;margin-bottom:1.5rem">Prêt(e) à<br><em>changer ta vie
+                <span class="section-tag" id="contact-tag">Me contacter</span>
+                <h2 class="section-title" id="contact-title" style="text-align:left;margin-bottom:1.5rem">Prêt(e)
+                    à<br><em>changer ta vie
                         ?</em></h2>
             </div>
-            <p class="reveal"
+            <p class="reveal" id="contact-desc"
                 style="font-size:.95rem;color:var(--text-muted);line-height:1.8;margin-bottom:1.5rem;transition-delay:.1s">
                 Des questions ? Écris-moi directement, je réponds à chacun personnellement.</p>
             <div class="contact-socials reveal" style="transition-delay:.2s">
@@ -3503,9 +3958,11 @@
             </div>
         </div>
         <div class="reveal" style="transition-delay:.15s">
-            <div class="form-group"><label>Prénom</label><input type="text" placeholder="Ton prénom"></div>
-            <div class="form-group"><label>Téléphone</label><input type="tel" placeholder="+221 77 000 00 00"></div>
-            <div class="form-group"><label>Message</label><textarea
+            <div class="form-group"><label id="contact-label-name">Prénom</label><input id="contact-input-name"
+                    type="text" placeholder="Ton prénom"></div>
+            <div class="form-group"><label id="contact-label-phone">Téléphone</label><input type="tel"
+                    placeholder="+221 77 000 00 00"></div>
+            <div class="form-group"><label id="contact-label-msg">Message</label><textarea id="contact-textarea-msg"
                     placeholder="Dis-moi où tu en es et ce que tu souhaites accomplir..."></textarea></div>
             <button class="btn-insta"
                 onclick="window.open('https://www.instagram.com/naikakarim?igsh=MXU2OG1nYmppZDgxZA%3D%3D&utm_source=qr','_blank')">
@@ -3514,7 +3971,7 @@
                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                 </svg>
-                Envoyer via Instagram
+                <span id="btn-insta-text">Envoyer via Instagram</span>
             </button>
 
     </section>
@@ -3523,7 +3980,8 @@
         <span class="footer-logo">Faidhoi Youssouf</span>
 
         <div style="display: flex; align-items: center; gap: 2rem;">
-            <span style="font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.05em;">Suivez-moi sur</span>
+            <span style="font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.05em;"
+                id="footer-follow">Suivez-moi sur</span>
 
             <div style="display: flex; align-items: center; gap: 1.2rem;">
                 <!-- Instagram -->
@@ -3853,7 +4311,739 @@
         })();
 
 
+        // ============================================================
+        // SYSTÈME DE TRADUCTION FR / EN
+        // ============================================================
+        const translations = {
+            fr: {
+                // NAV
+                "nav-accueil": "Accueil",
+                "nav-apropos": "À propos",
+                "nav-services": "Services",
+                "nav-methode": "Méthode",
+                "nav-temoignages": "Témoignages",
+                "nav-contact": "Démarrer",
+                "nav-accueil-mobile": "Accueil",
+                "nav-apropos-mobile": "À propos",
+                "nav-services-mobile": "Services",
+                "nav-methode-mobile": "Méthode",
+                "nav-temoignages-mobile": "Témoignages",
+                "nav-contact-mobile": "Contact",
+                // HERO
+                "hero-welcome": "Bienvenue chez",
+                "hero-sub": "Expert Digital Business · Je t'accompagne de A à Z pour lancer ton activité en ligne, même si tu pars de zéro.",
+                "hero-btn-start": "🚀 Démarrer maintenant",
+                "hero-btn-how": "Comment ça marche →",
+                "hero-stat-lbl-left": "Personnes formées",
+                "hero-stat-lbl-right": "Revenu / mois",
+                "hero-stat-lbl-mobile-left": "Personnes formées",
+                "hero-stat-lbl-mobile-right": "Revenu / mois",
+                // STATS STRIP
+                "stat-label-1": "Personnes formées",
+                "stat-label-2": "Revenu / mois",
+                "stat-label-3": "Formations disponible",
+                "stat-label-4": "Max commissions",
+                "stat-label-5": "Accès à vie",
+                // ABOUT
+                "about-tag": "À propos de moi",
+                "about-title": "Mon histoire,<br><em>ma force</em>",
+                "about-p1": "Je m'appelle <strong>Faidhoi Youssouf</strong>, Etudiante en <strong>Master 1 en Réseaux Informatiques</strong>, je suis comorienne de cœur et je réside à <strong>Dakar, Sénégal</strong>.",
+                "about-p2": "Mon parcours académique m'a donné une rigueur analytique que j'ai transposée dans le digital business. J'ai compris très vite que l'entrepreneuriat en ligne offrait <strong>une liberté sans frontières</strong> — et c'est cette liberté que je veux te transmettre.",
+                "about-quote": "\"Si d'autres y arrivent, pourquoi pas toi ?\"",
+                "about-p3": "En <strong>2024</strong>, j'ai découvre <strong>Mybiz</strong> — une société révolutionnaire qui permet de <strong>générer des revenus depuis chez soi, simplement avec un téléphone</strong>. Ce qui m'a profondément séduit dans cette entreprise, c'est la <em style=\"color:var(--gold)\">valeur humaine</em> qu'elle place au cœur de son fonctionnement.",
+                "about-p4": "Aujourd'hui j'accompagne des centaines de personnes à bâtir leur activité digitale. <strong>Pas besoin d'expérience. Pas besoin de capital. Juste la volonté de changer ta vie.</strong>",
+                "about-p5": "Rejoins une communauté qui croit en toi, qui t'élève, et qui ne te laisse jamais seul(e). <strong style=\"color:var(--gold)\">Ton succès commence ici.</strong>",
+                "about-corner": "Ans d'expérience",
+                // SERVICES
+                "services-tag": "Mes Formations",
+                "services-title": "Choisis ton <em>pack</em>",
+                "promo-badge-ecom": "★ PROMO",
+                "service-name-ecom": "E-Commerce",
+                "service-subtitle-ecom": "Formation complète A → Z",
+                "service-desc-main-ecom": "Nos experts te forment à l'e-commerce, même en partant de zéro, sans compétences ni connaissances préalables.",
+                "service-desc-detail-ecom": "Tu apprends à créer et gérer ta propre boutique en ligne, à trouver les bons produits et à les vendre. Un accompagnement continu grâce à des <strong style=\"color:var(--gold-light)\">lives hebdomadaires</strong> pour avancer sereinement et poser toutes tes questions.",
+                "service-price-note-ecom": "Accès à vie · Sans abonnement",
+                "btn-download-ecom": "📥 Télécharger la Fiche Ecom",
+                "btn-service-ecom": "Je démarre E-Commerce →",
+                "promo-badge-digital": "★ PROMO",
+                "service-name-digital": "Marketing Digital",
+                "service-subtitle-digital": "Revenus 200 → 5 000 €/mois",
+                "service-desc-main-digital": "Nos experts te forment au marketing et à la communication digitale, même en partant de zéro, sans compétences ni connaissances préalables.",
+                "service-desc-detail-digital": "Tu apprends à construire ta marque, développer ta visibilité en ligne et mettre en place une <strong style=\"color:var(--gold-light)\">stratégie de monétisation</strong> solide. Des lives hebdomadaires pour t'accompagner et répondre à toutes tes questions.",
+                "service-price-note-digital": "Accès à vie · Sans abonnement",
+                "btn-download-digital": "📥 Télécharger la Fiche Digital",
+                "btn-service-digital": "Je démarre Marketing →",
+                "promo-badge-combo": "🏆 MEILLEURE OFFRE",
+                "service-name-combo": "E-com + Digital",
+                "service-subtitle-combo": "Pack complet · Maîtrise totale",
+                "service-desc-main-combo": "<strong>Pack complet combinant les deux formations pour une maîtrise totale du digital.</strong>",
+                "service-desc-detail-combo": "Profite d'une remise importante en combinant les deux formations. L'offre idéale pour développer une activité digitale complète et diversifiée. <strong style=\"color:var(--gold-light)\">Plus de services = plus de moyens de générer des revenus.</strong>",
+                "savings-badge-combo": "💰 Économisez 650€ !",
+                "service-price-note-combo": "Accès à vie · Sans abonnement",
+                "btn-service-combo": "🚀 Je démarre le combo gagnant",
+                "promo-badge-franchise": "🤝 FRANCHISE",
+                "service-name-franchise": "Franchise Bizpartner",
+                "service-subtitle-franchise": "200€ → 5 000€ / mois en commissions",
+                "service-desc-main-franchise": "Deviens <strong style=\"color:var(--gold-light)\">Bizpartner</strong> et rejoins une franchise digitale clé en main, accessible même en partant de zéro.",
+                "service-desc-detail-franchise": "Tu intègres un système déjà structuré pour lancer ton activité digitale sans tout créer toi-même, avec un <strong style=\"color:var(--gold-light)\">accompagnement personnalisé</strong>. Grâce à la revente des produits et services de la franchise, tu peux percevoir des commissions mensuelles allant de <strong style=\"color:var(--gold)\">200€ à 5 000€</strong>, selon ton implication et tes résultats.",
+                "service-price-note-franchise": "Renouvellement par ans",
+                "promo-badge-finance": "✨ NOUVEAU",
+                "service-name-finance": "Education Financière",
+                "service-subtitle-finance": "Trading · Bourse · Crypto",
+                "service-desc-main-finance": "Avec l'<strong style=\"color:var(--gold-light)\">éducation financière</strong>, c'est très simple : <strong>pas besoin d'être actif sur les réseaux.</strong> Tu n'as qu'à suivre les services de nos experts.",
+                "service-desc-detail-finance-1": "Pour cela, il faut prendre un pack qui te donnera accès à tous les services. Tu seras <strong style=\"color:var(--gold-light)\">formé et accompagné</strong>, et tu auras accès aux services via ta plateforme de formation.",
+                "service-desc-detail-finance-2": "Les experts t'enverront des <strong style=\"color:var(--gold-light)\">analyses de marchés financières</strong> sous forme de messages que tu copieras simplement sur une application dédiée ! Dès demain, tu commenceras à gagner de l'argent <strong style=\"color:var(--gold)\">(10€, 20€, 50€, 100€…)</strong>, du lundi au vendredi.",
+                "service-desc-detail-finance-3": "L'argent que tu gagneras, tu pourras le <strong>retirer à tout moment</strong> et faire des virements sur ton compte bancaire sans problème ! L'avantage en te formant, c'est que des programmes sont mis en place pour aller sur des objectifs à <strong style=\"color:var(--gold)\">2 000€/mois minimum</strong> grâce à l'investissement !",
+                "service-price-note-finance": "Abonnement par mois · Sans engagement",
+                "btn-service-finance": "Je démarre Education Financière →",
+                // HOW IT WORKS
+                "method-tag": "La Méthode",
+                "method-title": "Comment ça <em>marche</em> ?",
+                "step-title-1": "Choisis ton pack",
+                "step-desc-1": "Sélectionne la formation adaptée à ton projet et tes objectifs financiers.",
+                "step-title-2": "Crée ton compte",
+                "step-desc-2": "Inscris-toi avec ton email, mot de passe et date de naissance. (Pays = Maroc)",
+                "step-title-3": "Confirme ton accès",
+                "step-desc-3": "Envoie une capture d'écran en privé sur Instagram pour activer ton compte.",
+                "step-title-4": "Je te guide !",
+                "step-desc-4": "Lives hebdomadaires, coaching personnalisé et communauté bienveillante à tes côtés.",
+                // WHY US
+                "why-tag": "Nos Avantages",
+                "why-title": "Pourquoi me <em>faire confiance</em> ?",
+                "why-title-1": "Résultats prouvés",
+                "why-desc-1": "Plus de 500 personnes formées avec des résultats concrets et vérifiables. Nos élèves génèrent des revenus réels dès les premières semaines.",
+                "why-title-2": "Accompagnement total",
+                "why-desc-2": "Tu n'es jamais seul(e). Des lives hebdomadaires, une communauté active et un suivi personnalisé pour te guider à chaque étape.",
+                "why-title-3": "Accessible depuis partout",
+                "why-desc-3": "Travaille depuis chez toi, à ton rythme, avec ton téléphone. Pas besoin de te montrer sur les réseaux ni d'avoir une communauté.",
+                "why-title-4": "Accès illimité à vie",
+                "why-desc-4": "Tu paies une seule fois et tu accèdes à tout pour toujours. Mises à jour incluses gratuitement, sans aucun abonnement caché.",
+                "why-title-5": "Démarrage rapide",
+                "why-desc-5": "Notre méthode progressive te permet de générer tes premiers revenus rapidement, même sans expérience préalable en digital.",
+                "why-title-6": "Valeur humaine avant tout",
+                "why-desc-6": "Ce qui nous distingue, c'est la bienveillance et la solidarité. Ici, chaque membre de la communauté compte et réussit ensemble.",
+                // TESTIMONIALS
+                "temo-tag": "Ils témoignent",
+                "temo-title": "Ce qu'ils <em>disent</em>",
+                "temo-quote-3": "\"La meilleure décision de ma vie !\"",
+                "temo-quote-4": "\"Je génères mes premiers revenus !\"",
+                // CONTACT
+                "contact-tag": "Me contacter",
+                "contact-title": "Prêt(e) à<br><em>changer ta vie ?</em>",
+                "contact-desc": "Des questions ? Écris-moi directement, je réponds à chacun personnellement.",
+                "contact-label-name": "Prénom",
+                "contact-placeholder-name": "Ton prénom",
+                "contact-label-phone": "Téléphone",
+                "contact-label-msg": "Message",
+                "contact-placeholder-msg": "Dis-moi où tu en es et ce que tu souhaites accomplir...",
+                "btn-insta": "Envoyer via Instagram",
+                // FOOTER
+                "footer-follow": "Suivez-moi sur",
+            },
+            en: {
+                // NAV
+                "nav-accueil": "Home",
+                "nav-apropos": "About",
+                "nav-services": "Services",
+                "nav-methode": "Method",
+                "nav-temoignages": "Testimonials",
+                "nav-contact": "Get Started",
+                "nav-accueil-mobile": "Home",
+                "nav-apropos-mobile": "About",
+                "nav-services-mobile": "Services",
+                "nav-methode-mobile": "Method",
+                "nav-temoignages-mobile": "Testimonials",
+                "nav-contact-mobile": "Contact",
+                // HERO
+                "hero-welcome": "Welcome to",
+                "hero-sub": "Digital Business Expert · I guide you from A to Z to launch your online business, even if you're starting from scratch.",
+                "hero-btn-start": "🚀 Start Now",
+                "hero-btn-how": "How it works →",
+                "hero-stat-lbl-left": "People trained",
+                "hero-stat-lbl-right": "Revenue / month",
+                "hero-stat-lbl-mobile-left": "People trained",
+                "hero-stat-lbl-mobile-right": "Revenue / month",
+                // STATS STRIP
+                "stat-label-1": "People trained",
+                "stat-label-2": "Revenue / month",
+                "stat-label-3": "Available trainings",
+                "stat-label-4": "Max commissions",
+                "stat-label-5": "Lifetime access",
+                // ABOUT
+                "about-tag": "About me",
+                "about-title": "My story,<br><em>my strength</em>",
+                "about-p1": "My name is <strong>Faidhoi Youssouf</strong>, a student in <strong>Master 1 in Computer Networks</strong>, I am Comorian at heart and I live in <strong>Dakar, Senegal</strong>.",
+                "about-p2": "My academic background gave me analytical rigor that I applied to the digital business world. I quickly understood that online entrepreneurship offered <strong>freedom without borders</strong> — and that's the freedom I want to pass on to you.",
+                "about-quote": "\"If others can do it, why not you?\"",
+                "about-p3": "In <strong>2024</strong>, I discovered <strong>Mybiz</strong> — a revolutionary company that allows you to <strong>generate income from home, simply with a phone</strong>. What deeply attracted me to this company is the <em style=\"color:var(--gold)\">human value</em> it places at the heart of its operations.",
+                "about-p4": "Today I help hundreds of people build their digital business. <strong>No experience needed. No capital needed. Just the will to change your life.</strong>",
+                "about-p5": "Join a community that believes in you, lifts you up, and never leaves you alone. <strong style=\"color:var(--gold)\">Your success starts here.</strong>",
+                "about-corner": "Years of experience",
+                // SERVICES
+                "services-tag": "My Trainings",
+                "services-title": "Choose your <em>pack</em>",
+                "promo-badge-ecom": "★ PROMO",
+                "service-name-ecom": "E-Commerce",
+                "service-subtitle-ecom": "Complete training A → Z",
+                "service-desc-main-ecom": "Our experts train you in e-commerce, even starting from scratch, without prior skills or knowledge.",
+                "service-desc-detail-ecom": "You learn to create and manage your own online store, find the right products and sell them. Continuous support through <strong style=\"color:var(--gold-light)\">weekly live sessions</strong> to move forward calmly and ask all your questions.",
+                "service-price-note-ecom": "Lifetime access · No subscription",
+                "btn-download-ecom": "📥 Download E-com Sheet",
+                "btn-service-ecom": "Start E-Commerce →",
+                "promo-badge-digital": "★ PROMO",
+                "service-name-digital": "Digital Marketing",
+                "service-subtitle-digital": "Revenue 200 → 5,000 €/month",
+                "service-desc-main-digital": "Our experts train you in digital marketing and communication, even starting from scratch, without prior skills or knowledge.",
+                "service-desc-detail-digital": "You learn to build your brand, develop your online visibility and implement a solid <strong style=\"color:var(--gold-light)\">monetization strategy</strong>. Weekly live sessions to support you and answer all your questions.",
+                "service-price-note-digital": "Lifetime access · No subscription",
+                "btn-download-digital": "📥 Download Digital Sheet",
+                "btn-service-digital": "Start Marketing →",
+                "promo-badge-combo": "🏆 BEST OFFER",
+                "service-name-combo": "E-com + Digital",
+                "service-subtitle-combo": "Complete pack · Total mastery",
+                "service-desc-main-combo": "<strong>Complete pack combining both trainings for total digital mastery.</strong>",
+                "service-desc-detail-combo": "Enjoy a significant discount by combining both trainings. The ideal offer to develop a complete and diversified digital business. <strong style=\"color:var(--gold-light)\">More services = more ways to generate income.</strong>",
+                "savings-badge-combo": "💰 Save 650€!",
+                "service-price-note-combo": "Lifetime access · No subscription",
+                "btn-service-combo": "🚀 Start the winning combo",
+                "promo-badge-franchise": "🤝 FRANCHISE",
+                "service-name-franchise": "Bizpartner Franchise",
+                "service-subtitle-franchise": "€200 → €5,000/month in commissions",
+                "service-desc-main-franchise": "Become a <strong style=\"color:var(--gold-light)\">Bizpartner</strong> and join a turnkey digital franchise, accessible even from scratch.",
+                "service-desc-detail-franchise": "You join an already structured system to launch your digital business without creating everything yourself, with <strong style=\"color:var(--gold-light)\">personalized support</strong>. Through reselling the franchise's products and services, you can earn monthly commissions ranging from <strong style=\"color:var(--gold)\">€200 to €5,000</strong>, depending on your involvement and results.",
+                "service-price-note-franchise": "Annual renewal",
+                "promo-badge-finance": "✨ NEW",
+                "service-name-finance": "Financial Education",
+                "service-subtitle-finance": "Trading · Stock Market · Crypto",
+                "service-desc-main-finance": "With <strong style=\"color:var(--gold-light)\">financial education</strong>, it's very simple: <strong>no need to be active on social media.</strong> You just follow our experts' services.",
+                "service-desc-detail-finance-1": "For this, you need to take a pack that gives you access to all services. You will be <strong style=\"color:var(--gold-light)\">trained and supported</strong>, and you will have access to services via your training platform.",
+                "service-desc-detail-finance-2": "Experts will send you <strong style=\"color:var(--gold-light)\">financial market analyses</strong> as messages that you simply copy onto a dedicated app! Starting tomorrow, you'll begin earning money <strong style=\"color:var(--gold)\">(€10, €20, €50, €100…)</strong>, Monday to Friday.",
+                "service-desc-detail-finance-3": "The money you earn, you can <strong>withdraw at any time</strong> and transfer to your bank account without any problem! The advantage of training is that programs are set up to target <strong style=\"color:var(--gold)\">€2,000/month minimum</strong> through investment!",
+                "service-price-note-finance": "Monthly subscription · No commitment",
+                "btn-service-finance": "Start Financial Education →",
+                // HOW IT WORKS
+                "method-tag": "The Method",
+                "method-title": "How does it <em>work</em>?",
+                "step-title-1": "Choose your pack",
+                "step-desc-1": "Select the training suited to your project and financial goals.",
+                "step-title-2": "Create your account",
+                "step-desc-2": "Register with your email, password and date of birth. (Country = Morocco)",
+                "step-title-3": "Confirm your access",
+                "step-desc-3": "Send a screenshot privately on Instagram to activate your account.",
+                "step-title-4": "I guide you!",
+                "step-desc-4": "Weekly live sessions, personalized coaching and a supportive community by your side.",
+                // WHY US
+                "why-tag": "Our Advantages",
+                "why-title": "Why <em>trust me</em>?",
+                "why-title-1": "Proven results",
+                "why-desc-1": "More than 500 people trained with concrete and verifiable results. Our students generate real income from the first weeks.",
+                "why-title-2": "Total support",
+                "why-desc-2": "You're never alone. Weekly live sessions, an active community and personalized follow-up to guide you every step of the way.",
+                "why-title-3": "Accessible from anywhere",
+                "why-desc-3": "Work from home, at your own pace, with your phone. No need to show yourself on social networks or have a community.",
+                "why-title-4": "Unlimited lifetime access",
+                "why-desc-4": "You pay once and access everything forever. Updates included for free, with no hidden subscription.",
+                "why-title-5": "Quick start",
+                "why-desc-5": "Our progressive method allows you to generate your first income quickly, even without prior digital experience.",
+                "why-title-6": "Human value above all",
+                "why-desc-6": "What sets us apart is kindness and solidarity. Here, every member of the community matters and succeeds together.",
+                // TESTIMONIALS
+                "temo-tag": "They testify",
+                "temo-title": "What they <em>say</em>",
+                "temo-quote-3": "\"The best decision of my life!\"",
+                "temo-quote-4": "\"I'm generating my first income!\"",
+                // CONTACT
+                "contact-tag": "Contact me",
+                "contact-title": "Ready to<br><em>change your life?</em>",
+                "contact-desc": "Questions? Write to me directly, I respond to everyone personally.",
+                "contact-label-name": "First Name",
+                "contact-placeholder-name": "Your first name",
+                "contact-label-phone": "Phone",
+                "contact-label-msg": "Message",
+                "contact-placeholder-msg": "Tell me where you are and what you want to achieve...",
+                "btn-insta": "Send via Instagram",
+                // FOOTER
+                "footer-follow": "Follow me on",
+            }
+        };
+
+        let currentLang = 'fr';
+
+        function setLang(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+
+            // Toggle active button
+            document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+            // Helper to set innerHTML
+            function set(id, val) {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = val;
+            }
+            // Helper for text
+            function setTxt(id, val) {
+                const el = document.getElementById(id);
+                if (el) el.textContent = val;
+            }
+            // Helper for placeholder
+            function setPlaceholder(id, val) {
+                const el = document.getElementById(id);
+                if (el) el.placeholder = val;
+            }
+
+            // NAV desktop
+            set('nav-accueil', t['nav-accueil']);
+            set('nav-apropos', t['nav-apropos']);
+            set('nav-services', t['nav-services']);
+            set('nav-methode', t['nav-methode']);
+            set('nav-temoignages', t['nav-temoignages']);
+            set('nav-contact', t['nav-contact']);
+            // NAV mobile
+            set('nav-accueil-mobile', t['nav-accueil-mobile']);
+            set('nav-apropos-mobile', t['nav-apropos-mobile']);
+            set('nav-services-mobile', t['nav-services-mobile']);
+            set('nav-methode-mobile', t['nav-methode-mobile']);
+            set('nav-temoignages-mobile', t['nav-temoignages-mobile']);
+            set('nav-contact-mobile', t['nav-contact-mobile']);
+            // HERO
+            set('hero-welcome', t['hero-welcome']);
+            set('hero-sub', t['hero-sub']);
+            set('hero-btn-start', t['hero-btn-start']);
+            set('hero-btn-how', t['hero-btn-how']);
+            set('hero-stat-lbl-left', t['hero-stat-lbl-left']);
+            set('hero-stat-lbl-right', t['hero-stat-lbl-right']);
+            set('hero-stat-lbl-mobile-left', t['hero-stat-lbl-mobile-left']);
+            set('hero-stat-lbl-mobile-right', t['hero-stat-lbl-mobile-right']);
+            // STATS STRIP
+            set('stat-label-1', t['stat-label-1']);
+            set('stat-label-2', t['stat-label-2']);
+            set('stat-label-3', t['stat-label-3']);
+            set('stat-label-4', t['stat-label-4']);
+            set('stat-label-5', t['stat-label-5']);
+            // ABOUT
+            set('about-tag', t['about-tag']);
+            set('about-title', t['about-title']);
+            set('about-p1', t['about-p1']);
+            set('about-p2', t['about-p2']);
+            set('about-quote', t['about-quote']);
+            set('about-p3', t['about-p3']);
+            set('about-p4', t['about-p4']);
+            set('about-p5', t['about-p5']);
+            set('about-corner', t['about-corner']);
+            // SERVICES
+            set('services-tag', t['services-tag']);
+            set('services-title', t['services-title']);
+            set('promo-badge-ecom', t['promo-badge-ecom']);
+            set('service-name-ecom', t['service-name-ecom']);
+            set('service-subtitle-ecom', t['service-subtitle-ecom']);
+            set('service-desc-main-ecom', t['service-desc-main-ecom']);
+            set('service-desc-detail-ecom', t['service-desc-detail-ecom']);
+            set('service-price-note-ecom', t['service-price-note-ecom']);
+            set('btn-download-ecom', t['btn-download-ecom']);
+            set('btn-service-ecom', t['btn-service-ecom']);
+            set('promo-badge-digital', t['promo-badge-digital']);
+            set('service-name-digital', t['service-name-digital']);
+            set('service-subtitle-digital', t['service-subtitle-digital']);
+            set('service-desc-main-digital', t['service-desc-main-digital']);
+            set('service-desc-detail-digital', t['service-desc-detail-digital']);
+            set('service-price-note-digital', t['service-price-note-digital']);
+            set('btn-download-digital', t['btn-download-digital']);
+            set('btn-service-digital', t['btn-service-digital']);
+            set('promo-badge-combo', t['promo-badge-combo']);
+            set('service-name-combo', t['service-name-combo']);
+            set('service-subtitle-combo', t['service-subtitle-combo']);
+            set('service-desc-main-combo', t['service-desc-main-combo']);
+            set('service-desc-detail-combo', t['service-desc-detail-combo']);
+            set('savings-badge-combo', t['savings-badge-combo']);
+            set('service-price-note-combo', t['service-price-note-combo']);
+            set('btn-service-combo', t['btn-service-combo']);
+            set('promo-badge-franchise', t['promo-badge-franchise']);
+            set('service-name-franchise', t['service-name-franchise']);
+            set('service-subtitle-franchise', t['service-subtitle-franchise']);
+            set('service-desc-main-franchise', t['service-desc-main-franchise']);
+            set('service-desc-detail-franchise', t['service-desc-detail-franchise']);
+            set('service-price-note-franchise', t['service-price-note-franchise']);
+            set('promo-badge-finance', t['promo-badge-finance']);
+            set('service-name-finance', t['service-name-finance']);
+            set('service-subtitle-finance', t['service-subtitle-finance']);
+            set('service-desc-main-finance', t['service-desc-main-finance']);
+            set('service-desc-detail-finance-1', t['service-desc-detail-finance-1']);
+            set('service-desc-detail-finance-2', t['service-desc-detail-finance-2']);
+            set('service-desc-detail-finance-3', t['service-desc-detail-finance-3']);
+            set('service-price-note-finance', t['service-price-note-finance']);
+            set('btn-service-finance', t['btn-service-finance']);
+            // HOW IT WORKS
+            set('method-tag', t['method-tag']);
+            set('method-title', t['method-title']);
+            set('step-title-1', t['step-title-1']); set('step-desc-1', t['step-desc-1']);
+            set('step-title-2', t['step-title-2']); set('step-desc-2', t['step-desc-2']);
+            set('step-title-3', t['step-title-3']); set('step-desc-3', t['step-desc-3']);
+            set('step-title-4', t['step-title-4']); set('step-desc-4', t['step-desc-4']);
+            // WHY US
+            set('why-tag', t['why-tag']);
+            set('why-title', t['why-title']);
+            set('why-title-1', t['why-title-1']); set('why-desc-1', t['why-desc-1']);
+            set('why-title-2', t['why-title-2']); set('why-desc-2', t['why-desc-2']);
+            set('why-title-3', t['why-title-3']); set('why-desc-3', t['why-desc-3']);
+            set('why-title-4', t['why-title-4']); set('why-desc-4', t['why-desc-4']);
+            set('why-title-5', t['why-title-5']); set('why-desc-5', t['why-desc-5']);
+            set('why-title-6', t['why-title-6']); set('why-desc-6', t['why-desc-6']);
+            // TESTIMONIALS
+            set('temo-tag', t['temo-tag']);
+            set('temo-title', t['temo-title']);
+            set('temo-quote-3', t['temo-quote-3']);
+            set('temo-quote-4', t['temo-quote-4']);
+            // CONTACT
+            set('contact-tag', t['contact-tag']);
+            set('contact-title', t['contact-title']);
+            set('contact-desc', t['contact-desc']);
+            set('contact-label-name', t['contact-label-name']);
+            setPlaceholder('contact-input-name', t['contact-placeholder-name']);
+            set('contact-label-phone', t['contact-label-phone']);
+            set('contact-label-msg', t['contact-label-msg']);
+            setPlaceholder('contact-textarea-msg', t['contact-placeholder-msg']);
+            set('btn-insta-text', t['btn-insta']);
+            // FOOTER
+            set('footer-follow', t['footer-follow']);
+
+            // Update html lang attribute
+            document.documentElement.lang = lang;
+        }
+
     </script>
+    <!-- ============================================================
+         CHATBOT WIDGET
+    ============================================================ -->
+    <!-- Bubble button -->
+    <button id="chatbot-bubble" title="Discuter avec moi" onclick="toggleChat()">
+        <span id="chatbot-notif">1</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            <line x1="12" y1="12" x2="12" y2="12.01" stroke-width="3" />
+            <line x1="8" y1="12" x2="8" y2="12.01" stroke-width="3" />
+            <line x1="16" y1="12" x2="16" y2="12.01" stroke-width="3" />
+        </svg>
+    </button>
+
+    <!-- Chat window -->
+    <div id="chatbot-window">
+        <!-- Header -->
+        <div class="cb-header">
+            <div class="cb-avatar">✨</div>
+            <div class="cb-header-info">
+                <div class="cb-header-name" id="cb-name">Faidhoi — Assistant</div>
+                <div class="cb-header-status" id="cb-status">En ligne · Répond instantanément</div>
+            </div>
+            <button class="cb-close-btn" onclick="toggleChat()">✕</button>
+        </div>
+
+        <!-- Messages -->
+        <div class="cb-messages" id="cb-messages"></div>
+
+        <!-- Quick questions -->
+        <div class="cb-quick-wrap" id="cb-quick-wrap"></div>
+
+        <!-- Input -->
+        <div class="cb-input-row">
+            <input class="cb-input" id="cb-input" type="text" placeholder="Écris ta question…"
+                onkeydown="if(event.key==='Enter') sendMsg()">
+            <button class="cb-send" onclick="sendMsg()">
+                <svg viewBox="0 0 24 24">
+                    <path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // CHATBOT — FAQ & logique
+        // ============================================================
+        (function () {
+
+            // ── DONNÉES FAQ (FR + EN) ──────────────────────────────
+            const FAQ = {
+                fr: {
+                    welcome: "Salut 👋 Je suis l'assistante de **Faidhoi Youssouf** ! Je suis là pour répondre à toutes tes questions sur les formations et comment démarrer. Qu'est-ce que tu voudrais savoir ? 😊",
+                    quick: [
+                        "C'est quoi Mybiz ?",
+                        "Combien ça coûte ?",
+                        "Comment démarrer ?",
+                        "Est-ce fiable ?",
+                        "Puis-je depuis l'Afrique ?",
+                        "Accès à vie ?",
+                    ],
+                    entries: [
+                        {
+                            keys: ["mybiz", "c'est quoi", "keskeske", "société", "entreprise", "plateforme", "futureslearn"],
+                            answer: "**Mybiz** est une société révolutionnaire de digital business qui propose des formations en ligne de très haute qualité. 🚀\n\nElle permet à n'importe qui de générer des revenus depuis chez soi, simplement avec un téléphone. La plateforme de formation s'appelle **FuturesLearn**.\n\nCe qui distingue Mybiz c'est la **valeur humaine** : une communauté bienveillante qui t'accompagne à chaque étape !"
+                        },
+                        {
+                            keys: ["combien", "prix", "coût", "coute", "tarif", "euro", "€", "budget", "cher", "abordable"],
+                            answer: "Voici les tarifs selon ta région 💰 :\n\n**E-Commerce :**\n🌍 Europe : ~~650€~~ → **390€**\n🌍 Afrique/Asie : ~~325€~~ → **195€**\n\n**Marketing Digital :**\n🌍 Europe : **299€**\n🌍 Afrique/Asie : **299€**\n\n**Combo E-com + Digital :**\n🌍 Europe : ~~1137€~~ → **487€** (économisez 650€ !)\n🌍 Afrique/Asie : ~~568€~~ → **243€**\n\n**Éducation Financière :**\n🌍 Europe : ~~399€~~ → **299€/mois**\n🌍 Afrique/Asie : **99€/mois**\n\nToutes les formations (sauf finance) ont un **accès à vie** sans abonnement !"
+                        },
+                        {
+                            keys: ["démarrer", "commencer", "débuter", "comment faire", "inscription", "inscrire", "rejoindre", "s'inscrire", "inscrit"],
+                            answer: "Pour démarrer c'est très simple, voilà les étapes 👇\n\n**1.** Choisis ta formation (E-com, Digital, Combo ou Finance)\n**2.** Clique sur le bouton de ta formation sur le site\n**3.** Inscris-toi avec ton email, mot de passe et date de naissance — mets **Maroc** comme pays\n**4.** Fais une capture d'écran de ta confirmation et envoie-la en DM sur Instagram\n**5.** Faidhoi active ton compte et te guide dès le premier jour ! 🎯\n\nTu peux contacter Faidhoi directement sur Instagram : **@faidhoi_youssouf**"
+                        },
+                        {
+                            keys: ["fiable", "arnaque", "sérieux", "sérieuse", "légal", "légitime", "vrai", "faux", "confiance", "risque", "sécurité", "sûr"],
+                            answer: "C'est une question très importante et je comprends la prudence ! ✅\n\nMyBiz est une **société légale et enregistrée**, opérant depuis plusieurs années. Voici pourquoi tu peux avoir confiance :\n\n✅ Plus de **500 personnes formées** avec des résultats vérifiables\n✅ Des témoignages réels (captures WhatsApp disponibles sur le site)\n✅ Plateforme officielle **FuturesLearn** reconnue\n✅ Faidhoi est elle-même étudiante en Master et partage son expérience réelle\n✅ Accès à vie — tu paies une fois, tu gardes tout\n\nN'hésite pas à regarder les témoignages sur le site pour te rassurer ! 😊"
+                        },
+                        {
+                            keys: ["afrique", "sénégal", "comores", "mali", "côte d'ivoire", "cameroun", "tunisie", "maroc", "algérie", "pays", "afro", "continent"],
+                            answer: "Absolument ! Les formations sont **100% accessibles depuis toute l'Afrique** 🌍\n\nFaidhoi est elle-même basée à **Dakar, Sénégal** et accompagne de nombreuses personnes à travers tout le continent.\n\nDes tarifs spéciaux **Afrique / Asie** sont disponibles :\n💚 E-Commerce : **195€**\n💚 Combo : **243€**\n💚 Éducation Financière : **99€/mois**\n\nTu peux travailler depuis n'importe où, avec juste ton téléphone 📱"
+                        },
+                        {
+                            keys: ["accès à vie", "à vie", "pour toujours", "durée", "expire", "expiration", "longtemps", "combien de temps"],
+                            answer: "Oui ! **Accès à vie garanti** 🔐\n\nPour les formations E-Commerce, Marketing Digital et le Combo :\n✅ Tu paies **une seule fois**\n✅ Tu accèdes à tout le contenu **pour toujours**\n✅ Les mises à jour futures sont **gratuitement incluses**\n✅ **Aucun abonnement caché**\n\nSeule l'Éducation Financière fonctionne par abonnement mensuel (car les analyses de marché sont envoyées chaque jour)."
+                        },
+                        {
+                            keys: ["expérience", "niveau", "débutant", "zéro", "novice", "compétence", "savoir", "connaissance", "prérequis"],
+                            answer: "**Aucune expérience n'est requise !** 🎉\n\nToutes les formations sont conçues pour des personnes qui partent de **zéro absolu** :\n\n🟢 Pas besoin de compétences techniques\n🟢 Pas besoin de capital important\n🟢 Pas besoin de communauté ou réseaux\n🟢 Juste un téléphone et la volonté de changer ta vie !\n\nLes experts t'accompagnent pas à pas, avec des lives hebdomadaires pour poser toutes tes questions."
+                        },
+                        {
+                            keys: ["revenus", "gagner", "argent", "combien gagner", "salaire", "revenu mensuel", "income", "commission", "1000", "2000", "5000"],
+                            answer: "Les résultats varient selon l'implication, mais voici les objectifs réalistes 📈 :\n\n**E-Commerce & Digital Marketing :**\n💰 Débuter : 200€ - 500€/mois\n💰 Progressif : 500€ - 2 000€/mois\n💰 Avancé : jusqu'à 5 000€/mois\n\n**Franchise Bizpartner :**\n💰 Commissions : 200€ → 5 000€/mois selon ton implication\n\n**Éducation Financière :**\n💰 Quotidien : 10€, 20€, 50€, 100€...\n💰 Objectif : **2 000€/mois minimum** grâce à l'investissement\n\n*Les premiers résultats arrivent souvent dès les premières semaines !*"
+                        },
+                        {
+                            keys: ["e-commerce", "ecommerce", "e commerce", "boutique", "dropshipping", "shopify", "produit", "vendre", "vente"],
+                            answer: "La formation **E-Commerce** te forme à créer et gérer ta propre boutique en ligne ! 🛍️\n\n**Tu apprendras à :**\n• Créer ta boutique en ligne de A à Z\n• Trouver les bons produits à vendre\n• Attirer des clients et générer des ventes\n• Gérer ta boutique au quotidien\n\n**Inclus :**\n📺 Lives hebdomadaires pour poser tes questions\n♾️ Accès à vie à tous les contenus\n\n💶 **Prix :** 390€ (Europe) | 195€ (Afrique/Asie)\n\nClique sur \"Je démarre E-Commerce\" sur le site pour t'inscrire !"
+                        },
+                        {
+                            keys: ["marketing", "digital marketing", "réseaux sociaux", "instagram", "tiktok", "marque", "visibilité", "monétisation", "contenu"],
+                            answer: "La formation **Marketing Digital** est parfaite pour développer ta présence en ligne ! 📱\n\n**Tu apprendras à :**\n• Construire et développer ta marque personnelle\n• Maîtriser les réseaux sociaux pour générer des revenus\n• Créer une stratégie de monétisation solide\n• Attirer une audience qualifiée\n\n**Inclus :**\n📺 Lives hebdomadaires\n♾️ Accès à vie\n\n💶 **Prix :** 299€ (partout dans le monde)\n\nParfait pour ceux qui veulent construire une activité durable en ligne !"
+                        },
+                        {
+                            keys: ["trading", "bourse", "crypto", "bitcoin", "finance", "investissement", "financière", "éducation financière", "marché"],
+                            answer: "La formation **Éducation Financière** c'est idéal si tu veux générer des revenus sans être actif sur les réseaux ! 📊\n\n**Comment ça marche :**\n1. Tu prends un pack (Trading, Crypto ou Premium)\n2. Les experts t'envoient des **analyses de marché** chaque jour\n3. Tu copies simplement les signaux sur une app dédiée\n4. Tu commences à gagner dès demain 💸\n\n**Objectif :** 2 000€/mois minimum grâce à l'investissement\n\n💶 **Prix :** 299€/mois (Europe) | 99€/mois (Afrique/Asie)\n\nL'argent gagné peut être retiré à tout moment !"
+                        },
+                        {
+                            keys: ["franchise", "bizpartner", "parrainage", "affilié", "affiliation", "partenaire"],
+                            answer: "La **Franchise Bizpartner** c'est rejoindre un système clé en main ! 🏢\n\n**Principe :**\n• Tu revends les produits et services de la franchise\n• Tu gagnes des **commissions** sur chaque vente\n• Accompagnement personnalisé fourni\n• Système déjà structuré, pas besoin de tout créer\n\n**Revenus possibles :** 200€ → 5 000€/mois selon ton implication\n\n💶 **Prix d'entrée :**\n🌍 Europe : ~~100€~~ → **60€**\n🌍 Afrique/Asie : **30€** (renouvellement annuel)\n\nC'est l'idéal pour ceux qui veulent développer leur réseau !"
+                        },
+                        {
+                            keys: ["live", "communauté", "groupe", "whatsapp", "telegram", "support", "aide", "suivi", "accompagnement", "coaching"],
+                            answer: "L'accompagnement est au cœur de la méthode Faidhoi ! 🤝\n\n**Ce que tu obtiens :**\n📺 **Lives hebdomadaires** pour poser tes questions en direct\n👥 **Communauté active** de personnes comme toi\n💬 **Coaching personnalisé** avec Faidhoi\n📩 Suivi régulier de ta progression\n\nFaidhoi répond personnellement à chaque message sur Instagram. Tu n'es jamais seul(e) dans cette aventure !\n\n📲 Instagram : **@faidhoi_youssouf**"
+                        },
+                        {
+                            keys: ["contact", "joindre", "instagram", "dm", "message", "écrire", "appeler", "whatsapp", "répondre", "reach"],
+                            answer: "Tu peux contacter Faidhoi directement ! 📲\n\n**Instagram :** @naikakarim\n👉 https://www.instagram.com/naikakarim\n\n**TikTok :** @faidhoi_\n\nFaidhoi répond **personnellement** à chaque message et accompagne chaque personne avec bienveillance. N'hésite pas à lui écrire pour toute question ! 😊\n\nTu peux aussi remplir le formulaire de contact directement sur le site ⬆️"
+                        },
+                        {
+                            keys: ["téléphone", "portable", "ordinateur", "matériel", "équipement", "besoin de quoi", "outil"],
+                            answer: "Tu n'as besoin que de très peu de choses ! 📱\n\n✅ **Un smartphone** (iOS ou Android)\n✅ **Une connexion internet**\n✅ De la motivation et de la régularité\n\nC'est tout ! Pas besoin d'ordinateur puissant, pas de matériel coûteux. Tout est pensé pour être accessible depuis ton téléphone, où que tu sois. 🌍"
+                        },
+                    ],
+                    notFound: "Je n'ai pas de réponse précise à ça, mais Faidhoi sera ravie de t'aider personnellement ! 😊\n\n📲 Envoie-lui un DM sur **Instagram : @naikakarim**\n\nOu consulte les sections du site pour plus d'informations !"
+                },
+                en: {
+                    welcome: "Hey 👋 I'm **Faidhoi Youssouf's** assistant! I'm here to answer all your questions about the trainings and how to get started. What would you like to know? 😊",
+                    quick: [
+                        "What is Mybiz?",
+                        "How much does it cost?",
+                        "How to get started?",
+                        "Is it reliable?",
+                        "Can I from Africa?",
+                        "Lifetime access?",
+                    ],
+                    entries: [
+                        {
+                            keys: ["mybiz", "what is", "company", "platform", "futureslearn", "about"],
+                            answer: "**Mybiz** is a revolutionary digital business company that offers very high-quality online training. 🚀\n\nIt allows anyone to generate income from home, simply with a phone. The training platform is called **FuturesLearn**.\n\nWhat sets Mybiz apart is its **human value**: a supportive community that accompanies you at every step!"
+                        },
+                        {
+                            keys: ["how much", "price", "cost", "fee", "euro", "€", "budget", "expensive", "affordable", "pricing"],
+                            answer: "Here are the prices by region 💰:\n\n**E-Commerce:**\n🌍 Europe: ~~€650~~ → **€390**\n🌍 Africa/Asia: ~~€325~~ → **€195**\n\n**Digital Marketing:**\n🌍 Europe: **€299**\n🌍 Africa/Asia: **€299**\n\n**Combo E-com + Digital:**\n🌍 Europe: ~~€1137~~ → **€487** (save €650!)\n🌍 Africa/Asia: ~~€568~~ → **€243**\n\n**Financial Education:**\n🌍 Europe: ~~€399~~ → **€299/month**\n🌍 Africa/Asia: **€99/month**\n\nAll trainings (except finance) have **lifetime access** with no subscription!"
+                        },
+                        {
+                            keys: ["start", "begin", "register", "sign up", "how to", "join", "get started", "enroll"],
+                            answer: "Getting started is very simple! Here are the steps 👇\n\n**1.** Choose your training (E-com, Digital, Combo or Finance)\n**2.** Click the button for your training on the site\n**3.** Sign up with your email, password and date of birth — set **Morocco** as your country\n**4.** Take a screenshot of your confirmation and send it via DM on Instagram\n**5.** Faidhoi activates your account and guides you from day one! 🎯\n\nContact Faidhoi directly on Instagram: **@faidhoi_youssouf**"
+                        },
+                        {
+                            keys: ["reliable", "scam", "legit", "legal", "trust", "real", "fake", "safe", "risk", "security", "genuine"],
+                            answer: "This is a very important question and I understand the caution! ✅\n\nMyBiz is a **legal and registered company** operating for several years. Here's why you can trust it:\n\n✅ Over **500 people trained** with verifiable results\n✅ Real testimonials (WhatsApp screenshots available on the site)\n✅ Official **FuturesLearn** platform\n✅ Faidhoi is herself a Master's student sharing her real experience\n✅ Lifetime access — pay once, keep everything\n\nFeel free to check the testimonials on the site to reassure yourself! 😊"
+                        },
+                        {
+                            keys: ["africa", "senegal", "comoros", "mali", "ivory coast", "cameroon", "tunisia", "morocco", "algeria", "country", "continent"],
+                            answer: "Absolutely! The trainings are **100% accessible from all of Africa** 🌍\n\nFaidhoi herself is based in **Dakar, Senegal** and supports many people across the continent.\n\nSpecial **Africa/Asia** pricing is available:\n💚 E-Commerce: **€195**\n💚 Combo: **€243**\n💚 Financial Education: **€99/month**\n\nYou can work from anywhere, with just your phone 📱"
+                        },
+                        {
+                            keys: ["lifetime", "forever", "duration", "expire", "expiration", "how long", "permanent"],
+                            answer: "Yes! **Lifetime access guaranteed** 🔐\n\nFor E-Commerce, Digital Marketing and Combo trainings:\n✅ You pay **only once**\n✅ You access all content **forever**\n✅ Future updates are **included for free**\n✅ **No hidden subscriptions**\n\nOnly Financial Education works on a monthly subscription (because market analyses are sent every day)."
+                        },
+                        {
+                            keys: ["experience", "level", "beginner", "zero", "novice", "skill", "knowledge", "prerequisite", "requirement"],
+                            answer: "**No experience required!** 🎉\n\nAll trainings are designed for people starting from **absolute zero**:\n\n🟢 No technical skills needed\n🟢 No significant capital needed\n🟢 No community or network needed\n🟢 Just a phone and the will to change your life!\n\nExperts guide you step by step, with weekly live sessions to answer all your questions."
+                        },
+                        {
+                            keys: ["earn", "income", "money", "salary", "revenue", "commission", "1000", "2000", "5000", "how much can"],
+                            answer: "Results vary based on involvement, but here are realistic goals 📈:\n\n**E-Commerce & Digital Marketing:**\n💰 Starting: €200 - €500/month\n💰 Progressing: €500 - €2,000/month\n💰 Advanced: up to €5,000/month\n\n**Bizpartner Franchise:**\n💰 Commissions: €200 → €5,000/month depending on your involvement\n\n**Financial Education:**\n💰 Daily: €10, €20, €50, €100...\n💰 Goal: **€2,000/month minimum** through investment\n\n*First results often come within the first few weeks!*"
+                        },
+                        {
+                            keys: ["trading", "stock", "crypto", "bitcoin", "finance", "investment", "financial education", "market"],
+                            answer: "**Financial Education** is ideal if you want to generate income without being active on social media! 📊\n\n**How it works:**\n1. You choose a pack (Trading, Crypto or Premium)\n2. Experts send you **market analyses** every day\n3. You simply copy the signals onto a dedicated app\n4. You start earning tomorrow 💸\n\n**Goal:** €2,000/month minimum through investment\n\n💶 **Price:** €299/month (Europe) | €99/month (Africa/Asia)\n\nEarned money can be withdrawn at any time!"
+                        },
+                        {
+                            keys: ["phone", "computer", "equipment", "device", "tools", "need what", "material"],
+                            answer: "You only need very little! 📱\n\n✅ **A smartphone** (iOS or Android)\n✅ **An internet connection**\n✅ Motivation and consistency\n\nThat's it! No powerful computer needed, no expensive equipment. Everything is designed to be accessible from your phone, wherever you are. 🌍"
+                        },
+                        {
+                            keys: ["contact", "reach", "instagram", "dm", "message", "write", "call", "whatsapp", "respond"],
+                            answer: "You can contact Faidhoi directly! 📲\n\n**Instagram:** @naikakarim\n👉 https://www.instagram.com/naikakarim\n\n**TikTok:** @faidhoi_\n\nFaidhoi responds **personally** to every message and accompanies each person with care. Don't hesitate to write to her with any question! 😊\n\nYou can also fill out the contact form directly on the site ⬆️"
+                        },
+                    ],
+                    notFound: "I don't have a precise answer to that, but Faidhoi will be happy to help you personally! 😊\n\n📲 Send her a DM on **Instagram: @naikakarim**\n\nOr check the sections of the site for more information!"
+                }
+            };
+
+            // ── ÉTAT ──────────────────────────────────────────────
+            let isOpen = false;
+            let hasOpened = false;
+            let lang = 'fr';
+
+            const bubble = document.getElementById('chatbot-bubble');
+            const win = document.getElementById('chatbot-window');
+            const msgs = document.getElementById('cb-messages');
+            const inputEl = document.getElementById('cb-input');
+            const quickEl = document.getElementById('cb-quick-wrap');
+            const notif = document.getElementById('chatbot-notif');
+            const cbName = document.getElementById('cb-name');
+            const cbStatus = document.getElementById('cb-status');
+
+            // ── TOGGLE ─────────────────────────────────────────────
+            window.toggleChat = function () {
+                isOpen = !isOpen;
+                win.classList.toggle('open', isOpen);
+                bubble.classList.toggle('open', isOpen);
+                if (isOpen) {
+                    // remove notification badge
+                    if (notif) notif.style.display = 'none';
+                    if (!hasOpened) {
+                        hasOpened = true;
+                        setTimeout(() => addBotMsg(getFaq().welcome), 400);
+                        setTimeout(() => renderQuick(), 900);
+                    }
+                    setTimeout(() => inputEl.focus(), 350);
+                }
+            };
+
+            // ── HELPERS ────────────────────────────────────────────
+            function getFaq() {
+                // Sync with page language if setLang() is defined
+                try { lang = window.currentLang || 'fr'; } catch (e) { }
+                return FAQ[lang] || FAQ.fr;
+            }
+
+            function formatText(text) {
+                return text
+                    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/~~(.+?)~~/g, '<del>$1</del>')
+                    .replace(/\n/g, '<br>');
+            }
+
+            function scrollBottom() {
+                msgs.scrollTop = msgs.scrollHeight;
+            }
+
+            function addBotMsg(text) {
+                const div = document.createElement('div');
+                div.className = 'cb-msg bot';
+                div.innerHTML = `<div class="cb-mini-avatar">✨</div><div class="cb-bubble">${formatText(text)}</div>`;
+                msgs.appendChild(div);
+                scrollBottom();
+            }
+
+            function addUserMsg(text) {
+                const div = document.createElement('div');
+                div.className = 'cb-msg user';
+                div.innerHTML = `<div class="cb-bubble">${text}</div>`;
+                msgs.appendChild(div);
+                scrollBottom();
+            }
+
+            function showTyping() {
+                const div = document.createElement('div');
+                div.className = 'cb-msg bot cb-typing';
+                div.id = 'cb-typing';
+                div.innerHTML = `<div class="cb-mini-avatar">✨</div><div class="cb-bubble"><span class="cb-dot"></span><span class="cb-dot"></span><span class="cb-dot"></span></div>`;
+                msgs.appendChild(div);
+                scrollBottom();
+            }
+
+            function hideTyping() {
+                const t = document.getElementById('cb-typing');
+                if (t) t.remove();
+            }
+
+            function renderQuick() {
+                const faq = getFaq();
+                quickEl.innerHTML = '';
+                faq.quick.forEach(q => {
+                    const btn = document.createElement('button');
+                    btn.className = 'cb-quick';
+                    btn.textContent = q;
+                    btn.onclick = () => { processMsg(q); };
+                    quickEl.appendChild(btn);
+                });
+            }
+
+            // ── SEARCH ENGINE ──────────────────────────────────────
+            function findAnswer(userText) {
+                const faq = getFaq();
+                const lower = userText.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                let bestEntry = null;
+                let bestScore = 0;
+
+                faq.entries.forEach(entry => {
+                    let score = 0;
+                    entry.keys.forEach(k => {
+                        const kn = k.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                        if (lower.includes(kn)) score += kn.length;
+                    });
+                    if (score > bestScore) { bestScore = score; bestEntry = entry; }
+                });
+
+                if (bestScore >= 3) return bestEntry.answer;
+                return faq.notFound;
+            }
+
+            // ── PROCESS & SEND ─────────────────────────────────────
+            function processMsg(text) {
+                if (!text.trim()) return;
+                addUserMsg(text);
+                inputEl.value = '';
+                showTyping();
+                setTimeout(() => {
+                    hideTyping();
+                    const answer = findAnswer(text);
+                    addBotMsg(answer);
+                }, 850 + Math.random() * 400);
+            }
+
+            window.sendMsg = function () {
+                processMsg(inputEl.value);
+            };
+
+            // ── UPDATE LANG on toggle ──────────────────────────────
+            // Patch setLang to refresh quick questions & header
+            const _origSetLang = window.setLang;
+            window.setLang = function (l) {
+                if (_origSetLang) _origSetLang(l);
+                lang = l;
+                const faq = FAQ[l];
+                if (cbName) cbName.textContent = l === 'fr' ? 'Faidhoi — Assistante' : 'Faidhoi — Assistant';
+                if (cbStatus) cbStatus.textContent = l === 'fr' ? 'En ligne · Répond instantanément' : 'Online · Replies instantly';
+                if (inputEl) inputEl.placeholder = l === 'fr' ? 'Écris ta question…' : 'Type your question…';
+                renderQuick();
+            };
+
+        })();
+    </script>
+
 </body>
 
 </html>
