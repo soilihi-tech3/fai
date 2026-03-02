@@ -41,8 +41,8 @@
             --purple: #4A1570;
             --white: #FAFAF8;
             --white-muted: rgba(250, 250, 248, 0.65);
-            --font-display: 'Cormorant Garamond', serif;
-            --font-body: 'Outfit', sans-serif;
+            --font-display: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+            --font-body: Arial, 'Helvetica Neue', Helvetica, sans-serif;
             --font-script: 'Dancing Script', cursive;
             --font-bellmt: 'Playfair Display', 'Times New Roman', Georgia, serif;
             --font-times: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
@@ -970,14 +970,15 @@
             transition: all .4s var(--t);
             cursor: pointer;
             opacity: 0;
-            transform: translateY(30px) rotateY(-4deg);
-            transform-style: preserve-3d;
+            transform: translateY(30px);
+            /* Plus de rotation 3D au chargement */
             box-shadow: 0 10px 40px rgba(0, 0, 0, .4), inset 0 1px 0 rgba(255, 255, 255, .04);
         }
 
         .service-card.visible {
             opacity: 1;
-            transform: translateY(0) rotateY(0);
+            transform: translateY(0);
+            /* Retour à plat sans rotation */
         }
 
         .service-card::before {
@@ -995,8 +996,10 @@
 
         .service-card:hover {
             border-color: rgba(201, 168, 76, .45);
-            transform: translateY(-10px) rotateY(2deg) rotateX(2deg);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, .5), 0 0 30px rgba(201, 168, 76, .1), -10px 20px 40px rgba(0, 0, 0, .3);
+            transform: translateY(-8px);
+            /* Hover simple : montée sans rotation 3D */
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .5), 0 0 30px rgba(201, 168, 76, .1);
+            /* Ombre propre sans effet 3D latéral */
         }
 
         /* Top shine sweep */
@@ -1240,19 +1243,19 @@
             gap: 3rem;
             align-items: center;
             opacity: 0;
-            transform: translateY(30px) rotateX(-3deg);
+            transform: translateY(30px);
+            /* Pas de rotation 3D */
             transition: all .4s .3s;
             box-shadow: 0 20px 80px rgba(0, 0, 0, .5), 0 0 60px rgba(201, 168, 76, .07);
-            transform-style: preserve-3d;
         }
 
         .combo-card.visible {
             opacity: 1;
-            transform: translateY(0) rotateX(0);
+            transform: translateY(0);
         }
 
         .combo-card:hover {
-            transform: translateY(-6px) rotateX(1deg);
+            transform: translateY(-6px);
             box-shadow: 0 40px 100px rgba(0, 0, 0, .5), 0 0 80px rgba(201, 168, 76, .1);
         }
 
@@ -1993,14 +1996,15 @@
             transition: all .4s var(--t);
             cursor: pointer;
             opacity: 0;
-            transform: translateY(30px) rotateY(-4deg);
-            transform-style: preserve-3d;
+            transform: translateY(30px);
+            /* Plus de rotation 3D au chargement */
             box-shadow: 0 10px 40px rgba(0, 0, 0, .4), inset 0 1px 0 rgba(255, 255, 255, .04);
         }
 
         .service-card.visible {
             opacity: 1;
-            transform: translateY(0) rotateY(0);
+            transform: translateY(0);
+            /* Retour à plat sans rotation */
         }
 
         .service-card::before {
@@ -2018,8 +2022,10 @@
 
         .service-card:hover {
             border-color: rgba(201, 168, 76, .45);
-            transform: translateY(-10px) rotateY(2deg) rotateX(2deg);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, .5), 0 0 30px rgba(201, 168, 76, .1), -10px 20px 40px rgba(0, 0, 0, .3);
+            transform: translateY(-8px);
+            /* Hover simple : montée sans rotation 3D */
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .5), 0 0 30px rgba(201, 168, 76, .1);
+            /* Ombre propre sans effet 3D latéral */
         }
 
         /* Top shine sweep */
@@ -2538,6 +2544,204 @@
             resize: vertical;
         }
 
+        /* ============ LIGHTBOX — aperçu photo témoignage en grand ============ */
+        /* Fond sombre derrière la photo agrandie */
+        #lightbox-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .92);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+            backdrop-filter: blur(6px);
+        }
+
+        /* Quand la lightbox est visible */
+        #lightbox-overlay.open {
+            display: flex;
+        }
+
+        /* L'image agrandie */
+        #lightbox-img {
+            max-width: 90vw;
+            max-height: 88vh;
+            border-radius: 12px;
+            box-shadow: 0 40px 120px rgba(0, 0, 0, .8);
+            border: 1px solid rgba(201, 168, 76, .3);
+            cursor: default;
+            object-fit: contain;
+            animation: lbFadeIn .25s ease;
+        }
+
+        @keyframes lbFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(.93);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Bouton fermer en haut à droite */
+        #lightbox-close {
+            position: fixed;
+            top: 1.5rem;
+            right: 2rem;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(201, 168, 76, .15);
+            border: 1px solid rgba(201, 168, 76, .4);
+            color: var(--gold);
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .2s;
+            z-index: 10001;
+        }
+
+        #lightbox-close:hover {
+            background: rgba(201, 168, 76, .3);
+        }
+
+        /* Flèche gauche/droite pour naviguer dans la lightbox */
+        .lb-arrow {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(201, 168, 76, .15);
+            border: 1px solid rgba(201, 168, 76, .4);
+            color: var(--gold);
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            transition: background .2s;
+        }
+
+        .lb-arrow:hover {
+            background: rgba(201, 168, 76, .3);
+        }
+
+        #lb-prev {
+            left: 1.5rem;
+        }
+
+        #lb-next {
+            right: 1.5rem;
+        }
+
+        /* Curseur pointer sur les cartes témoignage pour indiquer le clic */
+        .temo-screenshot {
+            cursor: zoom-in;
+        }
+
+        /* ============ CONTRÔLES CAROUSEL (pause + flèches) ============ */
+        /* Conteneur des boutons sous le carousel */
+        .temo-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.2rem;
+        }
+
+        /* Bouton pause / play */
+        .temo-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(201, 168, 76, .1);
+            border: 1px solid rgba(201, 168, 76, .35);
+            color: var(--gold);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .2s;
+        }
+
+        .temo-btn:hover {
+            background: rgba(201, 168, 76, .25);
+        }
+
+        /* ============ NAVIGATEUR DE SCROLL (flèche droite fixe) ============ */
+        /* Conteneur vertical fixe à droite de l'écran */
+        #scroll-nav {
+            position: fixed;
+            right: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1002;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        /* Bouton flèche haut (retour début) */
+        #scroll-nav .snav-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(26, 10, 46, .85);
+            border: 1px solid rgba(201, 168, 76, .35);
+            color: var(--gold);
+            font-size: .9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .25s;
+            backdrop-filter: blur(8px);
+        }
+
+        #scroll-nav .snav-btn:hover {
+            background: rgba(201, 168, 76, .2);
+            border-color: var(--gold);
+        }
+
+        /* Barre de progression verticale */
+        #scroll-nav .snav-track {
+            width: 3px;
+            height: 80px;
+            background: rgba(201, 168, 76, .15);
+            border-radius: 3px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #scroll-nav .snav-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--gold);
+            border-radius: 3px;
+            transition: height .15s;
+            height: 0%;
+        }
+
+        /* Cacher sur mobile pour ne pas encombrer */
+        @media(max-width: 768px) {
+            #scroll-nav {
+                display: none;
+            }
+        }
+
         /* Pour les très grands écrans (optionnel) */
         @media(min-width:1400px) {
 
@@ -2600,8 +2804,8 @@
 
         <!-- stat RIGHT: revenue -->
         <div class="hero-stat-right">
-            <span class="stat-big">150K €</span>
-            <span class="stat-lbl">Revenu / mois possible</span>
+            <span class="stat-big">700€</span>
+            <span class="stat-lbl">Revenu / mois </span>
         </div>
 
         <div class="hero-content">
@@ -2628,13 +2832,13 @@
         <!-- Stats badges mobiles - sous la photo, au-dessus du texte -->
         <div class="hero-stats-mobile-row" id="hero-stats-mobile">
             <div class="stat-badge">
-                <span class="stat-big" data-target="500" data-suffix="+">500+</span>
+                <span class="stat-big" data-target="700" data-suffix="+">500+</span>
                 <span class="stat-lbl">Personnes formées</span>
             </div>
             <div class="stat-badge"
                 style="background:linear-gradient(135deg,rgba(74,21,112,.9),rgba(201,168,76,.2));border-color:rgba(201,168,76,.5)">
-                <span class="stat-big">150K €</span>
-                <span class="stat-lbl">Max commissions</span>
+                <span class="stat-big">700€</span>
+                <span class="stat-lbl">Revenu / mois</span>
             </div>
         </div>
     </section>
@@ -3246,6 +3450,17 @@
             <div class="temo-progress-bar">
                 <div class="temo-progress-fill" id="temoProgress"></div>
             </div>
+
+            <!-- Contrôles du carousel : flèche gauche, pause/play, flèche droite -->
+            <div class="temo-controls">
+                <!-- Flèche pour reculer dans le carousel -->
+                <button class="temo-btn" id="temo-prev" title="Précédent">&#8592;</button>
+                <!-- Bouton pause / play (toggle) -->
+                <button class="temo-btn" id="temo-pause" title="Pause / Lecture"></button>
+                <!-- Flèche pour avancer dans le carousel -->
+                <button class="temo-btn" id="temo-next" title="Suivant">&#8594;</button>
+            </div>
+
             <div class="temo-dots" id="temoDots">
                 <span class="temo-dot active"></span>
                 <span class="temo-dot"></span>
@@ -3336,8 +3551,34 @@
         <span class="footer-copy">copyright© 2026</span>
     </footer>
 
+    <!-- ============ LIGHTBOX — fenêtre plein écran pour les photos témoignages ============ -->
+    <div id="lightbox-overlay">
+        <!-- Bouton fermer -->
+        <button id="lightbox-close" title="Fermer">✕</button>
+        <!-- Flèche précédent -->
+        <button class="lb-arrow" id="lb-prev" title="Précédent">&#8592;</button>
+        <!-- L'image agrandie -->
+        <img id="lightbox-img" src="" alt="Témoignage agrandie">
+        <!-- Flèche suivant -->
+        <button class="lb-arrow" id="lb-next" title="Suivant">&#8594;</button>
+    </div>
+
+    <!-- ============ NAVIGATEUR DE SCROLL — flèche fixe à droite ============ -->
+    <div id="scroll-nav">
+        <!-- Flèche vers le haut : retour au début du site -->
+        <button class="snav-btn" id="snav-top" title="Retour en haut">&#8593;</button>
+        <!-- Barre de progression qui montre la position sur la page -->
+        <div class="snav-track">
+            <div class="snav-fill" id="snav-fill"></div>
+        </div>
+        <!-- Flèche vers le bas : aller à la fin du site -->
+        <button class="snav-btn" id="snav-bot" title="Aller en bas">&#8595;</button>
+    </div>
+
     <script>
-        // CURSOR
+        // ============================================================
+        // CURSEUR PERSONNALISÉ — point doré + cercle suiveur
+        // ============================================================
         const cursor = document.getElementById("cursor"), follower = document.getElementById("cursor-follower");
         let mx = 0, my = 0, fx = 0, fy = 0;
         document.addEventListener("mousemove", e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx + "px"; cursor.style.top = my + "px" });
@@ -3347,7 +3588,9 @@
             el.addEventListener("mouseleave", () => { follower.style.transform = "translate(-50%,-50%) scale(1)"; follower.style.opacity = ".5" });
         });
 
-        // FLOATING ORB PARTICLES
+        // ============================================================
+        // PARTICULES FLOTTANTES (orbes en arrière-plan)
+        // ============================================================
         const pc = document.getElementById("particles-canvas"), pctx = pc.getContext("2d");
         function rPC() { pc.width = window.innerWidth; pc.height = window.innerHeight; } rPC(); window.addEventListener("resize", rPC);
         const orbs = Array.from({ length: 30 }, () => ({ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, r: Math.random() * 4 + 1.5, vx: (Math.random() - .5) * .4, vy: (Math.random() - .5) * .4, alpha: Math.random() * .35 + .08, hue: Math.random() < .6 ? 45 : 270, pulse: Math.random() * Math.PI * 2 }));
@@ -3368,49 +3611,246 @@
             requestAnimationFrame(drawOrbs);
         } drawOrbs();
 
-        // STARS (hero)
+        // ============================================================
+        // ÉTOILES (section hero)
+        // ============================================================
         const sc = document.getElementById("stars-canvas"), sctx = sc.getContext("2d");
         function rSC() { sc.width = sc.parentElement.offsetWidth; sc.height = sc.parentElement.offsetHeight; } rSC(); window.addEventListener("resize", rSC);
         const stars = Array.from({ length: 120 }, () => ({ x: Math.random(), y: Math.random(), r: Math.random() * 1.2 + .2, speed: Math.random() * .3 + .05, phase: Math.random() * Math.PI * 2 }));
         function drawStars() { sctx.clearRect(0, 0, sc.width, sc.height); const t = Date.now() * .001; stars.forEach(s => { const a = Math.sin(t * s.speed + s.phase) * .5 + .5; sctx.beginPath(); sctx.arc(s.x * sc.width, s.y * sc.height, s.r, 0, Math.PI * 2); sctx.fillStyle = `rgba(201,168,76,${a * .8})`; sctx.fill(); }); requestAnimationFrame(drawStars); } drawStars();
 
-        // HERO COUNTER (left badge)
+        // ============================================================
+        // COMPTEURS ANIMÉS (stats numériques)
+        // ============================================================
         function countEl(el) { const t = parseInt(el.dataset.target), s = el.dataset.suffix || "", dur = 2000, st = performance.now(); (function u(n) { const p = Math.min((n - st) / dur, 1), e = 1 - Math.pow(1 - p, 3); el.textContent = Math.round(e * t).toLocaleString("fr-FR") + s; if (p < 1) requestAnimationFrame(u); })(st); }
         const hco = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { e.target.querySelectorAll("[data-target]").forEach(countEl); hco.unobserve(e.target); } }); }, { threshold: .2 });
         document.querySelectorAll(".hero-stat-left,.hero-stat-right,.stats-strip,.hero-stats-mobile-row").forEach(el => hco.observe(el));
 
-        // THEME
+        // ============================================================
+        // THÈME CLAIR / SOMBRE
+        // ============================================================
         const tb = document.getElementById("theme-toggle"), th = document.getElementById("toggle-thumb"); let light = false;
         tb.addEventListener("click", () => { light = !light; document.body.classList.toggle("light", light); th.textContent = light ? "☀️" : "🌙"; });
 
-        // NAV
+        // ============================================================
+        // NAVBAR — fond opaque au scroll
+        // ============================================================
         const nav = document.getElementById("navbar");
         window.addEventListener("scroll", () => nav.classList.toggle("scrolled", scrollY > 60));
 
-        // MOBILE
+        // ============================================================
+        // MENU MOBILE
+        // ============================================================
         document.getElementById("hamburger").addEventListener("click", () => document.getElementById("mobile-menu").classList.add("open"));
         document.getElementById("mobile-close").addEventListener("click", () => document.getElementById("mobile-menu").classList.remove("open"));
         function closeMobile() { document.getElementById("mobile-menu").classList.remove("open"); }
 
-        // REVEAL
+        // ============================================================
+        // ANIMATIONS D'APPARITION (reveal au scroll)
+        // ============================================================
         const ro = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }), { threshold: .08 });
         document.querySelectorAll(".reveal,.stat-item,.service-card,.service-card-horizontal,.step-item,.combo-card,.pourquoi-card").forEach(el => ro.observe(el));
 
-        // TEMO DOTS animation
+        // ============================================================
+        // CAROUSEL TÉMOIGNAGES — défilement automatique + contrôles
+        // ============================================================
         (function () {
+            const track = document.querySelector('.carousel-track');
+            const pauseBtn = document.getElementById('temo-pause');
+            const prevBtn = document.getElementById('temo-prev');
+            const nextBtn = document.getElementById('temo-next');
             const dots = document.querySelectorAll('.temo-dot');
+            const fill = document.getElementById('temoProgress');
             const total = dots.length;
+
+            // État : en lecture au départ
+            let isPaused = false;
+
+            // Vitesse de déplacement manuel des flèches (en px)
+            const STEP = 340;
+
+            // ---------- PAUSE / PLAY ----------
+            // Stoppe ou reprend l'animation CSS du carousel
+            pauseBtn.addEventListener('click', () => {
+                isPaused = !isPaused;
+                track.style.animationPlayState = isPaused ? 'paused' : 'running';
+                fill.style.animationPlayState = isPaused ? 'paused' : 'running';
+                // Bascule l'icône du bouton
+                pauseBtn.textContent = isPaused ? '' : '';
+            });
+
+            // ---------- FLÈCHE GAUCHE (reculer) ----------
+            prevBtn.addEventListener('click', () => {
+                // On met en pause temporairement pour l'animation manuelle
+                track.style.animationPlayState = 'paused';
+                fill.style.animationPlayState = 'paused';
+
+                // Récupère la position actuelle de la transform
+                const mat = new DOMMatrix(getComputedStyle(track).transform);
+                let currentX = mat.m41;
+
+                // Recule d'un step, revient au début si nécessaire
+                currentX = Math.min(currentX + STEP, 0);
+                track.style.transform = `translateX(${currentX}px)`;
+                track.style.animation = 'none'; // suspend l'animation CSS
+
+                // Reprend l'animation automatique seulement si on n'est pas en pause
+                if (!isPaused) {
+                    setTimeout(() => {
+                        track.style.animation = '';
+                        track.style.animationPlayState = 'running';
+                        fill.style.animationPlayState = 'running';
+                    }, 800);
+                }
+            });
+
+            // ---------- FLÈCHE DROITE (avancer) ----------
+            nextBtn.addEventListener('click', () => {
+                track.style.animationPlayState = 'paused';
+                fill.style.animationPlayState = 'paused';
+
+                const mat = new DOMMatrix(getComputedStyle(track).transform);
+                let currentX = mat.m41;
+
+                // Avance d'un step
+                currentX -= STEP;
+                track.style.transform = `translateX(${currentX}px)`;
+                track.style.animation = 'none';
+
+                // Reprend l'auto si pas en pause
+                if (!isPaused) {
+                    setTimeout(() => {
+                        track.style.animation = '';
+                        track.style.animationPlayState = 'running';
+                        fill.style.animationPlayState = 'running';
+                    }, 800);
+                }
+            });
+
+            // ---------- POINTS DE NAVIGATION (dots) ----------
+            // Mise à jour cyclique des points actifs toutes les (35s / nb_dots)
             let current = 0;
             setInterval(() => {
-                dots[current].classList.remove('active');
-                current = (current + 1) % total;
-                dots[current].classList.add('active');
+                if (!isPaused) {
+                    dots[current].classList.remove('active');
+                    current = (current + 1) % total;
+                    dots[current].classList.add('active');
+                }
             }, 35000 / total);
         })();
 
-        // STATS COUNTER
+        // ============================================================
+        // COMPTEUR STATS (bande de statistiques)
+        // ============================================================
         const co = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { e.target.querySelectorAll("[data-target]").forEach(countEl); co.unobserve(e.target); } }); }, { threshold: .3 });
         document.querySelectorAll(".stats-strip").forEach(el => co.observe(el));
+
+        // ============================================================
+        // LIGHTBOX — agrandit la photo d'un témoignage au clic
+        // ============================================================
+        (function () {
+            const overlay = document.getElementById('lightbox-overlay');
+            const lbImg = document.getElementById('lightbox-img');
+            const closeBtn = document.getElementById('lightbox-close');
+            const prevBtn = document.getElementById('lb-prev');
+            const nextBtn = document.getElementById('lb-next');
+
+            // Collecte toutes les images réelles des témoignages (pas les placeholders)
+            // On sélectionne uniquement les <img> à l'intérieur de .temo-screenshot
+            const temoImgs = Array.from(
+                document.querySelectorAll('.temo-screenshot img[src]:not([src=""])')
+            ).filter(img => !img.src.includes('placeholder'));
+
+            let currentIndex = 0;
+
+            // Ouvre la lightbox sur l'image cliquée
+            function openLightbox(src) {
+                // Trouve l'index dans la liste
+                currentIndex = temoImgs.findIndex(img => img.src === src || img.getAttribute('src') === src);
+                if (currentIndex === -1) currentIndex = 0;
+
+                lbImg.src = temoImgs[currentIndex].src;
+                overlay.classList.add('open');
+                // Empêche le scroll de la page pendant que la lightbox est ouverte
+                document.body.style.overflow = 'hidden';
+            }
+
+            // Ferme la lightbox
+            function closeLightbox() {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            // Navigue vers l'image précédente (boucle)
+            function showPrev() {
+                currentIndex = (currentIndex - 1 + temoImgs.length) % temoImgs.length;
+                lbImg.src = temoImgs[currentIndex].src;
+            }
+
+            // Navigue vers l'image suivante (boucle)
+            function showNext() {
+                currentIndex = (currentIndex + 1) % temoImgs.length;
+                lbImg.src = temoImgs[currentIndex].src;
+            }
+
+            // Ajoute le clic sur chaque zone screenshot de témoignage
+            document.querySelectorAll('.temo-screenshot').forEach(zone => {
+                zone.addEventListener('click', () => {
+                    // Cherche l'img dans ce bloc
+                    const img = zone.querySelector('img[src]:not([src=""])');
+                    if (img && img.src) openLightbox(img.src);
+                });
+            });
+
+            // Boutons de la lightbox
+            closeBtn.addEventListener('click', closeLightbox);
+            prevBtn.addEventListener('click', e => { e.stopPropagation(); showPrev(); });
+            nextBtn.addEventListener('click', e => { e.stopPropagation(); showNext(); });
+
+            // Clic sur le fond sombre = fermer
+            overlay.addEventListener('click', e => {
+                if (e.target === overlay) closeLightbox();
+            });
+
+            // Touche Echap = fermer | flèches clavier pour naviguer
+            document.addEventListener('keydown', e => {
+                if (!overlay.classList.contains('open')) return;
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') showPrev();
+                if (e.key === 'ArrowRight') showNext();
+            });
+        })();
+
+        // ============================================================
+        // NAVIGATEUR DE SCROLL — barre de progression + flèches haut/bas
+        // ============================================================
+        (function () {
+            const fillBar = document.getElementById('snav-fill');
+            const btnTop = document.getElementById('snav-top');
+            const btnBot = document.getElementById('snav-bot');
+
+            // Met à jour la hauteur de la barre selon la position de scroll
+            function updateScrollBar() {
+                const scrolled = window.scrollY;
+                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                const pct = maxScroll > 0 ? (scrolled / maxScroll) * 100 : 0;
+                fillBar.style.height = pct + '%';
+            }
+
+            // Scroll vers le haut de la page
+            btnTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Scroll vers le bas de la page
+            btnBot.addEventListener('click', () => {
+                window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+            });
+
+            // Écoute le scroll pour mettre à jour la barre
+            window.addEventListener('scroll', updateScrollBar, { passive: true });
+            updateScrollBar(); // init dès le chargement
+        })();
 
 
     </script>
