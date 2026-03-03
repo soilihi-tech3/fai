@@ -4730,202 +4730,254 @@
     </div>
 
     <script>
+      
         // ============================================================
-        // CHATBOT — FAQ & logique
+        // CHATBOT MYBIZ - FARIDHOI (ASSISTANTE DE FAIDHOI)
         // ============================================================
+
         (function () {
+            // Configuration
+            const GEMINI_API_KEY = 'AIzaSyD1nWKUjgS8wPZWInMldNcd2KDGdJOSv3E';
+            const SELECTED_MODEL = 'gemini-2.5-flash';
+            const API_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/models';
 
-            // ── DONNÉES FAQ (FR + EN) ──────────────────────────────
-            const FAQ = {
-                fr: {
-                    welcome: "Salut 👋 Je suis l'assistante de **Faidhoi Youssouf** ! Je suis là pour répondre à toutes tes questions sur les formations et comment démarrer. Qu'est-ce que tu voudrais savoir ? 😊",
-                    quick: [
-                        "C'est quoi Mybiz ?",
-                        "Combien ça coûte ?",
-                        "Comment démarrer ?",
-                        "Est-ce fiable ?",
-                        "Puis-je depuis l'Afrique ?",
-                        "Accès à vie ?",
-                    ],
-                    entries: [
-                        {
-                            keys: ["mybiz", "c'est quoi", "keskeske", "société", "entreprise", "plateforme", "futureslearn"],
-                            answer: "**Mybiz** est une société révolutionnaire de digital business qui propose des formations en ligne de très haute qualité. 🚀\n\nElle permet à n'importe qui de générer des revenus depuis chez soi, simplement avec un téléphone. La plateforme de formation s'appelle **FuturesLearn**.\n\nCe qui distingue Mybiz c'est la **valeur humaine** : une communauté bienveillante qui t'accompagne à chaque étape !"
-                        },
-                        {
-                            keys: ["combien", "prix", "coût", "coute", "tarif", "euro", "€", "budget", "cher", "abordable"],
-                            answer: "Voici les tarifs 💰 :\n\n🛍️ **E-Commerce :** ~~650€~~ → **390€**\n📱 **Marketing Digital :** ~~487€~~ → **299€**\n⭐ **Combo E-com + Digital :** ~~1137€~~ → **487€** (économisez 650€ !)\n📊 **Éducation Financière :** ~~399€~~ → **299€/mois**\n🏢 **Franchise Bizpartner :** ~~100€~~ → **60€/an**\n\nToutes les formations (sauf finance) ont un **accès à vie** sans abonnement !"
-                        },
-                        {
-                            keys: ["démarrer", "commencer", "débuter", "comment faire", "inscription", "inscrire", "rejoindre", "s'inscrire", "inscrit"],
-                            answer: "Pour démarrer c'est très simple, voilà les étapes 👇\n\n**1.** Choisis ta formation (E-com, Digital, Combo ou Finance)\n**2.** Clique sur le bouton de ta formation sur le site\n**3.** Inscris-toi avec ton email, mot de passe et date de naissance — mets **Maroc** comme pays\n**4.** Fais une capture d'écran de ta confirmation et envoie-la en DM sur Instagram\n**5.** Faidhoi active ton compte et te guide dès le premier jour ! 🎯\n\nTu peux contacter Faidhoi directement sur Instagram : **@faidhoi_youssouf**"
-                        },
-                        {
-                            keys: ["fiable", "arnaque", "sérieux", "sérieuse", "légal", "légitime", "vrai", "faux", "confiance", "risque", "sécurité", "sûr"],
-                            answer: "C'est une question très importante et je comprends la prudence ! ✅\n\nMyBiz est une **société légale et enregistrée**, opérant depuis plusieurs années. Voici pourquoi tu peux avoir confiance :\n\n✅ Plus de **500 personnes formées** avec des résultats vérifiables\n✅ Des témoignages réels (captures WhatsApp disponibles sur le site)\n✅ Plateforme officielle **FuturesLearn** reconnue\n✅ Faidhoi est elle-même étudiante en Master et partage son expérience réelle\n✅ Accès à vie — tu paies une fois, tu gardes tout\n\nN'hésite pas à regarder les témoignages sur le site pour te rassurer ! 😊"
-                        },
-                        {
-                            keys: ["afrique", "sénégal", "comores", "mali", "côte d'ivoire", "cameroun", "tunisie", "maroc", "algérie", "pays", "afro", "continent"],
-                            answer: "Absolument ! Les formations sont **100% accessibles depuis toute l'Afrique** 🌍\n\nFaidhoi est elle-même basée à **Dakar, Sénégal** et accompagne de nombreuses personnes à travers tout le continent.\n\nTu peux travailler depuis n'importe où, avec juste ton téléphone 📱"
-                        },
-                        {
-                            keys: ["accès à vie", "à vie", "pour toujours", "durée", "expire", "expiration", "longtemps", "combien de temps"],
-                            answer: "Oui ! **Accès à vie garanti** 🔐\n\nPour les formations E-Commerce, Marketing Digital et le Combo :\n✅ Tu paies **une seule fois**\n✅ Tu accèdes à tout le contenu **pour toujours**\n✅ Les mises à jour futures sont **gratuitement incluses**\n✅ **Aucun abonnement caché**\n\nSeule l'Éducation Financière fonctionne par abonnement mensuel (car les analyses de marché sont envoyées chaque jour)."
-                        },
-                        {
-                            keys: ["expérience", "niveau", "débutant", "zéro", "novice", "compétence", "savoir", "connaissance", "prérequis"],
-                            answer: "**Aucune expérience n'est requise !** 🎉\n\nToutes les formations sont conçues pour des personnes qui partent de **zéro absolu** :\n\n🟢 Pas besoin de compétences techniques\n🟢 Pas besoin de capital important\n🟢 Pas besoin de communauté ou réseaux\n🟢 Juste un téléphone et la volonté de changer ta vie !\n\nLes experts t'accompagnent pas à pas, avec des lives hebdomadaires pour poser toutes tes questions."
-                        },
-                        {
-                            keys: ["revenus", "gagner", "argent", "combien gagner", "salaire", "revenu mensuel", "income", "commission", "1000", "2000", "5000"],
-                            answer: "Les résultats varient selon l'implication, mais voici les objectifs réalistes 📈 :\n\n**E-Commerce & Digital Marketing :**\n💰 Débuter : 200€ - 500€/mois\n💰 Progressif : 500€ - 2 000€/mois\n💰 Avancé : jusqu'à 5 000€/mois\n\n**Franchise Bizpartner :**\n💰 Commissions : 200€ → 5 000€/mois selon ton implication\n\n**Éducation Financière :**\n💰 Quotidien : 10€, 20€, 50€, 100€...\n💰 Objectif : **2 000€/mois minimum** grâce à l'investissement\n\n*Les premiers résultats arrivent souvent dès les premières semaines !*"
-                        },
-                        {
-                            keys: ["e-commerce", "ecommerce", "e commerce", "boutique", "dropshipping", "shopify", "produit", "vendre", "vente"],
-                            answer: "La formation **E-Commerce** te forme à créer et gérer ta propre boutique en ligne ! 🛍️\n\n**Tu apprendras à :**\n• Créer ta boutique en ligne de A à Z\n• Trouver les bons produits à vendre\n• Attirer des clients et générer des ventes\n• Gérer ta boutique au quotidien\n\n**Inclus :**\n📺 Lives hebdomadaires pour poser tes questions\n♾️ Accès à vie à tous les contenus\n\n💶 **Prix :** 390€\n\nClique sur \"Je démarre E-Commerce\" sur le site pour t'inscrire !"
-                        },
-                        {
-                            keys: ["marketing", "digital marketing", "réseaux sociaux", "instagram", "tiktok", "marque", "visibilité", "monétisation", "contenu"],
-                            answer: "La formation **Marketing Digital** est parfaite pour développer ta présence en ligne ! 📱\n\n**Tu apprendras à :**\n• Construire et développer ta marque personnelle\n• Maîtriser les réseaux sociaux pour générer des revenus\n• Créer une stratégie de monétisation solide\n• Attirer une audience qualifiée\n\n**Inclus :**\n📺 Lives hebdomadaires\n♾️ Accès à vie\n\n💶 **Prix :** 299€ (partout dans le monde)\n\nParfait pour ceux qui veulent construire une activité durable en ligne !"
-                        },
-                        {
-                            keys: ["trading", "bourse", "crypto", "bitcoin", "finance", "investissement", "financière", "éducation financière", "marché"],
-                            answer: "La formation **Éducation Financière** c'est idéal si tu veux générer des revenus sans être actif sur les réseaux ! 📊\n\n**Comment ça marche :**\n1. Tu prends un pack (Trading, Crypto ou Premium)\n2. Les experts t'envoient des **analyses de marché** chaque jour\n3. Tu copies simplement les signaux sur une app dédiée\n4. Tu commences à gagner dès demain 💸\n\n**Objectif :** 2 000€/mois minimum grâce à l'investissement\n\n💶 **Prix :** 299€/mois\n\nL'argent gagné peut être retiré à tout moment !"
-                        },
-                        {
-                            keys: ["franchise", "bizpartner", "parrainage", "affilié", "affiliation", "partenaire"],
-                            answer: "La **Franchise Bizpartner** c'est rejoindre un système clé en main ! 🏢\n\n**Principe :**\n• Tu revends les produits et services de la franchise\n• Tu gagnes des **commissions** sur chaque vente\n• Accompagnement personnalisé fourni\n• Système déjà structuré, pas besoin de tout créer\n\n**Revenus possibles :** 200€ → 5 000€/mois selon ton implication\n\n💶 **Prix d'entrée :** ~~100€~~ → **60€** (renouvellement annuel)\n\nC'est l'idéal pour ceux qui veulent développer leur réseau !"
-                        },
-                        {
-                            keys: ["live", "communauté", "groupe", "whatsapp", "telegram", "support", "aide", "suivi", "accompagnement", "coaching"],
-                            answer: "L'accompagnement est au cœur de la méthode Faidhoi ! 🤝\n\n**Ce que tu obtiens :**\n📺 **Lives hebdomadaires** pour poser tes questions en direct\n👥 **Communauté active** de personnes comme toi\n💬 **Coaching personnalisé** avec Faidhoi\n📩 Suivi régulier de ta progression\n\nFaidhoi répond personnellement à chaque message sur Instagram. Tu n'es jamais seul(e) dans cette aventure !\n\n📲 Instagram : **@faidhoi_youssouf**"
-                        },
-                        {
-                            keys: ["contact", "joindre", "instagram", "dm", "message", "écrire", "appeler", "whatsapp", "répondre", "reach"],
-                            answer: "Tu peux contacter Faidhoi directement ! 📲\n\n**Instagram :** @naikakarim\n👉 https://www.instagram.com/naikakarim\n\n**TikTok :** @faidhoi_\n\nFaidhoi répond **personnellement** à chaque message et accompagne chaque personne avec bienveillance. N'hésite pas à lui écrire pour toute question ! 😊\n\nTu peux aussi remplir le formulaire de contact directement sur le site ⬆️"
-                        },
-                        {
-                            keys: ["téléphone", "portable", "ordinateur", "matériel", "équipement", "besoin de quoi", "outil"],
-                            answer: "Tu n'as besoin que de très peu de choses ! 📱\n\n✅ **Un smartphone** (iOS ou Android)\n✅ **Une connexion internet**\n✅ De la motivation et de la régularité\n\nC'est tout ! Pas besoin d'ordinateur puissant, pas de matériel coûteux. Tout est pensé pour être accessible depuis ton téléphone, où que tu sois. 🌍"
-                        },
-                    ],
-                    notFound: "Je n'ai pas de réponse précise à ça, mais Faidhoi sera ravie de t'aider personnellement ! 😊\n\n📲 Envoie-lui un DM sur **Instagram : @naikakarim**\n\nOu consulte les sections du site pour plus d'informations !"
-                },
-                en: {
-                    welcome: "Hey 👋 I'm **Faidhoi Youssouf's** assistant! I'm here to answer all your questions about the trainings and how to get started. What would you like to know? 😊",
-                    quick: [
-                        "What is Mybiz?",
-                        "How much does it cost?",
-                        "How to get started?",
-                        "Is it reliable?",
-                        "Can I from Africa?",
-                        "Lifetime access?",
-                    ],
-                    entries: [
-                        {
-                            keys: ["mybiz", "what is", "company", "platform", "futureslearn", "about"],
-                            answer: "**Mybiz** is a revolutionary digital business company that offers very high-quality online training. 🚀\n\nIt allows anyone to generate income from home, simply with a phone. The training platform is called **FuturesLearn**.\n\nWhat sets Mybiz apart is its **human value**: a supportive community that accompanies you at every step!"
-                        },
-                        {
-                            keys: ["how much", "price", "cost", "fee", "euro", "€", "budget", "expensive", "affordable", "pricing"],
-                            answer: "Here are the prices 💰:\n\n🛍️ **E-Commerce:** ~~€650~~ → **€390**\n📱 **Digital Marketing:** ~~€487~~ → **€299**\n⭐ **Combo E-com + Digital:** ~~€1137~~ → **€487** (save €650!)\n📊 **Financial Education:** ~~€399~~ → **€299/month**\n🏢 **Franchise Bizpartner:** ~~€100~~ → **€60/year**\n\nAll trainings (except finance) have **lifetime access** with no subscription!"
-                        },
-                        {
-                            keys: ["start", "begin", "register", "sign up", "how to", "join", "get started", "enroll"],
-                            answer: "Getting started is very simple! Here are the steps 👇\n\n**1.** Choose your training (E-com, Digital, Combo or Finance)\n**2.** Click the button for your training on the site\n**3.** Sign up with your email, password and date of birth — set **Morocco** as your country\n**4.** Take a screenshot of your confirmation and send it via DM on Instagram\n**5.** Faidhoi activates your account and guides you from day one! 🎯\n\nContact Faidhoi directly on Instagram: **@faidhoi_youssouf**"
-                        },
-                        {
-                            keys: ["reliable", "scam", "legit", "legal", "trust", "real", "fake", "safe", "risk", "security", "genuine"],
-                            answer: "This is a very important question and I understand the caution! ✅\n\nMyBiz is a **legal and registered company** operating for several years. Here's why you can trust it:\n\n✅ Over **500 people trained** with verifiable results\n✅ Real testimonials (WhatsApp screenshots available on the site)\n✅ Official **FuturesLearn** platform\n✅ Faidhoi is herself a Master's student sharing her real experience\n✅ Lifetime access — pay once, keep everything\n\nFeel free to check the testimonials on the site to reassure yourself! 😊"
-                        },
-                        {
-                            keys: ["africa", "senegal", "comoros", "mali", "ivory coast", "cameroon", "tunisia", "morocco", "algeria", "country", "continent"],
-                            answer: "Absolutely! The trainings are **100% accessible from all of Africa** 🌍\n\nFaidhoi herself is based in **Dakar, Senegal** and supports many people across the continent.\n\nYou can work from anywhere, with just your phone 📱"
-                        },
-                        {
-                            keys: ["lifetime", "forever", "duration", "expire", "expiration", "how long", "permanent"],
-                            answer: "Yes! **Lifetime access guaranteed** 🔐\n\nFor E-Commerce, Digital Marketing and Combo trainings:\n✅ You pay **only once**\n✅ You access all content **forever**\n✅ Future updates are **included for free**\n✅ **No hidden subscriptions**\n\nOnly Financial Education works on a monthly subscription (because market analyses are sent every day)."
-                        },
-                        {
-                            keys: ["experience", "level", "beginner", "zero", "novice", "skill", "knowledge", "prerequisite", "requirement"],
-                            answer: "**No experience required!** 🎉\n\nAll trainings are designed for people starting from **absolute zero**:\n\n🟢 No technical skills needed\n🟢 No significant capital needed\n🟢 No community or network needed\n🟢 Just a phone and the will to change your life!\n\nExperts guide you step by step, with weekly live sessions to answer all your questions."
-                        },
-                        {
-                            keys: ["earn", "income", "money", "salary", "revenue", "commission", "1000", "2000", "5000", "how much can"],
-                            answer: "Results vary based on involvement, but here are realistic goals 📈:\n\n**E-Commerce & Digital Marketing:**\n💰 Starting: €200 - €500/month\n💰 Progressing: €500 - €2,000/month\n💰 Advanced: up to €5,000/month\n\n**Bizpartner Franchise:**\n💰 Commissions: €200 → €5,000/month depending on your involvement\n\n**Financial Education:**\n💰 Daily: €10, €20, €50, €100...\n💰 Goal: **€2,000/month minimum** through investment\n\n*First results often come within the first few weeks!*"
-                        },
-                        {
-                            keys: ["trading", "stock", "crypto", "bitcoin", "finance", "investment", "financial education", "market"],
-                            answer: "**Financial Education** is ideal if you want to generate income without being active on social media! 📊\n\n**How it works:**\n1. You choose a pack (Trading, Crypto or Premium)\n2. Experts send you **market analyses** every day\n3. You simply copy the signals onto a dedicated app\n4. You start earning tomorrow 💸\n\n**Goal:** €2,000/month minimum through investment\n\n💶 **Price:** €299/month\n\nEarned money can be withdrawn at any time!"
-                        },
-                        {
-                            keys: ["phone", "computer", "equipment", "device", "tools", "need what", "material"],
-                            answer: "You only need very little! 📱\n\n✅ **A smartphone** (iOS or Android)\n✅ **An internet connection**\n✅ Motivation and consistency\n\nThat's it! No powerful computer needed, no expensive equipment. Everything is designed to be accessible from your phone, wherever you are. 🌍"
-                        },
-                        {
-                            keys: ["contact", "reach", "instagram", "dm", "message", "write", "call", "whatsapp", "respond"],
-                            answer: "You can contact Faidhoi directly! 📲\n\n**Instagram:** @naikakarim\n👉 https://www.instagram.com/naikakarim\n\n**TikTok:** @faidhoi_\n\nFaidhoi responds **personally** to every message and accompanies each person with care. Don't hesitate to write to her with any question! 😊\n\nYou can also fill out the contact form directly on the site ⬆️"
-                        },
-                    ],
-                    notFound: "I don't have a precise answer to that, but Faidhoi will be happy to help you personally! 😊\n\n📲 Send her a DM on **Instagram: @naikakarim**\n\nOr check the sections of the site for more information!"
-                }
-            };
-
-            // ── ÉTAT ──────────────────────────────────────────────
-            let isOpen = false;
-            let hasOpened = false;
-            let lang = 'fr';
-
-            const bubble = document.getElementById('chatbot-bubble');
-            const win = document.getElementById('chatbot-window');
+            // Éléments DOM
             const msgs = document.getElementById('cb-messages');
             const inputEl = document.getElementById('cb-input');
-            const quickEl = document.getElementById('cb-quick-wrap');
-            const notif = document.getElementById('chatbot-notif');
-            const cbName = document.getElementById('cb-name');
-            const cbStatus = document.getElementById('cb-status');
+            const win = document.getElementById('chatbot-window');
 
-            // ── TOGGLE ─────────────────────────────────────────────
-            window.toggleChat = function () {
-                isOpen = !isOpen;
-                win.classList.toggle('open', isOpen);
-                bubble.classList.toggle('open', isOpen);
-                if (isOpen) {
-                    // remove notification badge
-                    if (notif) notif.style.display = 'none';
-                    if (!hasOpened) {
-                        hasOpened = true;
-                        setTimeout(() => addBotMsg(getFaq().welcome), 400);
-                        setTimeout(() => renderQuick(), 900);
-                    }
-                    setTimeout(() => inputEl.focus(), 350);
-                }
+            // Variable pour éviter les envois multiples
+            let isWaitingForResponse = false;
+
+            // Compteur pour gérer le quota API
+            let apiCallCount = 0;
+            const MAX_API_CALLS = 3; // Limite réduite pour éviter trop de requêtes
+
+            // === BASE DE CONNAISSANCES COMPLÈTE ===
+            const mybizFaq = {
+                // MyBiz
+                "qui peut devenir biz partner": "**Tout le monde peut devenir Biz Partner !** 🚀\nÉtudiants, mamans, retraités, en reconversion... Chez MyBiz, l'envie prime sur l'expérience. Nos meilleurs performeurs sont motivés par la liberté, le digital et un réel besoin de changement.",
+
+                "combien de temps pour première vente": "**Ça varie d'une personne à l'autre !** ⏱️\nCertains réalisent leur première vente en quelques jours, d'autres prennent plusieurs mois. Le plus important est d'être régulier, impliqué et de suivre leurs méthodes duplicables.",
+
+                "accompagnement mybiz": "**Tu n'es pas seul(e) !** 🤝\nMyBiz propose :\n• Une formation complète\n• Des outils d'accompagnement\n• Des événements\n• Des groupes privés\n• Un support disponible en continu\n• Des lives tous les dimanches sur WhatsApp/Messenger/Telegram",
+
+                "mybiz est-ce légal": "**Oui, MyBiz est 100% légal !** ⚖️\nC'est une société déclarée avec un modèle de vente directe reconnu. Le modèle est éthique et transparent : tu es payé sur les recommandations, pas sur le recrutement.\n\n👉 Info officielle : https://www.economie.gouv.fr/dgccrf/les-fiches-pratiques/marketing-de-resseau-mlmmefiez-vous-des-promesses-denrichissement",
+
+                "pourquoi 60 euros": "**Les 60€/an (soit 5€/mois) financent :** 💰\n• Ton dashboard personnalisé\n• L'accès à la communauté active\n• Les supports d'aide à la vente\n• Les lives et formations continues\n• Les outils exclusifs\n\nC'est la clé pour une expérience professionnelle complète !",
+
+                "faut-il une communauté": "**Non, tu peux réussir sans communauté !** 🌟\nMoha, leur Master Distributeur, en est la preuve : seulement 12 posts Instagram en 10 ans ! L'important est de développer ton réseau à ta manière :\n• Dans la vraie vie\n• Dans des groupes privés\n• Ou sur les réseaux",
+
+                "produits mybiz": "**MyBiz propose 2 gammes principales :** 📦\n\n1️⃣ **Formations en ligne** via Futures Learn\n2️⃣ **Bien-être** avec la marque **Luume** : compléments alimentaires, sérums, thés detox...",
+
+                "motivations des meilleurs": "**Leur secret ? Un WHY fort !** 💪\nPlus que l'argent, ils cherchent :\n• La liberté\n• Du sens dans leur travail\n• Le dépassement personnel\n• Offrir une autre vie à leur famille\n• Devenir digital nomad\n• Sortir du salariat",
+
+                "fondateur mybiz": "Le fondateur de MyBiz n'est pas clairement mentionné sur le site. Si tu veux plus d'infos, contacte @naikakarim sur Instagram, elle pourra peut-être te renseigner !",
+
+                "prix mybiz": "**L'investissement de départ :** 60€/an (5€/mois).\nCe montant donne accès à tous les outils et à la communauté. Pour les commissions et les revenus possibles, je te conseille de contacter directement @naikakarim.",
+
+                "mybiz dans le monde": "**Oui, MyBiz est accessible PARTOUT dans le monde !** 🌍\nAfrique, Europe, Asie, Amérique... La plateforme est 100% digitale, donc tu peux travailler de n'importe où. MyBiz est conçu pour s'adapter à tous les pays. Pour les aspects fiscaux et légaux spécifiques à ton pays, contacte @naikakarim.",
+
+                // Formations individuelles de Faidhoi
+                "formation ecommerce": "**Formation E-commerce de Faidhoi** 🛒\n\n💰 **Prix : 390€**\n\nAu programme :\n• Création de boutique en ligne\n• Stratégies de vente efficaces\n• Gestion des stocks et fournisseurs\n• Techniques de conversion\n\n📌 Contacte @naikakarim pour t'inscrire !",
+
+                "formation marketing": "**Formation Marketing Digital de Faidhoi** 📈\n\n💰 **Prix : 299€**\n\nAu programme :\n• Stratégie sur les réseaux sociaux\n• Publicité en ligne (Facebook/Instagram Ads)\n• Branding et positionnement\n• Création de contenu qui convertit\n\n📌 Contacte @naikakarim pour t'inscrire !",
+
+                "pack complet": "**Pack Complet de Faidhoi** 🎁\n\n💰 **Prix : 487€** (au lieu de 689€)\n\n**Économise 202€ !**\n\nCe pack inclut :\n• Formation E-commerce (390€)\n• Formation Marketing (299€)\n\n📌 Le meilleur rapport qualité-prix pour tout maîtriser ! Contacte @naikakarim.",
+
+                "formation education financiere": "**Formation Éducation Financière de Faidhoi** 💶\n\n💰 **Prix : 299€/mois**\n\nAu programme :\n• Gestion de budget et épargne\n• Investissements intelligents\n• Création de patrimoine\n• Indépendance financière\n\n📌 Contacte @naikakarim pour plus d'infos !",
+
+                // Résumé formations
+                "formations faidhoi": "**Les formations proposées par Faidhoi :** 📚\n\n• **E-commerce** : 390€\n• **Marketing Digital** : 299€\n• **Pack complet** (E-commerce + Marketing) : 487€\n• **Éducation Financière** : 299€/mois\n\n🎓 Des formations pratiques pour des résultats concrets ! Contacte @naikakarim pour plus d'infos.",
+
+                // Faidhoi
+                "qui est faidhoi": "**Faidhoi Youssouf** est une comoriennne experte en business digital ! 🌟\nÉtudiante en Master 1 à Dakar, elle accompagne des centaines de personnes à développer leur activité en ligne. Elle propose des formations en e-commerce, marketing et éducation financière. Sa mission : t'aider à réussir dans le digital !",
+
+                "contact faidhoi": "**Pour contacter Faidhoi :** 💬\n• **Instagram :** @naikakarim – Elle répond personnellement à tous ses messages !\n• C'est la meilleure façon d'avoir des infos sur ses formations.",
+
+                // Contact général
+                "contact": "**Comment me contacter ?** 💬\n• Pour Faidhoi et ses formations : @naikakarim sur Instagram\n• Pour MyBiz : https://www.my-biz.pro\n\nJe suis là pour t'aider en attendant ! 🌸"
             };
 
-            // ── HELPERS ────────────────────────────────────────────
-            function getFaq() {
-                // Sync with page language if setLang() is defined
-                try { lang = window.currentLang || 'fr'; } catch (e) { }
-                return FAQ[lang] || FAQ.fr;
-            }
+            // Questions fréquentes avec les 4 formations individuelles
+            const quickQuestions = [
+                "👥 Qui peut devenir Biz Partner ?",
+                "⏱️ Délai pour première vente ?",
+                "🤝 Accompagnement MyBiz ?",
+                "⚖️ Est-ce légal ?",
+                "💰 Pourquoi 60€ ?",
+                "📱 Faut-il une communauté ?",
+                "📦 Quels produits ?",
+                "💪 Motivations des meilleurs",
+                "🌍 MyBiz dans le monde ?",
+                "👩 Qui est Faidhoi ?",
+                "🛒 Formation E-commerce",
+                "📈 Formation Marketing",
+                "🎁 Pack Complet",
+                "💶 Éducation Financière",
+                "💬 Contact Faidhoi"
+            ];
 
-            function formatText(text) {
-                return text
-                    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/~~(.+?)~~/g, '<del>$1</del>')
+            // Fonctions utilitaires
+            function cleanText(text) {
+                if (!text) return "";
+                return text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+                    .replace(/\*(.*?)\*/g, '<i>$1</i>')
                     .replace(/\n/g, '<br>');
             }
 
-            function scrollBottom() {
+            // Analyse des questions
+            function getFaqKey(text) {
+                const t = text.toLowerCase();
+
+                // MyBiz
+                if (t.includes('qui peut') || t.includes('devenir biz')) return "qui peut devenir biz partner";
+                if (t.includes('temps') || t.includes('première vente') || t.includes('combien de temps')) return "combien de temps pour première vente";
+                if (t.includes('accompagnement') || t.includes('comment suis-je')) return "accompagnement mybiz";
+                if (t.includes('légal') || t.includes('legale')) return "mybiz est-ce légal";
+                if (t.includes('60') || t.includes('euros') || t.includes('payer') || t.includes('prix') || t.includes('coût')) return "pourquoi 60 euros";
+                if (t.includes('communauté') || t.includes('followers') || t.includes('réseau')) return "faut-il une communauté";
+                if (t.includes('produits') || t.includes('recommander') || t.includes('vendre')) return "produits mybiz";
+                if (t.includes('motivation') || t.includes('pourquoi réussir') || t.includes('why')) return "motivations des meilleurs";
+                if (t.includes('fondateur') || t.includes('créé')) return "fondateur mybiz";
+                if (t.includes('monde') || t.includes('international') || t.includes('pays') || t.includes('etranger')) return "mybiz dans le monde";
+
+                // Faidhoi
+                if (t.includes('faidhoi') && (t.includes('qui') || t.includes('c\'est'))) return "qui est faidhoi";
+
+                // Formations individuelles
+                if ((t.includes('formation') || t.includes('cours')) && t.includes('ecommerce')) return "formation ecommerce";
+                if ((t.includes('formation') || t.includes('cours')) && t.includes('marketing')) return "formation marketing";
+                if (t.includes('pack') || t.includes('complet')) return "pack complet";
+                if ((t.includes('formation') || t.includes('cours')) && (t.includes('finance') || t.includes('education'))) return "formation education financiere";
+
+                // Contact
+                if (t.includes('contact') || t.includes('joindre') || t.includes('parler') || t.includes('instagram')) return "contact faidhoi";
+
+                return null;
+            }
+
+            // Afficher les questions fréquentes
+            function showQuickQuestions() {
+                const quickDiv = document.createElement('div');
+                quickDiv.className = 'cb-quick-questions';
+                quickDiv.innerHTML = `
+            <div class="cb-quick-title">📌 Questions fréquentes :</div>
+            <div class="cb-quick-grid">
+                ${quickQuestions.map(q => `<button class="cb-quick-btn" onclick="window.askQuickQuestion('${q.replace(/'/g, "\\'")}')">${q}</button>`).join('')}
+            </div>
+        `;
+                msgs.appendChild(quickDiv);
                 msgs.scrollTop = msgs.scrollHeight;
+            }
+
+            // Fonction pour poser une question rapide
+            window.askQuickQuestion = function (questionText) {
+                const cleanQuestion = questionText.replace(/^[^a-zA-Z0-9éèàùâêîôûç]+/, '').trim();
+                addUserMsg(cleanQuestion);
+
+                const faqKey = getFaqKey(cleanQuestion);
+                if (faqKey && mybizFaq[faqKey]) {
+                    setTimeout(() => {
+                        addBotMsg(mybizFaq[faqKey] + "\n\n🌸 **Faridhoi** - Assistante de Faidhoi\n💬 Besoin de plus ? Je suis là !");
+                    }, 500);
+                } else {
+                    processMessage(cleanQuestion);
+                }
+            };
+
+            // Vérifier si on peut utiliser l'API
+            function canUseAPI() {
+                return apiCallCount < MAX_API_CALLS;
+            }
+
+            // FONCTION PRINCIPALE DE TRAITEMENT
+            async function processMessage(userText) {
+                // 1. TOUJOURS vérifier la FAQ d'abord
+                const faqKey = getFaqKey(userText);
+                if (faqKey && mybizFaq[faqKey]) {
+                    addBotMsg(mybizFaq[faqKey] + "\n\n🌸 **Faridhoi** - Assistante de Faidhoi\n💬 Besoin de plus ? Je suis là !");
+                    return;
+                }
+
+                // 2. Si on a dépassé le quota API
+                if (!canUseAPI()) {
+                    addBotMsg("😔 **Oups !** J'ai un petit problème technique. Mais ne t'inquiète pas, tu peux contacter directement @naikakarim sur Instagram pour plus d'informations ! 🌸");
+                    return;
+                }
+
+                // 3. Sinon, appel API
+                apiCallCount++;
+
+                try {
+                    const modelUrl = `${API_BASE_URL}/${SELECTED_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+
+                    const prompt = `Tu es Faridhoi, l'assistante virtuelle de Faidhoi Youssouf. Tu es une fille, enthousiaste et bienveillante.
+
+Question : "${userText}"
+
+Réponds de façon naturelle et enthousiaste (max 3-4 phrases). Si c'est une question spécifique sur MyBiz ou les formations de Faidhoi (E-commerce 390€, Marketing 299€, Pack complet 487€, Éducation Financière 299€/mois), oriente vers @naikakarim pour plus de détails.`;
+
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+                    const response = await fetch(modelUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: prompt }] }],
+                            generationConfig: { temperature: 0.7, maxOutputTokens: 150 }
+                        }),
+                        signal: controller.signal
+                    });
+
+                    clearTimeout(timeoutId);
+
+                    if (!response.ok) {
+                        // Message simple pour l'utilisateur en cas d'erreur
+                        addBotMsg("😔 **Oups !** J'ai un petit problème technique. Mais ne t'inquiète pas, tu peux contacter directement @naikakarim sur Instagram pour plus d'informations ! 🌸");
+                        return;
+                    }
+
+                    const data = await response.json();
+
+                    if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+                        let responseText = data.candidates[0].content.parts[0].text;
+                        responseText = responseText.replace(/^Faridhoi:?\s*/i, '');
+                        addBotMsg(responseText);
+                    } else {
+                        addBotMsg("Contacte @naikakarim sur Instagram pour plus d'infos !");
+                    }
+
+                } catch (error) {
+                    // Message simple pour l'utilisateur
+                    console.log("Erreur technique (invisible pour l'utilisateur):", error);
+                    addBotMsg("😔 **Oups !** J'ai un petit problème technique. Mais ne t'inquiète pas, tu peux contacter directement @naikakarim sur Instagram pour plus d'informations ! 🌸");
+                }
+            }
+
+            // Indicateur de frappe
+            function showTypingIndicator() {
+                const typing = document.createElement('div');
+                typing.id = 'cb-typing';
+                typing.className = 'cb-msg bot';
+                typing.innerHTML = `<div class="cb-mini-avatar">🌸</div><div class="cb-bubble"><span class="cb-typing-dot"></span><span class="cb-typing-dot"></span><span class="cb-typing-dot"></span></div>`;
+                msgs.appendChild(typing);
+                msgs.scrollTop = msgs.scrollHeight;
+                return typing;
+            }
+
+            function removeTypingIndicator() {
+                const typing = document.getElementById('cb-typing');
+                if (typing) typing.remove();
             }
 
             function addBotMsg(text) {
                 const div = document.createElement('div');
                 div.className = 'cb-msg bot';
-                div.innerHTML = `<div class="cb-mini-avatar">✨</div><div class="cb-bubble">${formatText(text)}</div>`;
+                div.innerHTML = `<div class="cb-mini-avatar">🌸</div><div class="cb-bubble">${cleanText(text)}</div>`;
                 msgs.appendChild(div);
-                scrollBottom();
+                msgs.scrollTop = msgs.scrollHeight;
             }
 
             function addUserMsg(text) {
@@ -4933,84 +4985,53 @@
                 div.className = 'cb-msg user';
                 div.innerHTML = `<div class="cb-bubble">${text}</div>`;
                 msgs.appendChild(div);
-                scrollBottom();
+                msgs.scrollTop = msgs.scrollHeight;
             }
 
-            function showTyping() {
-                const div = document.createElement('div');
-                div.className = 'cb-msg bot cb-typing';
-                div.id = 'cb-typing';
-                div.innerHTML = `<div class="cb-mini-avatar">✨</div><div class="cb-bubble"><span class="cb-dot"></span><span class="cb-dot"></span><span class="cb-dot"></span></div>`;
-                msgs.appendChild(div);
-                scrollBottom();
-            }
+            window.sendMsg = async function () {
+                const text = inputEl.value.trim();
+                if (!text || isWaitingForResponse) return;
 
-            function hideTyping() {
-                const t = document.getElementById('cb-typing');
-                if (t) t.remove();
-            }
-
-            function renderQuick() {
-                const faq = getFaq();
-                quickEl.innerHTML = '';
-                faq.quick.forEach(q => {
-                    const btn = document.createElement('button');
-                    btn.className = 'cb-quick';
-                    btn.textContent = q;
-                    btn.onclick = () => { processMsg(q); };
-                    quickEl.appendChild(btn);
-                });
-            }
-
-            // ── SEARCH ENGINE ──────────────────────────────────────
-            function findAnswer(userText) {
-                const faq = getFaq();
-                const lower = userText.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-                let bestEntry = null;
-                let bestScore = 0;
-
-                faq.entries.forEach(entry => {
-                    let score = 0;
-                    entry.keys.forEach(k => {
-                        const kn = k.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-                        if (lower.includes(kn)) score += kn.length;
-                    });
-                    if (score > bestScore) { bestScore = score; bestEntry = entry; }
-                });
-
-                if (bestScore >= 3) return bestEntry.answer;
-                return faq.notFound;
-            }
-
-            // ── PROCESS & SEND ─────────────────────────────────────
-            function processMsg(text) {
-                if (!text.trim()) return;
                 addUserMsg(text);
                 inputEl.value = '';
-                showTyping();
-                setTimeout(() => {
-                    hideTyping();
-                    const answer = findAnswer(text);
-                    addBotMsg(answer);
-                }, 850 + Math.random() * 400);
-            }
 
-            window.sendMsg = function () {
-                processMsg(inputEl.value);
+                isWaitingForResponse = true;
+                inputEl.disabled = true;
+
+                const typingIndicator = showTypingIndicator();
+
+                try {
+                    await processMessage(text);
+                } finally {
+                    removeTypingIndicator();
+                    isWaitingForResponse = false;
+                    inputEl.disabled = false;
+                    inputEl.focus();
+                }
             };
 
-            // ── UPDATE LANG on toggle ──────────────────────────────
-            // Patch setLang to refresh quick questions & header
-            const _origSetLang = window.setLang;
-            window.setLang = function (l) {
-                if (_origSetLang) _origSetLang(l);
-                lang = l;
-                const faq = FAQ[l];
-                if (cbName) cbName.textContent = l === 'fr' ? 'Faidhoi — Assistante' : 'Faidhoi — Assistant';
-                if (cbStatus) cbStatus.textContent = l === 'fr' ? 'En ligne · Répond instantanément' : 'Online · Replies instantly';
-                if (inputEl) inputEl.placeholder = l === 'fr' ? 'Écris ta question…' : 'Type your question…';
-                renderQuick();
+            window.toggleChat = function () {
+                win.classList.toggle('open');
+                if (win.classList.contains('open') && msgs.children.length === 0) {
+                    addBotMsg("🌸 **Faridhoi** - Assistante de Faidhoi Youssouf\n\nBonjour ! En quoi puis-je vous aider aujourd'hui ?");
+                    showQuickQuestions();
+                    setTimeout(() => inputEl.focus(), 300);
+                }
             };
+
+            inputEl.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    window.sendMsg();
+                }
+            });
+
+            setTimeout(() => {
+                if (win.classList.contains('open') && msgs.children.length === 0) {
+                    addBotMsg("🌸 **Faridhoi** - Assistante de Faidhoi Youssouf\n\nBonjour ! En quoi puis-je vous aider aujourd'hui ?");
+                    showQuickQuestions();
+                }
+            }, 1000);
 
         })();
     </script>
