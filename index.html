@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Faidhoi Youssouf — Digital Business Expert</title>
+    <title>Faidhoi Youssouf</title>
     <link rel="icon" href="./images/logo.HEIC" type="image/jpeg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
@@ -3593,7 +3593,7 @@
                 <div class="step-num">2</div>
                 <h4 class="step-title" id="step-title-2">Crée ton compte</h4>
                 <p class="step-desc" id="step-desc-2">Inscris-toi avec ton email, mot de passe et date de naissance.
-                    (Pays = Maroc)</p>
+                    (Pays = Comores)</p>
             </div>
             <div class="step-item reveal" style="transition-delay:.3s">
                 <div class="step-num">3</div>
@@ -3670,7 +3670,7 @@
     <section id="temoignages">
         <div class="temoignages-inner">
             <div class="section-header reveal">
-                <span class="section-tag" id="temo-tag">Ils témoignent</span>
+                <span class="section-tag" id="temo-tag">Témoignages</span>
                 <h2 class="section-title" id="temo-title">Ce qu'ils <em>disent</em></h2>
                 <div class="section-line"></div>
             </div>
@@ -4730,16 +4730,15 @@
     </div>
 
     <script>
-      
+
         // ============================================================
         // CHATBOT MYBIZ - FARIDHOI (ASSISTANTE DE FAIDHOI)
         // ============================================================
 
         (function () {
-            // Configuration
-            const GEMINI_API_KEY = 'AIzaSyD1nWKUjgS8wPZWInMldNcd2KDGdJOSv3E';
-            const SELECTED_MODEL = 'gemini-2.5-flash';
-            const API_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/models';
+            // Configuration — La clé API est cachée côté serveur (Cloudflare Worker)
+            // Remplace cette URL par l'URL de ton Worker après déploiement
+            const WORKER_URL = 'https://faridhoi-proxy.soilihiabdou99.workers.dev';
 
             // Éléments DOM
             const msgs = document.getElementById('cb-messages');
@@ -4910,8 +4909,6 @@
                 apiCallCount++;
 
                 try {
-                    const modelUrl = `${API_BASE_URL}/${SELECTED_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
-
                     const prompt = `Tu es Faridhoi, l'assistante virtuelle de Faidhoi Youssouf. Tu es une fille, enthousiaste et bienveillante.
 
 Question : "${userText}"
@@ -4921,13 +4918,11 @@ Réponds de façon naturelle et enthousiaste (max 3-4 phrases). Si c'est une que
                     const controller = new AbortController();
                     const timeoutId = setTimeout(() => controller.abort(), 8000);
 
-                    const response = await fetch(modelUrl, {
+                    // On appelle notre Worker sécurisé — la clé API reste cachée côté serveur
+                    const response = await fetch(WORKER_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{ parts: [{ text: prompt }] }],
-                            generationConfig: { temperature: 0.7, maxOutputTokens: 150 }
-                        }),
+                        body: JSON.stringify({ prompt }),
                         signal: controller.signal
                     });
 
